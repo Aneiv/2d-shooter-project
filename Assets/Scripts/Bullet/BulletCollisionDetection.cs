@@ -8,6 +8,22 @@ public class BulletCollisionDetection : MonoBehaviour
     private Vector2 pos;
     private float leftXClamp, rightXClamp, downYClamp, upYClamp;
     private float clampSize = 0.5f;
+
+    public GameObject shooter;
+    private int damage;
+
+    // runs before Start()
+    public void Init(GameObject shooter)
+    {
+        // get shooter (owner) damage
+        this.shooter = shooter;
+
+        IShooter shooterScript = shooter.GetComponent<IShooter>();
+        if (shooterScript != null)
+        {
+            damage = shooterScript.BulletDamage;
+        }
+    }
     void Start()
     {
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
@@ -32,11 +48,27 @@ public class BulletCollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !shooter.CompareTag("Player")) // prevents self-shot
         {
-            Debug.Log("LOG Bullet hit player");
-            Destroy(gameObject);
-        }        
+            Player player = collision.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                Debug.Log("LOG Bullet hit player");
+                Destroy(gameObject);
+                player.TakeDamage(damage);
+                
+            }
+        }
+        else if (collision.CompareTag("Enemy") && !shooter.CompareTag("Enemy"))
+        {
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                Debug.Log("LOG Bullet hit Basic_Enemy");
+                Destroy(gameObject);
+                enemy.TakeDamage(damage);
+            }
+        }
     }
 
 }

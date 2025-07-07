@@ -18,7 +18,7 @@ public class EnemyShoot : MonoBehaviour
     
     private bool waiting = false;
     private float checkTimer = 0f;
-    public float checkInterval = 0.5f;    // checing chance delay
+    public float checkInterval = 0.5f;    // checking chance delay
 
 
     private Transform thisEnemyTransform;
@@ -71,6 +71,9 @@ public class EnemyShoot : MonoBehaviour
         bulletPosition.x = barrelTransform.position.x;
         
         GameObject Bullet = Instantiate(enemyBullet, bulletPosition, thisEnemyTransform.rotation);
+        // set owner of bullet
+        Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+
         Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction.normalized * bulletSpeed;
     }

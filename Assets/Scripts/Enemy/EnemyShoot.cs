@@ -5,16 +5,16 @@ public class EnemyShoot : MonoBehaviour
 {
 
     public GameObject enemyBullet;
-    public float bulletSpawnChance = 0.90f; //spawn chance
+    private float bulletSpawnChance; //spawn chance - calculated in Start()
     public float bulletSpawnDelay = 1;//delay in seconds
 
-    public float minSpawnChance = 0.5f;
-    public float maxSpawnChance = 0.9f;
+    public float minSpawnChance;
+    public float maxSpawnChance;
 
-    public float minSpawnDelay = 0.5f;
-    public float maxSpawnDelay = 2.0f;
+    public float minSpawnDelay;
+    public float maxSpawnDelay;
 
-    public float bulletSpeed = 1f;
+    public float bulletSpeed;
     
     private bool waiting = false;
     private float checkTimer = 0f;
@@ -56,8 +56,8 @@ public class EnemyShoot : MonoBehaviour
     IEnumerator SpawnBulletCoroutine()
     {
         waiting = true;
-        yield return new WaitForSeconds(bulletSpawnDelay); //delay
         SpawnBullet();        
+        yield return new WaitForSeconds(bulletSpawnDelay); //delay
         waiting = false;
     }
     void SpawnBullet()

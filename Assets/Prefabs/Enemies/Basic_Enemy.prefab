@@ -105,14 +105,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
-  bulletSpawnChance: 0.9
   bulletSpawnDelay: 1
-  minSpawnChance: 0.2
-  maxSpawnChance: 0.5
+  minSpawnChance: 0.1
+  maxSpawnChance: 0.25
   minSpawnDelay: 2
   maxSpawnDelay: 4
   bulletSpeed: 1
-  checkInterval: 0.5
+  checkInterval: 3
 --- !u!61 &6651777235213664970
 BoxCollider2D:
   m_ObjectHideFlags: 0

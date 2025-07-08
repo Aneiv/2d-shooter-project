@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
       propertyPath: m_Name
-      value: Enemy_Bullet_1 Variant
+      value: Player_Bullet_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
+      propertyPath: m_TagString
+      value: PlayerBullet
       objectReference: {fileID: 0}
     - target: {fileID: 7366366133532487797, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
       propertyPath: m_LocalPosition.x

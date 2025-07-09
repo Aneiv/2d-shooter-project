@@ -24,7 +24,7 @@ public class WaveSpawner : MonoBehaviour
         //x-axis spacing calculation between ships in rows
         spacing = (topRight.x - bottomLeft.x) / shipCount;
         //get SpriteRenderer of that ship
-        shipSpriteRenderer = shipPrefab.GetComponent<SpriteRenderer>();
+        shipSpriteRenderer = shipPrefab.transform.Find("EnemyVisual").GetComponent<SpriteRenderer>();
 
         //Wave spawn
         UpDownSpawn();
@@ -49,7 +49,13 @@ public class WaveSpawner : MonoBehaviour
                 //DOMoveY(endY,duration)
                 ship.transform.DOMoveY(4f - i * 1.2f * shipSpriteRenderer.bounds.size.y, animationDuration)
                     .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
-                    .SetDelay(i*0.3f); //delay between spawning rows of ships
+                    .SetDelay(i * 0.3f) //delay between spawning rows of ships
+                    .OnComplete(() => {
+                        //var shipAnim = ship.GetComponent<Animator>();
+                        var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+                        float randomOffset = Random.Range(0f, 1f);
+                        shipAnimator.Play("Idle",-1,randomOffset);
+                    });
             }
         }
     }

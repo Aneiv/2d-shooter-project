@@ -23,12 +23,11 @@ public class EnemyShoot : MonoBehaviour
 
     private Transform thisEnemyTransform;
     private Vector2 bulletPosition;
-    private Transform barrelTransform; //barrel transform
+    public Transform barrelTransform; //barrel transform
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         thisEnemyTransform = GetComponent<Transform>();
-        barrelTransform = transform.Find("ShootingBarrel");
         //different spawn chance and delay for enemies to make diverse shooting style of same enemy type
         bulletSpawnChance = Random.Range(minSpawnChance, maxSpawnChance);
         bulletSpawnDelay = Random.Range(minSpawnDelay, maxSpawnDelay);

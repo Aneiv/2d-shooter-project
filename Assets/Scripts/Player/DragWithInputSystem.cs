@@ -49,33 +49,36 @@ public class DragWithInputSystem : MonoBehaviour
 
     void Update()
     {
-        if (isDragging)
+        if (!PauseMenu.GameIsPaused)
         {
-            Vector2 pointerPos = controls.Gameplay.PointerPosition.ReadValue<Vector2>();
-            Vector3 pointerScreenPos = new Vector3(pointerPos.x, pointerPos.y, Mathf.Abs(cam.transform.position.z));
-            Vector3 worldPos = cam.ScreenToWorldPoint(pointerScreenPos);
+            if (isDragging)
+            {
+                Vector2 pointerPos = controls.Gameplay.PointerPosition.ReadValue<Vector2>();
+                Vector3 pointerScreenPos = new Vector3(pointerPos.x, pointerPos.y, Mathf.Abs(cam.transform.position.z));
+                Vector3 worldPos = cam.ScreenToWorldPoint(pointerScreenPos);
 
-            //Add offset
-            Vector3 targetPos = worldPos + offset;
+                //Add offset
+                Vector3 targetPos = worldPos + offset;
 
-            // Clamp position
-            float clampedX = Mathf.Clamp(targetPos.x, minX, maxX);
-            float clampedY = Mathf.Clamp(targetPos.y, minY, maxY);
+                // Clamp position
+                float clampedX = Mathf.Clamp(targetPos.x, minX, maxX);
+                float clampedY = Mathf.Clamp(targetPos.y, minY, maxY);
 
-            transform.position = new Vector3(clampedX, clampedY, 0f);
-            
-            // Debug
-            //Debug.DrawLine(cam.transform.position, worldPos, Color.green);
-            //Debug.Log($"Touch ScreenPos: {pointerPos} => WorldPos: {worldPos}");
+                transform.position = new Vector3(clampedX, clampedY, 0f);
+
+                // Debug
+                //Debug.DrawLine(cam.transform.position, worldPos, Color.green);
+                //Debug.Log($"Touch ScreenPos: {pointerPos} => WorldPos: {worldPos}");
+            }
+            if (Touchscreen.current != null)
+            {
+                var touch = Touchscreen.current.primaryTouch;
+
+                //Debug.Log("IsPressed: " + touch.press.isPressed);
+                //Debug.Log("Touch Position: " + touch.position.ReadValue());
+            }
+
         }
-        if (Touchscreen.current != null)
-        {
-            var touch = Touchscreen.current.primaryTouch;
-
-            //Debug.Log("IsPressed: " + touch.press.isPressed);
-            //Debug.Log("Touch Position: " + touch.position.ReadValue());
-        }
-         
     }
     private void OnPressStarted(InputAction.CallbackContext context)
     {

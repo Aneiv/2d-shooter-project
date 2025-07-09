@@ -6,6 +6,9 @@ public class Player : MonoBehaviour, IShooter, IHealth
     public int bulletDamage = 20;
     public int BulletDamage => bulletDamage;
 
+    public GameObject GameOverUI;
+    public GameObject gameUI;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -33,6 +36,11 @@ public class Player : MonoBehaviour, IShooter, IHealth
 
     public void Die()
     {
+        gameUI.SetActive(false);
+        GameOverUI.SetActive(true);
+        Time.timeScale = 0f;
+        PauseMenu.GameIsPaused = true;
+
         Destroy(gameObject);
     }
 }

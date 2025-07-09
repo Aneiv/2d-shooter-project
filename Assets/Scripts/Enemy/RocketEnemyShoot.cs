@@ -24,7 +24,7 @@ public class RocketEnemyShoot : MonoBehaviour
 
     private Transform thisEnemyTransform;
     private Vector2 bulletPosition;
-    private Transform barrelTransform; //barrel transform
+    public Transform barrelTransform; //barrel transform
 
     //target player location
     private Transform targetPlayer;
@@ -33,7 +33,6 @@ public class RocketEnemyShoot : MonoBehaviour
     void Start()
     {
         thisEnemyTransform = GetComponent<Transform>();
-        barrelTransform = transform.Find("ShootingBarrel");
         //different spawn chance and delay for enemies to make diverse shooting style of same enemy type
         bulletSpawnChance = Random.Range(minSpawnChance, maxSpawnChance);
         bulletSpawnDelay = Random.Range(minSpawnDelay, maxSpawnDelay);

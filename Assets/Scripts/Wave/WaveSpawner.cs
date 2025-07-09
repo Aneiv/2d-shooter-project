@@ -52,9 +52,9 @@ public class WaveSpawner : MonoBehaviour
                     .SetDelay(i * 0.3f) //delay between spawning rows of ships
                     .OnComplete(() => {
                         //var shipAnim = ship.GetComponent<Animator>();
-                        var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                        float randomOffset = Random.Range(0f, 1f);
-                        shipAnimator.Play("Idle",-1,randomOffset);
+                        //var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+                        //float randomOffset = Random.Range(0f, 1f);
+                        //shipAnimator.Play("Idle",-1,randomOffset);
                     });
             }
         }

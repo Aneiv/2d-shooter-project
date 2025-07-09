@@ -10,10 +10,13 @@ public class RocketBulletMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 targetPosition;      //player position
     private bool reachedTarget = false;
-    public float explodeDistance = 0.2f; //how near to explode
+    public float explodeRadius; //objects in that area get damage from explosion
+    //public float playerDamageZone; //radius of circle that designate bullet explosion
 
     private Vector2 direction;
     private bool bouncingUp = false;
+
+    float screenCenterYPos;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,6 +26,10 @@ public class RocketBulletMovement : MonoBehaviour
         {
             targetPosition = target.position;  //saving position
         }
+        //center of screen y ingame position
+        //Calculation of screen size
+        Vector3 screenCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+        screenCenterYPos = screenCenter.y;
     }
 
     // Update is called once per frame
@@ -31,24 +38,33 @@ public class RocketBulletMovement : MonoBehaviour
         if (reachedTarget) return;
         if (target == null) return;
 
+        //if bullet position is greater than half of screen then bullet is tracking player
+        if (rb.position.y >= screenCenterYPos)
+        {
+            targetPosition = target.position;
+        }
+
         //destination
         Vector2 toTarget = targetPosition - rb.position;
-        float distance = toTarget.magnitude;
+        //float distance = toTarget.magnitude;
 
+        //bounce and set new target
         if (bouncingUp)
         {
             bouncingUp = false;
             targetPosition = target.position;
             return;
         }
-        //destroy rocket when near destination
-        if (distance <= explodeDistance)
+        //check if player in radius of explosion
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius);
+        foreach (Collider2D hit in hits)
         {
-            Explode();
-            return;
+            if (hit.CompareTag("Player"))
+            {
+                Explode();
+                break;
+            }
         }
-
-
         direction = toTarget.normalized;
 
         //rotation
@@ -63,6 +79,17 @@ public class RocketBulletMovement : MonoBehaviour
     void Explode()
     {
         reachedTarget = true;
+        //check other players in radius of explosion
+        Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, explodeRadius);
+
+        foreach (Collider2D hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+            {                
+                hit.GetComponent<Player>().TakeDamage(GetComponent<RocketBulletCollision>().damage);
+                Debug.Log("LOG Rocket Bullet Exploded near player damaging them");
+            }
+        }
 
         //later particle, sound, etc
 
@@ -100,7 +127,12 @@ public class RocketBulletMovement : MonoBehaviour
         //color
         Gizmos.color = Color.red;
 
-        //position
-        Gizmos.DrawWireSphere(transform.position, explodeDistance);
+        //explosion circle of bullet (all objects in that radius get damage
+        Gizmos.DrawWireSphere(transform.position, explodeRadius);
+
+
+        //bullet target
+        Gizmos.color = Color.darkOrange;
+        Gizmos.DrawSphere(targetPosition, 0.1f);
     }
 }

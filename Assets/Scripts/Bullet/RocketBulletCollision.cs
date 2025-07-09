@@ -9,7 +9,7 @@ public class RocketBulletCollision : MonoBehaviour
     private float clampSize = 0.5f;
 
     public GameObject shooter;
-    private int damage;
+    public int damage;
 
     // runs before Start()
     public void Init(GameObject shooter)

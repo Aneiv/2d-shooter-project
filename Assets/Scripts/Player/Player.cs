@@ -9,18 +9,6 @@ public class Player : MonoBehaviour, IShooter, IHealth
     public GameObject GameOverUI;
     public GameObject gameUI;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void TakeDamage(int damage)
     {
         //Debug.Log("Player took: " + damage.ToString() + " dmg");

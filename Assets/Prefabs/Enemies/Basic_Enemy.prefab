@@ -223,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 50
   bulletDamage: 6
+  waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
 --- !u!1 &2365903002932943826
 GameObject:
   m_ObjectHideFlags: 0

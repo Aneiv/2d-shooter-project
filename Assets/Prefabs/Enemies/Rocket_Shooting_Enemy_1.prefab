@@ -129,8 +129,8 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0.65999997}
-    pivot: {x: 0.5, y: 1}
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.4}
     oldSize: {x: 6.03, y: 6.03}
     newSize: {x: 6.03, y: 5.37}
     adaptiveTilingThreshold: 0.5
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 100
   bulletDamage: 20
+  waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
 --- !u!114 &8911063990825274103
 MonoBehaviour:
   m_ObjectHideFlags: 0

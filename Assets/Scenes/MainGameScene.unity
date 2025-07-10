@@ -1017,9 +1017,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35daffa85264b74eb313581454d3108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shipPrefab: {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
-  shipCount: 4
-  shipRows: 3
+  enemiesPrefabs:
+  - {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
+  - {fileID: 8169252472499318893, guid: 35cc083ba05d1534e9e547ce1d474e99, type: 3}
   moveBegingYPosition: 8
   animationDuration: 1.5
 --- !u!4 &527448736

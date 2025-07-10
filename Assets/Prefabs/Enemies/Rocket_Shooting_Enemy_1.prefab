@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8579301716930315370}
   - component: {fileID: 4264138325461787181}
   - component: {fileID: 8911063990825274103}
+  - component: {fileID: 4947639435838091534}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: Enemy
@@ -31,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 3402838073418515920}
@@ -128,9 +129,9 @@ BoxCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.03, y: 5.37}
+    border: {x: 0, y: 0, z: 0, w: 0.65999997}
+    pivot: {x: 0.5, y: 1}
+    oldSize: {x: 6.03, y: 6.03}
     newSize: {x: 6.03, y: 5.37}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -193,13 +194,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBullet: {fileID: 6707335622748340237, guid: 68a6b02aa84a738408a2959815ce7a39, type: 3}
   bulletSpawnDelay: 3
-  minSpawnChance: 0.35
-  maxSpawnChance: 0.5
+  minSpawnChance: 0.2
+  maxSpawnChance: 0.3
   minSpawnDelay: 1
   maxSpawnDelay: 2
   bulletSpeed: 0.5
-  checkInterval: 0.5
+  checkInterval: 1
   barrelTransform: {fileID: 3402838073418515920}
+--- !u!95 &4947639435838091534
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3882349654990680184}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: b55825b2f115510408a211f6723bf4da, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5660917868641966905
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,7 +265,7 @@ GameObject:
   - component: {fileID: 9007333346776714648}
   m_Layer: 0
   m_Name: Rocket_Shooting_Enemy_1
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,9 +279,9 @@ Transform:
   m_GameObject: {fileID: 8169252472499318893}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.56333, y: 3.55091, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8189065464620380358}
   m_Father: {fileID: 0}

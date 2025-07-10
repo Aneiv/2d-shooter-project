@@ -87,7 +87,7 @@ public class RocketBulletMovement : MonoBehaviour
             if (hit.CompareTag("Player"))
             {                
                 hit.GetComponent<Player>().TakeDamage(GetComponent<RocketBulletCollision>().damage);
-                Debug.Log("LOG Rocket Bullet Exploded near player damaging them");
+                //Debug.Log("LOG Rocket Bullet Exploded near player damaging them");
             }
         }
 

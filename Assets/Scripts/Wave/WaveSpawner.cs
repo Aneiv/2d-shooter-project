@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class WaveSpawner : MonoBehaviour
 {
-    public GameObject shipPrefab;     // Enemy Ship prefab
+    public GameObject[] enemiesPrefabs;     // Enemy Ship prefab
     private SpriteRenderer shipSpriteRenderer; //to get sizes of ships (in use of creating rows)
-    public int shipCount = 5;         // ship amount
-    public int shipRows = 2;        //rows amount
+    private int shipCount;         // ship amount
+    private int shipRows;        //rows amount
     private float spacing;        // x-axis ship spacing
     public float moveBegingYPosition = 1f;   // first Y position
     public float animationDuration = 1.5f; // animation time (lower - faster)
@@ -21,10 +21,8 @@ public class WaveSpawner : MonoBehaviour
         //Calculation of screen size
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
-        //x-axis spacing calculation between ships in rows
-        spacing = (topRight.x - bottomLeft.x) / shipCount;
-        //get SpriteRenderer of that ship
-        shipSpriteRenderer = shipPrefab.transform.Find("EnemyVisual").GetComponent<SpriteRenderer>();
+        //Random wave rows amount
+        shipRows = Random.Range(1, 4);
 
         //Wave spawn
         UpDownSpawn();
@@ -32,29 +30,40 @@ public class WaveSpawner : MonoBehaviour
 
     void UpDownSpawn()
     {
-        float startX = -(shipCount - 1) * spacing / 2f; // ships spacing and centering
         for (int i = 0; i < shipRows; i++)
         {
+        //random enemies count per row
+        shipCount = Random.Range(1, 5);
+        //x-axis spacing calculation between ships in rows
+        spacing = (topRight.x - bottomLeft.x) / shipCount;
+        float startX = -(shipCount - 1) * spacing / 2f; // ships spacing and centering
 
             for (int j = 0; j < shipCount; j++)
             {
+                //random enemy type
+                int enemyIndex = Random.Range(0, enemiesPrefabs.Length);
+                //get SpriteRenderer of that ship
+                shipSpriteRenderer = enemiesPrefabs[enemyIndex].transform.Find("EnemyVisual").GetComponent<SpriteRenderer>();
+
                 // start position calculation
                 Vector3 spawnPos = new Vector3(startX + j * spacing, moveBegingYPosition, 0f);
 
                 //create ship instance and set position
-                GameObject ship = Instantiate(shipPrefab, spawnPos, Quaternion.identity);
+                GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], spawnPos, Quaternion.identity);
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                float rowHeight = 1.0f;
                 //bounds - ingame units
                 //DOMoveY(endY,duration)
-                ship.transform.DOMoveY(4f - i * 1.2f * shipSpriteRenderer.bounds.size.y, animationDuration)
+                //ship.transform.DOMoveY(4f - i * shipSpriteRenderer.bounds.size.y, animationDuration)
+                ship.transform.DOMoveY(4f - i * rowHeight, animationDuration)
                     .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
                     .SetDelay(i * 0.3f) //delay between spawning rows of ships
                     .OnComplete(() => {
-                        //var shipAnim = ship.GetComponent<Animator>();
-                        //var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                        //float randomOffset = Random.Range(0f, 1f);
-                        //shipAnimator.Play("Idle",-1,randomOffset);
+                        var shipAnim = ship.GetComponent<Animator>();
+                        var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+                        float randomOffset = Random.Range(0f, 1f);
+                        shipAnimator.Play("Idle",-1,randomOffset);
                     });
             }
         }

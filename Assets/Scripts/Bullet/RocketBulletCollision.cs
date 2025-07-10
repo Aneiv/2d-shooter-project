@@ -40,7 +40,7 @@ public class RocketBulletCollision : MonoBehaviour
         pos = transform.position;
         if (pos.x < leftXClamp || pos.x > rightXClamp || pos.y < downYClamp || pos.y > upYClamp)
         {
-            Debug.Log("LOG Bullet hit screen bounds");
+            //Debug.Log("LOG Bullet hit screen bounds");
             Destroy(gameObject);
         }
     }
@@ -52,7 +52,7 @@ public class RocketBulletCollision : MonoBehaviour
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                Debug.Log("LOG Bullet hit player");
+                //Debug.Log("LOG Bullet hit player");
                 Destroy(gameObject);
                 player.TakeDamage(damage);
 
@@ -66,7 +66,7 @@ public class RocketBulletCollision : MonoBehaviour
             IShooter shooterScript = playerBulletCollision.shooter.GetComponent<IShooter>();
             if (bullet != null)
             {
-                Debug.Log($"LOG Player Bullet hit RocketBullet with damage: {shooterScript.BulletDamage}");
+                //Debug.Log($"LOG Player Bullet hit RocketBullet with damage: {shooterScript.BulletDamage}");
                 Destroy(collision.gameObject);
                 bullet.TakeDamage(shooterScript.BulletDamage);
                 var bulletBounce = bullet.GetComponent<RocketBulletMovement>();

@@ -40,7 +40,7 @@ public class BulletCollisionDetection : MonoBehaviour
         pos = transform.position;
         if (pos.x < leftXClamp || pos.x > rightXClamp || pos.y < downYClamp || pos.y > upYClamp)
         {
-            Debug.Log("LOG Bullet hit screen bounds");
+            //Debug.Log("LOG Bullet hit screen bounds");
             Destroy(gameObject);
         }
     }
@@ -52,7 +52,7 @@ public class BulletCollisionDetection : MonoBehaviour
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
-                Debug.Log("LOG Bullet hit player");
+                //Debug.Log("LOG Bullet hit player");
                 Destroy(gameObject);
                 player.TakeDamage(damage);
                 
@@ -63,7 +63,7 @@ public class BulletCollisionDetection : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                Debug.Log("LOG Bullet hit Basic_Enemy");
+                //Debug.Log("LOG Bullet hit Basic_Enemy");
                 Destroy(gameObject);
                 enemy.TakeDamage(damage);
             }

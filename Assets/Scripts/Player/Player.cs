@@ -23,7 +23,7 @@ public class Player : MonoBehaviour, IShooter, IHealth
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Player took: " + damage.ToString() + " dmg");
+        //Debug.Log("Player took: " + damage.ToString() + " dmg");
         if (hp - damage > 0)
         {
             hp -= damage;

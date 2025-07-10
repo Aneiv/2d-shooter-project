@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour, IShooter, IHealth
 
     public void TakeDamage(int damage)
     {
-        Debug.Log("Enemy took: " + damage.ToString() + " dmg");
+        //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
         if (hp - damage > 0)
         {
             hp -= damage;

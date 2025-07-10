@@ -214,7 +214,7 @@ MonoBehaviour:
   PlayerBullet: {fileID: 5400717303423712143, guid: 039b349313c4c3e46a1797b5474f8bd5, type: 3}
   bulletSpawnDelay: 0.5
   bulletSpeed: 2
-  shootingColldown: 1
+  shootingColldown: 0.4
   firePoint: {fileID: 3778993548382045413}
 --- !u!114 &124903982796063979
 MonoBehaviour:
@@ -230,3 +230,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp: 50
   bulletDamage: 20
+  GameOverUI: {fileID: 0}
+  gameUI: {fileID: 0}

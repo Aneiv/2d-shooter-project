@@ -223,6 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 50
   bulletDamage: 6
+  waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
   healthBar: {fileID: 8484578034451516192}
   rootEnemy: {fileID: 2365903002932943826}
 --- !u!1 &2365903002932943826

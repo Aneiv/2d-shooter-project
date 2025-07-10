@@ -6,13 +6,13 @@ public class Enemy : MonoBehaviour, IShooter, IHealth
     private int currentHp;
     public int bulletDamage = 10;
     public int BulletDamage => bulletDamage;
-
+    public GameObject waveManager;
     public EnemyHealthBar healthBar;
     public GameObject rootEnemy;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
+        waveManager = GameObject.FindGameObjectWithTag("GameController");
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
     }
@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour, IShooter, IHealth
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void TakeDamage(int damage)
@@ -38,6 +38,9 @@ public class Enemy : MonoBehaviour, IShooter, IHealth
     }
     public void Die()
     {
+        //Debug.Log("KILLED ENEMY");
+        var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
+        destroyTrigger.EnemyKilled();
         Destroy(rootEnemy);
     }
 }

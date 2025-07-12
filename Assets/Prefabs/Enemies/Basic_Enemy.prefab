@@ -181,7 +181,7 @@ MonoBehaviour:
   maxSpawnDelay: 4
   bulletSpeed: 1
   checkInterval: 3
-  barrelTransform: {fileID: 6447288022928259364}
+  firePoint: {fileID: 6447288022928259364}
 --- !u!50 &1903036097251743969
 Rigidbody2D:
   serializedVersion: 5
@@ -269,7 +269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6447288022928259364}
   m_Layer: 0
-  m_Name: ShootingBarrel
+  m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,13 +283,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6987929272695981238}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: -0.020000935, y: 3.959999, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4935836637643920760}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1001 &7536776131317828610
 PrefabInstance:
   m_ObjectHideFlags: 0

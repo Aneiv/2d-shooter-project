@@ -23,7 +23,8 @@ public class EnemyShoot : MonoBehaviour
 
     private Transform thisEnemyTransform;
     private Vector2 bulletPosition;
-    public Transform barrelTransform; //barrel transform
+    //public Transform barrelTransform; //barrel transform
+    public Transform firePoint;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -66,10 +67,10 @@ public class EnemyShoot : MonoBehaviour
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
         
         //bullet start position
-        bulletPosition.y = barrelTransform.position.y; //thisEnemyRenderer.bounds.size.y / 2;
-        bulletPosition.x = barrelTransform.position.x;
+        //bulletPosition.y = barrelTransform.position.y; //thisEnemyRenderer.bounds.size.y / 2;
+        //bulletPosition.x = barrelTransform.position.x;
         
-        GameObject Bullet = Instantiate(enemyBullet, bulletPosition, thisEnemyTransform.rotation);
+        GameObject Bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
         // set owner of bullet
         Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 

@@ -14,7 +14,10 @@ public class PlayerShoot : MonoBehaviour
     public float shootingColldown = 2f;
 
     private Transform thisPlayerTransform;
-    public Transform firePoint;
+    public Transform firePoint1;
+    public Transform firePoint2;
+
+    private bool shootLeft = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -52,6 +55,8 @@ public class PlayerShoot : MonoBehaviour
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
+        Transform firePoint = shootLeft ? firePoint1: firePoint2;
+        shootLeft = !shootLeft;
 
         GameObject Bullet = Instantiate(PlayerBullet, firePoint.position, firePoint.rotation);
         // set owner of bullet

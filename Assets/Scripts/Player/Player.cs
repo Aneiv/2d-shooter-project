@@ -2,19 +2,27 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IShooter, IHealth
 {
-    public int hp = 50;
+    public int maxHp = 50;
+    private int currentHp;
     public int bulletDamage = 20;
     public int BulletDamage => bulletDamage;
 
     public GameObject GameOverUI;
     public GameObject gameUI;
+    public PlayerHealthBar healthBar;
 
+    void Start()
+    {
+        currentHp = maxHp;
+        healthBar.SetMaxHealth(maxHp);
+    }
     public void TakeDamage(int damage)
     {
         //Debug.Log("Player took: " + damage.ToString() + " dmg");
-        if (hp - damage > 0)
+        if (currentHp - damage > 0)
         {
-            hp -= damage;
+            currentHp -= damage;
+            healthBar.SetHealth(currentHp);
         }
         else
         {

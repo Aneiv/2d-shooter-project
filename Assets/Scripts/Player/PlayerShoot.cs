@@ -4,20 +4,28 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public GameObject PlayerBullet;
-    public float bulletSpawnDelay = 1f;//delay in seconds
+    public GameObject PlayerBulletBig;
+    public GameObject PlayerBulletSmall;
+
+    public float bulletSpawnDelay = 0.5f;//delay in seconds
 
     public float bulletSpeed = 1f;
 
     private bool isWaitingForShot = false;
     private float timer = 0f;
-    public float shootingColldown = 2f;
+    public float shootingCooldown = 2f;
 
     private Transform thisPlayerTransform;
-    public Transform firePoint1;
-    public Transform firePoint2;
+    public Transform firePoint_LBig;
+    public Transform firePoint_RBig;
+
+    public Transform firePoint_LSmall;
+    public Transform firePoint_RSmall;
 
     private bool shootLeft = true;
+
+    public int smallBulletCooldown = 1;
+    private int bulletCounter = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,7 +42,7 @@ public class PlayerShoot : MonoBehaviour
             if (timer <= 0f)
             {
                 StartCoroutine(SpawnBulletCoroutine());
-                timer = shootingColldown; //timer reset
+                timer = shootingCooldown; //timer reset
             }
         }
     }
@@ -55,14 +63,30 @@ public class PlayerShoot : MonoBehaviour
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
-        Transform firePoint = shootLeft ? firePoint1: firePoint2;
+        Transform firePointBig = shootLeft ? firePoint_LBig: firePoint_RBig;
         shootLeft = !shootLeft;
 
-        GameObject Bullet = Instantiate(PlayerBullet, firePoint.position, firePoint.rotation);
+        GameObject BulletBig = Instantiate(PlayerBulletBig, firePointBig.position, firePointBig.rotation);
+        bulletCounter++;
+        
         // set owner of bullet
-        Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+        BulletBig.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
-        rb.linearVelocity = direction.normalized * bulletSpeed;
+        Rigidbody2D rb_Big = BulletBig.GetComponent<Rigidbody2D>();
+        rb_Big.linearVelocity = direction.normalized * bulletSpeed;
+
+        if(bulletCounter== smallBulletCooldown)
+        {
+            bulletCounter = 0;
+            GameObject BulletSmall_Left = Instantiate(PlayerBulletSmall, firePoint_LSmall.position, firePoint_LSmall.rotation);
+            BulletSmall_Left.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+            Rigidbody2D rb_Small_Left = BulletSmall_Left.GetComponent<Rigidbody2D>();
+            rb_Small_Left.linearVelocity = direction.normalized * bulletSpeed;
+
+            GameObject BulletSmall_Right = Instantiate(PlayerBulletSmall, firePoint_RSmall.position, firePoint_RSmall.rotation);
+            BulletSmall_Right.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+            Rigidbody2D rb_Small_Right = BulletSmall_Right.GetComponent<Rigidbody2D>();
+            rb_Small_Right.linearVelocity = direction.normalized * bulletSpeed;
+        }
     }
 }

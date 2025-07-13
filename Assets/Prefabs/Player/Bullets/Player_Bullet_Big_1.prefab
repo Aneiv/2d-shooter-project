@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 7157561037332017152, guid: 28dc0aa995c2b2149bc1ff625c514670, type: 3}
     - target: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
       propertyPath: m_Name
-      value: Player_Bullet_1
+      value: Player_Bullet_Big_1
       objectReference: {fileID: 0}
     - target: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
       propertyPath: m_TagString
@@ -67,6 +67,10 @@ PrefabInstance:
     - target: {fileID: 8439047910115932162, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
       propertyPath: m_Offset.x
       value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 9126954962244745456, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
+      propertyPath: damage
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

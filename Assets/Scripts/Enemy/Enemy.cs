@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IShooter, IHealth
+public class Enemy : MonoBehaviour, IHealth
 {
     public int maxHp = 50;
     private int currentHp;
-    public int bulletDamage = 10;
-    public int BulletDamage => bulletDamage;
     public GameObject waveManager;
     public EnemyHealthBar healthBar;
     public GameObject rootEnemy;

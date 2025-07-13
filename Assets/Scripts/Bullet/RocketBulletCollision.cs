@@ -16,12 +16,6 @@ public class RocketBulletCollision : MonoBehaviour
     {
         // get shooter (owner) damage
         this.shooter = shooter;
-
-        IShooter shooterScript = shooter.GetComponent<IShooter>();
-        if (shooterScript != null)
-        {
-            damage = shooterScript.BulletDamage;
-        }
     }
     void Start()
     {
@@ -63,12 +57,11 @@ public class RocketBulletCollision : MonoBehaviour
             SturdyBullet bullet = GetComponent<SturdyBullet>();
             GameObject playerBullet = collision.gameObject;
             BulletCollisionDetection  playerBulletCollision = playerBullet.GetComponent<BulletCollisionDetection>();
-            IShooter shooterScript = playerBulletCollision.shooter.GetComponent<IShooter>();
             if (bullet != null)
             {
                 //Debug.Log($"LOG Player Bullet hit RocketBullet with damage: {shooterScript.BulletDamage}");
                 Destroy(collision.gameObject);
-                bullet.TakeDamage(shooterScript.BulletDamage);
+                bullet.TakeDamage(playerBulletCollision.damage);
                 var bulletBounce = bullet.GetComponent<RocketBulletMovement>();
                 bulletBounce.Bounce(playerBullet.transform);
             }

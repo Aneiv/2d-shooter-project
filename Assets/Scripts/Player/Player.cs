@@ -1,11 +1,9 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour, IShooter, IHealth
+public class Player : MonoBehaviour, IHealth
 {
-    public int maxHp = 50;
+    public int maxHp = 80;
     private int currentHp;
-    public int bulletDamage = 20;
-    public int BulletDamage => bulletDamage;
 
     public GameObject GameOverUI;
     public GameObject gameUI;

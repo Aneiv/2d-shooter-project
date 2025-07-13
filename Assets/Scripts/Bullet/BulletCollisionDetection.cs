@@ -9,19 +9,15 @@ public class BulletCollisionDetection : MonoBehaviour
     private float clampSize = 0.5f;
 
     public GameObject shooter;
-    private int damage;
+    private string shooterTag;
+    public int damage;
 
     // runs before Start()
     public void Init(GameObject shooter)
     {
         // get shooter (owner) damage
         this.shooter = shooter;
-
-        IShooter shooterScript = shooter.GetComponent<IShooter>();
-        if (shooterScript != null)
-        {
-            damage = shooterScript.BulletDamage;
-        }
+        shooterTag = shooter.tag;
     }
     void Start()
     {
@@ -47,7 +43,7 @@ public class BulletCollisionDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player") && !shooter.CompareTag("Player")) // prevents self-shot
+        if (collision.CompareTag("Player") && shooterTag != "Player") // prevents self-shot
         {
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
@@ -58,7 +54,7 @@ public class BulletCollisionDetection : MonoBehaviour
                 
             }
         }
-        else if (collision.CompareTag("Enemy") && !shooter.CompareTag("Enemy"))
+        else if (collision.CompareTag("Enemy") && shooterTag != "Enemy")
         {
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)

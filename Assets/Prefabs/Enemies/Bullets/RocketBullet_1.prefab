@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shooter: {fileID: 0}
-  damage: 0
+  damage: 20
 --- !u!114 &8517910281273755846
 MonoBehaviour:
   m_ObjectHideFlags: 0

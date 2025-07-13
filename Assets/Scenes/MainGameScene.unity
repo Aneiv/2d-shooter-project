@@ -2799,10 +2799,6 @@ PrefabInstance:
       propertyPath: GameOverUI
       value: 
       objectReference: {fileID: 357293539}
-    - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
-      propertyPath: bulletDamage
-      value: 20
-      objectReference: {fileID: 0}
     - target: {fileID: 361797508338985370, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.26
@@ -2846,14 +2842,6 @@ PrefabInstance:
     - target: {fileID: 2109944791931257127, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: m_DrawMode
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872679857519592694, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
-      propertyPath: m_Radius
-      value: 0.17
-      objectReference: {fileID: 0}
-    - target: {fileID: 3872679857519592694, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
-      propertyPath: m_Offset.y
-      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 6942302534895174928, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: m_Name

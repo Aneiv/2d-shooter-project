@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 17.6537, y: 17.6537, z: 17.6537}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6447288022928259364}
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 4584706097287528069, guid: fb938e6cc7480b741b531bb6cbb50284, type: 3}
+  m_Sprite: {fileID: 7692226621546264347, guid: b719b0305d0bb9242bfa5267a79ac097, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -153,13 +153,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.03, y: 6.03}
+    oldSize: {x: 0.32, y: 0.3}
     newSize: {x: 6.03, y: 6.03}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 6.03, y: 6.03}
+  m_Size: {x: 0.33, y: 0.28}
   m_EdgeRadius: 0
 --- !u!114 &7931500397356056013
 MonoBehaviour:
@@ -179,7 +179,7 @@ MonoBehaviour:
   maxSpawnChance: 0.25
   minSpawnDelay: 2
   maxSpawnDelay: 4
-  bulletSpeed: 1
+  bulletSpeed: 3
   checkInterval: 3
   firePoint: {fileID: 6447288022928259364}
 --- !u!50 &1903036097251743969
@@ -284,7 +284,7 @@ Transform:
   m_GameObject: {fileID: 6987929272695981238}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.020000935, y: 3.959999, z: 0}
+  m_LocalPosition: {x: 0, y: 0.18, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -305,6 +305,10 @@ PrefabInstance:
     - target: {fileID: 994610305304066708, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039085093220275172, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
       propertyPath: m_Pivot.x

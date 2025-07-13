@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
   bulletSpawnDelay: 1
-  minSpawnChance: 0
+  minSpawnChance: 0.4
   maxSpawnChance: 0.5
   minSpawnDelay: 2
   maxSpawnDelay: 4

@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour, IHealth
     public GameObject waveManager;
     public EnemyHealthBar healthBar;
     public GameObject rootEnemy;
-    
+    bool enemyKilled = false;
     void Start()
     {
         waveManager = GameObject.FindGameObjectWithTag("GameController");
@@ -37,8 +37,12 @@ public class Enemy : MonoBehaviour, IHealth
     public void Die()
     {
         //Debug.Log("KILLED ENEMY");
-        var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
-        destroyTrigger.EnemyKilled();
-        Destroy(rootEnemy);
+        if (!enemyKilled)
+        {
+            var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
+            destroyTrigger.EnemyKilled();
+            enemyKilled = true;
+            Destroy(rootEnemy);
+        }
     }
 }

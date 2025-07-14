@@ -25,6 +25,4 @@ public class NextWaveTrigger : MonoBehaviour
         enemiesRemaining = enemies;
         //Debug.Log($"Set enemies amount: {enemiesRemaining}");
     }
-
-
 }

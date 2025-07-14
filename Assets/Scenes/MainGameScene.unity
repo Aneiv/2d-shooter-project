@@ -1022,9 +1022,14 @@ MonoBehaviour:
   - {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
   - {fileID: 8169252472499318893, guid: 35cc083ba05d1534e9e547ce1d474e99, type: 3}
   - {fileID: 4316515314491063179, guid: 3a10adef972b62946bc9c13dd792c8ac, type: 3}
-  moveBegingYPosition: 8
-  animationDuration: 1.5
   nextWaveTimeDelay: 2
+  animationDurations:
+  - 2
+  - 1.5
+  shipRowsMin: 1
+  shipRowsMax: 4
+  shipPerRowMinAmount: 1
+  shipPerRowMaxAmount: 5
 --- !u!4 &527448736
 Transform:
   m_ObjectHideFlags: 0

@@ -4,15 +4,16 @@ public class Player : MonoBehaviour, IHealth
 {
     public int maxHp = 80;
     private int currentHp;
+    private Animator playerAnimator;
 
     public GameObject GameOverUI;
     public GameObject gameUI;
     public PlayerHealthBar healthBar;
-
     void Start()
     {
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
+        playerAnimator = GetComponent<Animator>();
     }
     public void TakeDamage(int damage)
     {
@@ -21,6 +22,8 @@ public class Player : MonoBehaviour, IHealth
         {
             currentHp -= damage;
             healthBar.SetHealth(currentHp);
+            //Damage received animation
+            playerAnimator.SetTrigger("DamageReceived");
         }
         else
         {

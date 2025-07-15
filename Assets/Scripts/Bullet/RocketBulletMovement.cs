@@ -10,6 +10,7 @@ public class RocketBulletMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 targetPosition;      //player position
     private bool reachedTarget = false;
+    public ParticleSystem burstParticle; //burst particle system
     public float explodeRadius; //objects in that area get damage from explosion
     //public float playerDamageZone; //radius of circle that designate bullet explosion
 
@@ -91,9 +92,14 @@ public class RocketBulletMovement : MonoBehaviour
             }
         }
 
-        //later particle, sound, etc
-
+        //later sound, etc
+        ExplodeParticles();//particle explosion
         Destroy(gameObject); //destroy rocket
+    }
+    void ExplodeParticles()
+    {
+        Instantiate(burstParticle, transform.position, Quaternion.identity).Play();
+        Destroy(gameObject);
     }
     public void Bounce(Transform playerBulletTransform)
     {

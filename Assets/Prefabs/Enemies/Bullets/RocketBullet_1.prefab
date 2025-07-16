@@ -210,6 +210,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1531245167524308247}
     m_Modifications:
     - target: {fileID: 588333845331395284, guid: c7f7e0d8e8801824c88623db6582df5d, type: 3}
+      propertyPath: stopAction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 588333845331395284, guid: c7f7e0d8e8801824c88623db6582df5d, type: 3}
       propertyPath: InitialModule.startLifetime.scalar
       value: 0.6
       objectReference: {fileID: 0}

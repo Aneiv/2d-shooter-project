@@ -29,6 +29,8 @@ public class SturdyBullet : MonoBehaviour, IHealth
     }
     public void Die()
     {
+        var RocketExplosionParticles = GetComponent<RocketBulletMovement>();
+        RocketExplosionParticles.ExplodeParticles();
         Destroy(this.gameObject);
     }
 }

@@ -96,10 +96,9 @@ public class RocketBulletMovement : MonoBehaviour
         ExplodeParticles();//particle explosion
         Destroy(gameObject); //destroy rocket
     }
-    void ExplodeParticles()
+    public void ExplodeParticles()
     {
         Instantiate(burstParticle, transform.position, Quaternion.identity).Play();
-        Destroy(gameObject);
     }
     public void Bounce(Transform playerBulletTransform)
     {

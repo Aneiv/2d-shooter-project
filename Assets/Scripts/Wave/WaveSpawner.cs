@@ -98,16 +98,23 @@ public class WaveSpawner : MonoBehaviour
                 //bounds - ingame units
                 //DOMoveY(endY,duration)
                 //ship.transform.DOMoveY(4f - i * shipSpriteRenderer.bounds.size.y, animationDuration)
+
                 ship.transform.DOMoveY(4f - i * rowHeight, animationDurations[0])
                     .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
                     .SetDelay(i * 0.3f) //delay between spawning rows of ships
                     .OnComplete(() =>
                     {
+                        IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
+                        if (enemyInterface != null) 
+                        {
+                            enemyInterface.OnArrival();
+                        }
                         //animation play at random delay for every ship
                         var shipAnim = ship.GetComponent<Animator>();
                         var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
                         float randomOffset = UnityEngine.Random.Range(0f, 1f);
                         shipAnimator.Play("Idle", -1, randomOffset);
+
                     });
             }
         }
@@ -157,6 +164,7 @@ public class WaveSpawner : MonoBehaviour
 
                 //ship instance creation
                 GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], start, Quaternion.identity);
+
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
                 //animation start
@@ -177,6 +185,12 @@ public class WaveSpawner : MonoBehaviour
                 .SetEase(Ease.InOutSine) //make smooth begin and end of animation
                 .OnComplete(() => //after animation end
                 {
+                    IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
+                    if (enemyInterface != null)
+                    {
+                        enemyInterface.OnArrival();
+                    }
+
                     //correct ship rotation
                     ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
                     //animation play at random delay for every ship

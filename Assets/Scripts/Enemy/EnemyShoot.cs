@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class EnemyShoot : MonoBehaviour
+public class EnemyShoot : MonoBehaviour, IEnemy
 {
 
     public GameObject enemyBullet;
@@ -16,7 +16,7 @@ public class EnemyShoot : MonoBehaviour
 
     public float bulletSpeed;
     
-    private bool waiting = false;
+    private bool waiting = true;
     private float checkTimer = 0f;
     public float checkInterval = 0.5f;    // checking chance delay
 
@@ -76,5 +76,10 @@ public class EnemyShoot : MonoBehaviour
 
         Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction.normalized * bulletSpeed;
+    }
+
+    public void OnArrival()
+    {
+        waiting = false ;
     }
 }

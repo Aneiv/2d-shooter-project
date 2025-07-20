@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class DoubleBarrelEnemyShoot : MonoBehaviour
+public class DoubleBarrelEnemyShoot : MonoBehaviour, IEnemy
 {
 
     public GameObject enemyBullet;
@@ -16,7 +16,7 @@ public class DoubleBarrelEnemyShoot : MonoBehaviour
 
     public float bulletSpeed;
     
-    private bool waiting = false;
+    private bool waiting = true;
     private float checkTimer = 0f;
     public float checkInterval = 3f;    // checking chance delay
 
@@ -81,5 +81,10 @@ public class DoubleBarrelEnemyShoot : MonoBehaviour
 
         Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction.normalized * bulletSpeed;
+    }
+
+    public void OnArrival()
+    {
+        waiting = false;
     }
 }

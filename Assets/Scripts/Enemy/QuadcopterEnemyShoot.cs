@@ -58,13 +58,14 @@ public class QuadcopterEnemyShoot : MonoBehaviour
 
     IEnumerator SpawnBulletCoroutine()
     {
+        waiting = true;
         for (int i = 0; i < numberOfBulletInBurst; i++)
         {
-            waiting = true;
             SpawnBullet();        
             yield return new WaitForSeconds(bulletSpawnDelay); //delay
-            waiting = false;
         }
+
+        waiting = false;
     }
     void SpawnBullet()
     {

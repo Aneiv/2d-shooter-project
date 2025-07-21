@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 3575612394827558575}
   - component: {fileID: 8496005485198130820}
   - component: {fileID: 3599406628729017574}
-  - component: {fileID: 116832411979131876}
+  - component: {fileID: 856217430069665654}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: Enemy
@@ -271,7 +271,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &116832411979131876
+--- !u!114 &856217430069665654
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -280,10 +280,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4276711931582022903}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef18d3b46999d124ab3c8b936d6ae316, type: 3}
+  m_Script: {fileID: 11500000, guid: 352acb46923c8ae46ac31a7128be4a3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startShootingDelay: 3
   maxRandomShootingDelay: 2
   frontCannon: {fileID: 1732399611438590260}
   backCannon: {fileID: 1634311276562989270}

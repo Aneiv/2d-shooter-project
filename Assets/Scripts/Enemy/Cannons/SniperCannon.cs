@@ -24,11 +24,12 @@ public class SniperCannon : MonoBehaviour
     public float aimingLaserBlinkDuration = 0.2f;
     public int numberOfBlinks = 3;
 
-    private bool isRealoading = true;
+    private bool waiting = true;
     private float reloadTimer = 0f;
     private float aimingTimer = 0f;
 
     private RaycastHit2D[] hitsInfoAim;
+    private Coroutine aimAndShootCoroutine;
 
     void Start()
     {
@@ -43,12 +44,12 @@ public class SniperCannon : MonoBehaviour
 
     public void ReadyToShoot()
     {
-        isRealoading = false;
+        waiting = false;
     }
 
     private void FixedUpdate()
     {
-        if (!isRealoading)
+        if (!waiting && aimAndShootCoroutine == null)
         {
             reloadTimer -= Time.deltaTime;
             if (reloadTimer <= 0f)
@@ -57,16 +58,14 @@ public class SniperCannon : MonoBehaviour
 
                 aimingRay.enabled = true;
                 hurtfulRay.enabled = false;
-                StartCoroutine(AimAndShootAtPlayer());
-                
+
+                aimAndShootCoroutine = StartCoroutine(AimAndShootAtPlayerCoroutine());
             }
         }
     }
 
-    private IEnumerator AimAndShootAtPlayer()
+    private IEnumerator AimAndShootAtPlayerCoroutine()
     {
-        isRealoading = true;
-
         aimingTimer = lockAimTime;
 
         while(aimingTimer > 0f)
@@ -153,8 +152,8 @@ public class SniperCannon : MonoBehaviour
 
 
         hurtfulRay.enabled = false;
-
         reloadTimer = reloadDelay;
-        isRealoading = false;
+
+        aimAndShootCoroutine = null;
     }
 }

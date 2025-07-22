@@ -3,7 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class RocketEnemyShoot : MonoBehaviour
+public class RocketEnemyShoot : MonoBehaviour, IEnemy
 {
 
     public GameObject enemyBullet;
@@ -18,7 +18,7 @@ public class RocketEnemyShoot : MonoBehaviour
 
     public float bulletSpeed = 1f;
 
-    private bool waiting = false;
+    private bool waiting = true;
     private float checkTimer = 0f;
     public float checkInterval = 0.5f;    // checking chance delay
 
@@ -86,5 +86,10 @@ public class RocketEnemyShoot : MonoBehaviour
 
         var rocket = Bullet.GetComponent<RocketBulletMovement>();
         rocket.target = targetPlayer; //give player position to bullet when spawned
+    }
+
+    public void OnArrival()
+    {
+        waiting=false;
     }
 }

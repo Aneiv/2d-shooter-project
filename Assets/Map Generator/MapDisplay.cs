@@ -5,17 +5,18 @@ using static UnityEngine.Mesh;
 public class MapDisplay : MonoBehaviour
 {
 
-    public SpriteRenderer textureRender;
-
+    public GameObject textureRender;
     public void DrawTexture(Texture2D texture)
     {
-        textureRender.sharedMaterial.mainTexture = texture;
-        textureRender.transform.localScale = new Vector3(texture.width, texture.height, 1);
-        //sprite from texture
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        MeshRenderer renderer = textureRender.GetComponent<MeshRenderer>();
+        if (renderer != null)
+        {
+            renderer.sharedMaterial = new Material(Shader.Find("Unlit/Texture"));
+            renderer.sharedMaterial.mainTexture = texture;
+        }
 
-        //asign sprite to SpriteRenderer
-        textureRender.sprite = sprite;
+        //scale adjustment
+        textureRender.transform.localScale = new Vector3(10f,10f, 1f);//new Vector3(texture.width*textureScale, texture.height*textureScale, 1);
     }
 
 }

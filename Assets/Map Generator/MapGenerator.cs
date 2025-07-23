@@ -10,7 +10,7 @@ public class MapGenerator : MonoBehaviour
 
     public Noise.NormalizeMode normalizeMode;
 
-    public const int mapChunkSize = 241;
+    public const int mapChunkSize = 51;
     [Range(0, 6)]
     public int editorPreviewLOD;
     public float noiseScale;
@@ -25,7 +25,7 @@ public class MapGenerator : MonoBehaviour
 
     public float meshHeightMultiplier;
     public AnimationCurve meshHeightCurve;
-
+    public int sampleResolution = 121;
     public bool autoUpdate;
     
     public List<TerrainType> regions;
@@ -45,7 +45,7 @@ public class MapGenerator : MonoBehaviour
         }
         else if (drawMode == DrawMode.ColourMap)
         {
-            display.DrawTexture(TextureGenerator.TextureFromColourMap(mapData.colourMap, mapChunkSize, mapChunkSize));
+            display.DrawTexture(TextureGenerator.TextureFromColourMap(mapData.colourMap, sampleResolution, sampleResolution));
         }
         /*else if (drawMode == DrawMode.Mesh)
         {
@@ -116,19 +116,21 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
-
+    //Drawing textures
     MapData GenerateMapData(Vector2 centre)
     {
+        Vector2 scaledCentre = (centre + offset) / (mapChunkSize-1) * sampleResolution;
+
         float[,] noiseMap = Noise.GenerateNoiseMap(
-            mapChunkSize, mapChunkSize, seed, noiseScale,
-            octaves, persistance, lacunarity, centre + offset, normalizeMode
+            sampleResolution, sampleResolution, seed, noiseScale,
+            octaves, persistance, lacunarity, scaledCentre, normalizeMode
         );
 
-        Color[] colourMap = new Color[mapChunkSize * mapChunkSize];
+        Color[] colourMap = new Color[sampleResolution * sampleResolution];
 
-        for (int y = 0; y < mapChunkSize; y++)
+        for (int y = 0; y < sampleResolution; y++)
         {
-            for (int x = 0; x < mapChunkSize; x++)
+            for (int x = 0; x < sampleResolution; x++)
             {
                 float currentHeight = noiseMap[x, y];
 
@@ -136,9 +138,8 @@ public class MapGenerator : MonoBehaviour
                 {
                     if (currentHeight <= regions[i].height)
                     {
-                        //colourMap[y * mapChunkSize + x] = regions[i].colour;
-                        int flippedY = mapChunkSize - 1 - y;
-                        colourMap[flippedY * mapChunkSize + x] = regions[i].colour;
+                        int flippedY = sampleResolution - 1 - y;
+                        colourMap[flippedY * sampleResolution + x] = regions[i].colour;
                         break;
                     }
                 }

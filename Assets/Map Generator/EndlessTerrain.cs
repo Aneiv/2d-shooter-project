@@ -1,23 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Windows;
 
 public class EndlessTerrain : MonoBehaviour
 {
     const float scale = 1f;
 
-    const float viewerMoveThresholdForChunkUpdate = 25f;
+    const float viewerMoveThresholdForChunkUpdate = 5f;
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public static float maxViewDst;
 
-    public Transform viewer;
+    //public Transform viewer;
     public Material tileMaterial;
     public int viewDistanceChunks = 3;
-
+    public float scrollSpeed;
     public static Vector2 viewerPosition;
     Vector2 viewerPositionOld;
     static MapGenerator mapGenerator;
     int chunkSize;
+
+    Vector3 worldOffset;//center of screen
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
@@ -25,21 +28,27 @@ public class EndlessTerrain : MonoBehaviour
     void Start()
     {
         mapGenerator = FindFirstObjectByType<MapGenerator>();
-
         chunkSize = MapGenerator.mapChunkSize - 1;
         maxViewDst = chunkSize * viewDistanceChunks;
-
         UpdateVisibleChunks();
     }
 
     void Update()
     {
-        viewerPosition = new Vector2(viewer.position.x, viewer.position.y) / scale;
+        Vector3 scroll = Vector2.down * scrollSpeed * Time.deltaTime;
+        worldOffset -= scroll;
+        //Debug.Log(worldOffset);
+        viewerPosition = worldOffset; //new Vector2(viewer.position.x, viewer.position.y) / scale;
 
         if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
             viewerPositionOld = viewerPosition;
             UpdateVisibleChunks();
+        }
+        //move chunks
+        foreach (var chunk in terrainChunkDictionary.Values)
+        {
+            chunk.UpdatePositionRelativeToViewer(worldOffset);
         }
     }
 
@@ -53,12 +62,18 @@ public class EndlessTerrain : MonoBehaviour
 
         int currentChunkCoordX = Mathf.RoundToInt(viewerPosition.x / chunkSize);
         int currentChunkCoordY = Mathf.RoundToInt(viewerPosition.y / chunkSize);
+        //Debug.DrawLine(Vector3.zero, new Vector3(viewerPosition.x, viewerPosition.y, 0), Color.red, 0.5f);
+        //Debug.Log($"Player pos: {viewerPosition}, chunk: ({currentChunkCoordX}, {currentChunkCoordY})");
+
+        //visible chunks
+        HashSet<Vector2> currentlyVisibleCoords = new HashSet<Vector2>();
 
         for (int yOffset = -viewDistanceChunks; yOffset <= viewDistanceChunks; yOffset++)
         {
             for (int xOffset = -viewDistanceChunks; xOffset <= viewDistanceChunks; xOffset++)
             {
                 Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
+                currentlyVisibleCoords.Add(viewedChunkCoord);
 
                 if (terrainChunkDictionary.ContainsKey(viewedChunkCoord))
                 {
@@ -69,6 +84,21 @@ public class EndlessTerrain : MonoBehaviour
                     terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, transform, tileMaterial));
                 }
             }
+        }
+        //delete not visible chunks
+        List<Vector2> keysToRemove = new List<Vector2>();
+        foreach (var kvp in terrainChunkDictionary)
+        {
+            if (!currentlyVisibleCoords.Contains(kvp.Key))
+            {
+                kvp.Value.Destroy();
+                keysToRemove.Add(kvp.Key);
+            }
+        }
+
+        foreach (var key in keysToRemove)
+        {
+            terrainChunkDictionary.Remove(key);
         }
     }
 
@@ -88,7 +118,7 @@ public class EndlessTerrain : MonoBehaviour
             chunkObject.name = $"Chunk {coord.x}, {coord.y}";
             chunkObject.transform.position = positionV3;
             chunkObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            chunkObject.transform.localScale = Vector3.one * size;
+            chunkObject.transform.localScale = new Vector3(size, size, 1f);//Vector3.one * size;
             chunkObject.transform.parent = parent;
 
             chunkObject.GetComponent<MeshRenderer>().material = new Material(material);
@@ -101,8 +131,8 @@ public class EndlessTerrain : MonoBehaviour
         {
             Texture2D texture = TextureGenerator.TextureFromColourMap(
                 mapData.colourMap,
-                MapGenerator.mapChunkSize,
-                MapGenerator.mapChunkSize
+                mapGenerator.sampleResolution,
+                mapGenerator.sampleResolution
             );
 
             chunkObject.GetComponent<MeshRenderer>().material.mainTexture = texture;
@@ -121,7 +151,24 @@ public class EndlessTerrain : MonoBehaviour
                 terrainChunksVisibleLastUpdate.Add(this);
             }
         }
-        
+        public void UpdatePositionRelativeToViewer(Vector2 worldOffset)
+        {
+            Vector3 positionV3 = new Vector3(position.x - worldOffset.x, position.y - worldOffset.y, 0);
+            if (chunkObject != null)
+            {
+                chunkObject.transform.position = positionV3;
+            }
+        }
+
+
+        public void Destroy()
+        {
+            if (chunkObject != null)
+            {
+                GameObject.Destroy(chunkObject);
+            }
+        }
+
         //calculate distance from point to the edge of rectangle
         float DistanceToRectEdge(Vector2 point, Rect rect)
         {

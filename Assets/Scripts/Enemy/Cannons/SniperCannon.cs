@@ -30,6 +30,8 @@ public class SniperCannon : MonoBehaviour
 
     private RaycastHit2D[] hitsInfoAim;
     private Coroutine aimAndShootCoroutine;
+    public ParticleSystem hurtfulRayParticle;
+    private ParticleSystem currentHurtfulRayParticle;
 
     void Start()
     {
@@ -39,6 +41,8 @@ public class SniperCannon : MonoBehaviour
         if (player != null)
         {
             targetPlayer = player.transform;
+            aimingRay.enabled = true;
+            hurtfulRay.enabled = false;
         }
     }
 
@@ -124,6 +128,11 @@ public class SniperCannon : MonoBehaviour
         // shoot at player
         hurtfulRay.enabled = true;
 
+        // particles
+        Quaternion rot = Quaternion.LookRotation(firePoint.up);
+        currentHurtfulRayParticle = Instantiate(hurtfulRayParticle, firePoint.position, rot);
+        currentHurtfulRayParticle.Play();
+
         RaycastHit2D[] hitsInfoShoot = Physics2D.RaycastAll(firePoint.position, firePoint.up, 100f);
         hurtfulRay.SetPosition(0, firePoint.position);
         Vector2 shootHitPoint = firePoint.position + firePoint.up * 100f;
@@ -154,6 +163,7 @@ public class SniperCannon : MonoBehaviour
         hurtfulRay.enabled = false;
         reloadTimer = reloadDelay;
 
+        Destroy(currentHurtfulRayParticle.gameObject);
         aimAndShootCoroutine = null;
     }
 }

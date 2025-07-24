@@ -19,11 +19,15 @@ public class EndlessTerrain : MonoBehaviour
     Vector2 viewerPositionOld;
     static MapGenerator mapGenerator;
     int chunkSize;
-
     Vector3 worldOffset;//center of screen
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
+
+    //[Header("Objects spawn settings")]
+    //public GameObject[] objectsPrefabs;
+    //public float[] objectSpawnChances;
+    public List<ObjectSpawner> objectsSpawner;
 
     void Start()
     {
@@ -82,7 +86,7 @@ public class EndlessTerrain : MonoBehaviour
                 }
                 else
                 {
-                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, transform, tileMaterial));
+                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, transform, tileMaterial, objectsSpawner));
                 }
             }
         }
@@ -106,11 +110,13 @@ public class EndlessTerrain : MonoBehaviour
     public class TerrainChunk
     {
         GameObject chunkObject;
+        List<ObjectSpawner> objectSpawner;
         Vector2 position;
         Rect bounds;
 
-        public TerrainChunk(Vector2 coord, int size, Transform parent, Material material)
+        public TerrainChunk(Vector2 coord, int size, Transform parent, Material material, List<ObjectSpawner> objectSpawner)
         {
+            this.objectSpawner = objectSpawner;
             Vector2 offset = new Vector2(15f, 0f); //offset for chunk placement
             Vector2 centerPosition = coord * size + offset;
             position = centerPosition - Vector2.one * size / 2f;
@@ -136,10 +142,56 @@ public class EndlessTerrain : MonoBehaviour
                 mapGenerator.mapChunkResolution,
                 mapGenerator.mapChunkResolution
             );
-
             chunkObject.GetComponent<MeshRenderer>().material.mainTexture = texture;
 
+
+            //spawn objects on chunk
+            int resolution = mapGenerator.mapChunkResolution;
+            int step = 8; //map sampling
+            for (int y = 0; y < resolution; y+=step)
+            {
+                for (int x = 0; x < resolution; x+=step)
+                {
+                    Color tileColor = mapData.colourMap[y * resolution + x];
+
+                    for (int i = 0; i < objectSpawner.Count; i++)
+                    {
+                        //on certain tile
+                        //if (tileColor == objectSpawner[i].colour && Random.value < objectSpawner[i].objectSpawnChance) // chance to spawn
+                        if (ChechColorSimilarity(tileColor, objectSpawner[i].colours) && Random.value < objectSpawner[i].objectSpawnChance) // chance to spawn
+                        {
+                            //scale and spawn on right place
+                            float chunkScale = chunkObject.transform.localScale.x;
+                            Vector3 localOffset = new Vector3(
+                                ((float)x / resolution - 0.5f) * chunkScale,
+                                ((float)y / resolution - 0.5f) * chunkScale,
+                                0f
+                            );
+                            Vector3 spawnPos = chunkObject.transform.position + localOffset;
+
+                            //object instantion create
+                            GameObject spawnObject = GameObject.Instantiate(objectSpawner[i].obejectPrefab, spawnPos, Quaternion.identity);
+                            spawnObject.transform.parent = chunkObject.transform; //new object is child of chunk in which is placed
+                            break;//so not to spawn 2 or more object in one place
+                        }
+                    }
+                }
+            }
             UpdateTerrainChunk();
+        }
+        //color similarity check
+        bool ChechColorSimilarity(Color a, Color[] b, float tolerance = 0.02f)
+        {
+            foreach (Color c in b)
+            {
+                if (Mathf.Abs(a.r - c.r) < tolerance &&
+                    Mathf.Abs(a.g - c.g) < tolerance &&
+                    Mathf.Abs(a.b - c.b) < tolerance)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void UpdateTerrainChunk()
@@ -192,4 +244,12 @@ public class EndlessTerrain : MonoBehaviour
             return chunkObject.activeSelf;
         }
     }
+}
+
+[System.Serializable]
+public struct ObjectSpawner
+{
+    public GameObject obejectPrefab;
+    public float objectSpawnChance;
+    public Color[] colours;
 }

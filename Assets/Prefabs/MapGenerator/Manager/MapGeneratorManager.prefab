@@ -171,7 +171,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sampleResolution: 512
+  mapChunkResolution: 512
   autoUpdate: 1
   regions:
   - name: Water1
@@ -185,7 +185,7 @@ MonoBehaviour:
     colour: {r: 0.95686275, g: 0.8862745, b: 0.7019608, a: 0}
   - name: Grass1
     height: 0.6
-    colour: {r: 0.2880918, g: 0.735849, b: 0.30618304, a: 0}
+    colour: {r: 0.18632075, g: 0.745283, b: 0.21062346, a: 0}
   - name: Grass2
     height: 0.65
     colour: {r: 0.23891956, g: 0.5566038, b: 0.2517553, a: 0}
@@ -231,7 +231,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileMaterial: {fileID: 2100000, guid: 6a55f69173eab0d43b7c4d7a8eabe5ca, type: 2}
   viewDistanceChunks: 1
-  scrollSpeed: 3
+  scrollSpeed: 1
+  objectsSpawner:
+  - obejectPrefab: {fileID: 6498806104019520751, guid: e642f08507178c54cb2032c6fd0adb9b, type: 3}
+    objectSpawnChance: 0.005
+    colours:
+    - {r: 1, g: 1, b: 1, a: 0}
+  - obejectPrefab: {fileID: 2554775441609789230, guid: 39d33636c9871564e94914cb14c88312, type: 3}
+    objectSpawnChance: 0.05
+    colours:
+    - {r: 0.18823531, g: 0.74509805, b: 0.21176472, a: 0}
+    - {r: 0.2392157, g: 0.5568628, b: 0.2509804, a: 0}
 --- !u!1 &2254108343549268942
 GameObject:
   m_ObjectHideFlags: 0

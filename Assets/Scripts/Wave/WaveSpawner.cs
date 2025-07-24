@@ -94,6 +94,13 @@ public class WaveSpawner : MonoBehaviour
                 GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], spawnPos, Quaternion.identity);
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+
+                //idle animation play at random delay for every ship
+                var shipAnim = ship.GetComponent<Animator>();
+                var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+                float randomOffset = UnityEngine.Random.Range(0f, 1f);
+                shipAnimator.Play("Idle", -1, randomOffset);
+
                 float rowHeight = 1.0f;
                 //bounds - ingame units
                 //DOMoveY(endY,duration)
@@ -109,12 +116,6 @@ public class WaveSpawner : MonoBehaviour
                         {
                             enemyInterface.OnArrival();
                         }
-                        //animation play at random delay for every ship
-                        var shipAnim = ship.GetComponent<Animator>();
-                        var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                        float randomOffset = UnityEngine.Random.Range(0f, 1f);
-                        shipAnimator.Play("Idle", -1, randomOffset);
-
                     });
             }
         }
@@ -167,15 +168,30 @@ public class WaveSpawner : MonoBehaviour
 
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
-                //animation start
+
+                //idle animation play at random delay for every ship
+                var shipAnim = ship.GetComponent<Animator>();
+                var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+                float randomOffset = UnityEngine.Random.Range(0f, 1f);
+                shipAnimator.Play("Idle", -1, randomOffset);
+
+                //movement animation start
                 DOVirtual.Float(0f, 1f, animationDurations[1], (t) =>
                 {
                     //position on Bezier curve
                     Vector2 pos = QuadraticBezier(start, control, end, t);
                     ship.transform.position = pos; //ship position change
 
+                    if (t >= 0.998f)
+                    {
+                        ship.transform.position = end;
+                        ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
+                        return;
+                    }
                     //future position calculation (for place and rotation prediction)
-                    Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
+                    //Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
+                    Vector2 futurePos = QuadraticBezier(start, control, end, Mathf.Min(t + 0.01f, 1f));
+
                     Vector2 dir = (futurePos - pos).normalized;
                     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; //angle calculation
 
@@ -192,12 +208,7 @@ public class WaveSpawner : MonoBehaviour
                     }
 
                     //correct ship rotation
-                    ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
-                    //animation play at random delay for every ship
-                    var shipAnim = ship.GetComponent<Animator>();
-                    var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                    float randomOffset = UnityEngine.Random.Range(0f, 1f);
-                    shipAnimator.Play("Idle", -1, randomOffset);
+                    //ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
                 });
             }
         }

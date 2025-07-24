@@ -6,7 +6,7 @@ public class EndlessTerrain : MonoBehaviour
 {
     const float scale = 1f;
 
-    const float viewerMoveThresholdForChunkUpdate = 5f;
+    const float viewerMoveThresholdForChunkUpdate = 0.2f; //how often chunks update
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public static float maxViewDst;
@@ -30,6 +30,7 @@ public class EndlessTerrain : MonoBehaviour
         mapGenerator = FindFirstObjectByType<MapGenerator>();
         chunkSize = MapGenerator.mapChunkSize - 1;
         maxViewDst = chunkSize * viewDistanceChunks;
+        //mapGenerator.seed = Random.Range(0, 10000);//random seed for map at game start
         UpdateVisibleChunks();
     }
 
@@ -110,7 +111,8 @@ public class EndlessTerrain : MonoBehaviour
 
         public TerrainChunk(Vector2 coord, int size, Transform parent, Material material)
         {
-            Vector2 centerPosition = coord * size;
+            Vector2 offset = new Vector2(15f, 0f); //offset for chunk placement
+            Vector2 centerPosition = coord * size + offset;
             position = centerPosition - Vector2.one * size / 2f;
             bounds = new Rect(position, Vector2.one * size);
             Vector3 positionV3 = new Vector3(centerPosition.x, centerPosition.y, 0);
@@ -131,8 +133,8 @@ public class EndlessTerrain : MonoBehaviour
         {
             Texture2D texture = TextureGenerator.TextureFromColourMap(
                 mapData.colourMap,
-                mapGenerator.sampleResolution,
-                mapGenerator.sampleResolution
+                mapGenerator.mapChunkResolution,
+                mapGenerator.mapChunkResolution
             );
 
             chunkObject.GetComponent<MeshRenderer>().material.mainTexture = texture;

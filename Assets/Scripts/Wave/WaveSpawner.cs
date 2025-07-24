@@ -113,7 +113,7 @@ public class WaveSpawner : MonoBehaviour
                         var shipAnim = ship.GetComponent<Animator>();
                         var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
                         float randomOffset = UnityEngine.Random.Range(0f, 1f);
-                        shipAnimator.Play("Idle", -1, randomOffset);
+                        shipAnimator.Play("Idle", 0, randomOffset);
 
                     });
             }
@@ -197,7 +197,7 @@ public class WaveSpawner : MonoBehaviour
                     var shipAnim = ship.GetComponent<Animator>();
                     var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
                     float randomOffset = UnityEngine.Random.Range(0f, 1f);
-                    shipAnimator.Play("Idle", -1, randomOffset);
+                    shipAnimator.Play("Idle", 0, randomOffset);
                 });
             }
         }

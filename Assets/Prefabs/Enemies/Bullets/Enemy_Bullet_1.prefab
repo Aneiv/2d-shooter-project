@@ -167,3 +167,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shooter: {fileID: 0}
   damage: 10
+  SparksParticles: {fileID: 8996758778029759422, guid: 8c146d17aee90c64b996ef87a3732d74, type: 3}

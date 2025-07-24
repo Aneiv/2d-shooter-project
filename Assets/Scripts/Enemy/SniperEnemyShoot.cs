@@ -23,8 +23,10 @@ public class SniperEnemyShoot : MonoBehaviour, IEnemy
             if (timer <= 0f)
             {
                 var sniperCannon = cannon.GetComponent<SniperCannon>();
-                if (sniperCannon != null)
+                var followSprite = cannon.GetComponent<FollowSprite>();
+                if (sniperCannon != null && followSprite != null)
                 {
+                    followSprite.StartFollow();
                     sniperCannon.ReadyToShoot();
                 }
             }

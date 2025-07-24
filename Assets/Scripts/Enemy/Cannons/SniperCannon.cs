@@ -129,8 +129,8 @@ public class SniperCannon : MonoBehaviour
         hurtfulRay.enabled = true;
 
         // particles
-        Quaternion rot = Quaternion.LookRotation(firePoint.up);
-        currentHurtfulRayParticle = Instantiate(hurtfulRayParticle, firePoint.position, rot);
+        Quaternion particleDirection = Quaternion.LookRotation(firePoint.up);
+        currentHurtfulRayParticle = Instantiate(hurtfulRayParticle, firePoint.position, particleDirection);
         currentHurtfulRayParticle.Play();
 
         RaycastHit2D[] hitsInfoShoot = Physics2D.RaycastAll(firePoint.position, firePoint.up, 100f);

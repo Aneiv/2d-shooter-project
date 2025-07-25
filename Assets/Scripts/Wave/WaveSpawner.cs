@@ -98,8 +98,8 @@ public class WaveSpawner : MonoBehaviour
                 //idle animation play at random delay for every ship
                 var shipAnim = ship.GetComponent<Animator>();
                 var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                float randomOffset = UnityEngine.Random.Range(0f, 1f);
-                shipAnimator.Play("Idle", -1, randomOffset);
+                float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+                shipAnimator.Play("Idle", 0, randomOffset);//layer 0
 
                 float rowHeight = 1.0f;
                 //bounds - ingame units
@@ -172,8 +172,8 @@ public class WaveSpawner : MonoBehaviour
                 //idle animation play at random delay for every ship
                 var shipAnim = ship.GetComponent<Animator>();
                 var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                float randomOffset = UnityEngine.Random.Range(0f, 1f);
-                shipAnimator.Play("Idle", -1, randomOffset);
+                float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+                shipAnimator.Play("Idle", 0, randomOffset);//layer 0
 
                 //movement animation start
                 DOVirtual.Float(0f, 1f, animationDurations[1], (t) =>

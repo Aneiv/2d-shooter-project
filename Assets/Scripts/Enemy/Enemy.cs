@@ -8,11 +8,16 @@ public class Enemy : MonoBehaviour, IHealth
     public EnemyHealthBar healthBar;
     public GameObject rootEnemy;
     bool enemyKilled = false;
+
+    private Animator animator;
+    public Animator[] aditionalAnimators;
     void Start()
     {
         waveManager = GameObject.FindGameObjectWithTag("GameController");
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
+
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -28,6 +33,12 @@ public class Enemy : MonoBehaviour, IHealth
         {
             currentHp -= damage;
             healthBar.SetHealth(currentHp);
+            animator.SetTrigger("DamageReceived");
+
+            foreach (var anim in aditionalAnimators)
+            {
+                anim.SetTrigger("DamageReceived");
+            }
         }
         else
         {

@@ -1102,9 +1102,9 @@ MonoBehaviour:
   enemiesPrefabs:
   - {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
   - {fileID: 4316515314491063179, guid: 3a10adef972b62946bc9c13dd792c8ac, type: 3}
-  - {fileID: 8169252472499318893, guid: 35cc083ba05d1534e9e547ce1d474e99, type: 3}
-  - {fileID: 7653356360152750695, guid: 757e0d1be72a7ea4d9ba93bc6f039f73, type: 3}
   - {fileID: 2102054461218818203, guid: e9b149e7f475d1147886a6bd14f687c0, type: 3}
+  - {fileID: 7653356360152750695, guid: 757e0d1be72a7ea4d9ba93bc6f039f73, type: 3}
+  - {fileID: 8169252472499318893, guid: 35cc083ba05d1534e9e547ce1d474e99, type: 3}
   - {fileID: 8215846245311387850, guid: 051ef888e9b42284d9631330bfe5d009, type: 3}
   nextWaveTimeDelay: 2
   animationDurations:

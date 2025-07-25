@@ -12,6 +12,9 @@ public class BulletCollisionDetection : MonoBehaviour
     private string shooterTag;
     public int damage;
 
+    public ParticleSystem SparksParticles;
+    private ParticleSystem currentSparksParticles;
+
     // runs before Start()
     public void Init(GameObject shooter)
     {
@@ -59,6 +62,12 @@ public class BulletCollisionDetection : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
+                Quaternion particleDirection = Quaternion.LookRotation(-transform.right);
+                Vector3 offset = transform.right * 0.2f;
+                currentSparksParticles = Instantiate(SparksParticles, transform.position + offset, particleDirection);
+                currentSparksParticles.Play();
+
+                Destroy(currentSparksParticles.gameObject, 0.5f);
                 //Debug.Log("LOG Bullet hit Basic_Enemy");
                 Destroy(gameObject);
                 enemy.TakeDamage(damage);

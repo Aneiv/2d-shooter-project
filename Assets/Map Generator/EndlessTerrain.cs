@@ -10,30 +10,30 @@ public class EndlessTerrain : MonoBehaviour
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public static float maxViewDst;
+    public float scrollSpeed;
 
     //public Transform viewer;
     public Material tileMaterial;
-    public int viewDistanceChunks = 3;
-    public float scrollSpeed;
+    //public int viewDistanceChunks = 3;
+    [Header("Chunk render distance")]
+    public int viewDistanceChunksX = 1;
+    public int viewDistanceChunksY = 3;
+    
     public static Vector2 viewerPosition;
     Vector2 viewerPositionOld;
     static MapGenerator mapGenerator;
     int chunkSize;
     Vector3 worldOffset;//center of screen
 
-    Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();
+    Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();//dictionary of all chunks on map
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
-
-    //[Header("Objects spawn settings")]
-    //public GameObject[] objectsPrefabs;
-    //public float[] objectSpawnChances;
     public List<ObjectSpawner> objectsSpawner;
 
     void Start()
     {
         mapGenerator = FindFirstObjectByType<MapGenerator>();
         chunkSize = MapGenerator.mapChunkSize - 1;
-        maxViewDst = chunkSize * viewDistanceChunks;
+        maxViewDst = chunkSize * viewDistanceChunksY;
         //mapGenerator.seed = Random.Range(0, 10000);//random seed for map at game start
         UpdateVisibleChunks();
     }
@@ -42,9 +42,8 @@ public class EndlessTerrain : MonoBehaviour
     {
         Vector3 scroll = Vector2.down * scrollSpeed * Time.deltaTime;
         worldOffset -= scroll;
-        //Debug.Log(worldOffset);
-        viewerPosition = worldOffset; //new Vector2(viewer.position.x, viewer.position.y) / scale;
-
+        Vector3 offsetAhead = Vector2.down * -10f; //Y-offset to make chunks spawn faster in fromt of player and disapper faster behind
+        viewerPosition = worldOffset + offsetAhead;
         if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
             viewerPositionOld = viewerPosition;
@@ -53,7 +52,8 @@ public class EndlessTerrain : MonoBehaviour
         //move chunks
         foreach (var chunk in terrainChunkDictionary.Values)
         {
-            chunk.UpdatePositionRelativeToViewer(worldOffset);
+            if (chunk.IsVisible())
+                chunk.UpdatePositionRelativeToViewer(worldOffset);
         }
     }
 
@@ -73,9 +73,9 @@ public class EndlessTerrain : MonoBehaviour
         //visible chunks
         HashSet<Vector2> currentlyVisibleCoords = new HashSet<Vector2>();
 
-        for (int yOffset = -viewDistanceChunks; yOffset <= viewDistanceChunks; yOffset++)
+        for (int yOffset = -viewDistanceChunksY; yOffset <= viewDistanceChunksY; yOffset++)
         {
-            for (int xOffset = -viewDistanceChunks; xOffset <= viewDistanceChunks; xOffset++)
+            for (int xOffset = -viewDistanceChunksX; xOffset <= viewDistanceChunksX; xOffset++)
             {
                 Vector2 viewedChunkCoord = new Vector2(currentChunkCoordX + xOffset, currentChunkCoordY + yOffset);
                 currentlyVisibleCoords.Add(viewedChunkCoord);
@@ -117,7 +117,7 @@ public class EndlessTerrain : MonoBehaviour
         public TerrainChunk(Vector2 coord, int size, Transform parent, Material material, List<ObjectSpawner> objectSpawner)
         {
             this.objectSpawner = objectSpawner;
-            Vector2 offset = new Vector2(15f, 0f); //offset for chunk placement
+            Vector2 offset = new Vector2(size/2, 0f); //offset for chunk placement
             Vector2 centerPosition = coord * size + offset;
             position = centerPosition - Vector2.one * size / 2f;
             bounds = new Rect(position, Vector2.one * size);
@@ -137,6 +137,8 @@ public class EndlessTerrain : MonoBehaviour
 
         void OnMapDataReceived(MapData mapData)
         {
+            if (chunkObject == null) return;
+
             Texture2D texture = TextureGenerator.TextureFromColourMap(
                 mapData.colourMap,
                 mapGenerator.mapChunkResolution,
@@ -157,7 +159,6 @@ public class EndlessTerrain : MonoBehaviour
                     for (int i = 0; i < objectSpawner.Count; i++)
                     {
                         //on certain tile
-                        //if (tileColor == objectSpawner[i].colour && Random.value < objectSpawner[i].objectSpawnChance) // chance to spawn
                         if (ChechColorSimilarity(tileColor, objectSpawner[i].colours) && Random.value < objectSpawner[i].objectSpawnChance) // chance to spawn
                         {
                             //scale and spawn on right place

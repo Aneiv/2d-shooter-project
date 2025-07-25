@@ -577,6 +577,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MapGeneratorManager
       objectReference: {fileID: 0}
+    - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
+      propertyPath: viewDistanceChunksX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
+      propertyPath: viewDistanceChunksY
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

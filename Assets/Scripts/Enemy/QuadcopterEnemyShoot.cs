@@ -21,7 +21,7 @@ public class QuadcopterEnemyShoot : MonoBehaviour, IEnemy
     public float checkInterval = 3f;    // checking chance delay
 
     private int numberOfBulletInBurst;
-
+    private GameObject bulletsContainer;
     private Transform thisEnemyTransform;
     private Vector2 bulletPosition;
     //public Transform barrelTransform; //barrel transform
@@ -31,6 +31,7 @@ public class QuadcopterEnemyShoot : MonoBehaviour, IEnemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bulletsContainer = GameObject.Find("BulletsContainer");
         thisEnemyTransform = GetComponent<Transform>();
         //different spawn chance and burst for enemies to make diverse shooting style of same enemy type
         bulletSpawnChance = Random.Range(minSpawnChance, maxSpawnChance);
@@ -81,6 +82,7 @@ public class QuadcopterEnemyShoot : MonoBehaviour, IEnemy
             Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
             GameObject Bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
+            Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
             // set owner of bullet
             Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 

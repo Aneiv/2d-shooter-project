@@ -135,8 +135,7 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7931500397356056013, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4935836637643920760, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
@@ -168,9 +167,10 @@ MonoBehaviour:
   bulletSpawnDelay: 0.2
   minSpawnChance: 0.15
   maxSpawnChance: 0.3
+  minNumberOfBulletInBurst: 2
+  maxNumberOfBulletInBurst: 5
   bulletSpeed: 3
   checkInterval: 3
-  numberOfBulletInBurst: 3
   firePointLeft: {fileID: 8640285690083568648}
   firePointRight: {fileID: 4777028093688158589}
 --- !u!4 &4777028093688158589 stripped

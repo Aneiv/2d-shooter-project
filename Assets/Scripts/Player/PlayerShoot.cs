@@ -18,7 +18,7 @@ public class PlayerShoot : MonoBehaviour
     private Transform thisPlayerTransform;
     public Transform firePoint_LBig;
     public Transform firePoint_RBig;
-
+    private GameObject bulletsContainer;
     public Transform firePoint_LSmall;
     public Transform firePoint_RSmall;
 
@@ -30,6 +30,7 @@ public class PlayerShoot : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bulletsContainer = GameObject.Find("BulletsContainer");
         thisPlayerTransform = GetComponent<Transform>();
     }
 
@@ -67,6 +68,7 @@ public class PlayerShoot : MonoBehaviour
         shootLeft = !shootLeft;
 
         GameObject BulletBig = Instantiate(PlayerBulletBig, firePointBig.position, firePointBig.rotation);
+        BulletBig.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         bulletCounter++;
         
         // set owner of bullet
@@ -79,11 +81,13 @@ public class PlayerShoot : MonoBehaviour
         {
             bulletCounter = 0;
             GameObject BulletSmall_Left = Instantiate(PlayerBulletSmall, firePoint_LSmall.position, firePoint_LSmall.rotation);
+            BulletSmall_Left.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
             BulletSmall_Left.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
             Rigidbody2D rb_Small_Left = BulletSmall_Left.GetComponent<Rigidbody2D>();
             rb_Small_Left.linearVelocity = direction.normalized * bulletSpeed;
 
             GameObject BulletSmall_Right = Instantiate(PlayerBulletSmall, firePoint_RSmall.position, firePoint_RSmall.rotation);
+            BulletSmall_Right.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
             BulletSmall_Right.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
             Rigidbody2D rb_Small_Right = BulletSmall_Right.GetComponent<Rigidbody2D>();
             rb_Small_Right.linearVelocity = direction.normalized * bulletSpeed;

@@ -21,10 +21,11 @@ public class RocketLauncher : MonoBehaviour
 
     public float rotationAngleOfReloading = -90f;
     public float rotationAngleOfReadyToShot = 60f;
+    private GameObject bulletsContainer;
 
-    
     void Start()
     {
+        bulletsContainer = GameObject.Find("BulletsContainer");
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null)
         {
@@ -96,6 +97,7 @@ public class RocketLauncher : MonoBehaviour
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
 
         GameObject Bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
+        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
         Bullet.GetComponent<LightRocketBulletCollision>().Init(this.gameObject);
 

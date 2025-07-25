@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 156006258083994203}
   - component: {fileID: 59426713350393809}
   - component: {fileID: 3311269423818896415}
-  - component: {fileID: 7931500397356056013}
   - component: {fileID: 1903036097251743969}
   - component: {fileID: 7201754818127808976}
   m_Layer: 0
@@ -163,27 +162,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.33, y: 0.28}
   m_EdgeRadius: 0
---- !u!114 &7931500397356056013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1752408685558560256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fee18879d230eeb4c9d14db3859bfc69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
-  bulletSpawnDelay: 1
-  minSpawnChance: 0.4
-  maxSpawnChance: 0.5
-  minSpawnDelay: 2
-  maxSpawnDelay: 4
-  bulletSpeed: 3
-  checkInterval: 1
-  firePoint: {fileID: 6447288022928259364}
 --- !u!50 &1903036097251743969
 Rigidbody2D:
   serializedVersion: 5
@@ -227,6 +205,7 @@ MonoBehaviour:
   waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
   healthBar: {fileID: 2109721598917302659}
   rootEnemy: {fileID: 2365903002932943826}
+  aditionalAnimators: []
 --- !u!1 &2365903002932943826
 GameObject:
   m_ObjectHideFlags: 0

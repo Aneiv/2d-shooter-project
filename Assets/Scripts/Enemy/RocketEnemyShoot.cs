@@ -21,7 +21,7 @@ public class RocketEnemyShoot : MonoBehaviour, IEnemy
     private bool waiting = true;
     private float checkTimer = 0f;
     public float checkInterval = 0.5f;    // checking chance delay
-
+    private GameObject bulletsContainer;
     private Transform thisEnemyTransform;
     private Vector2 bulletPosition;
     public Transform barrelTransform; //barrel transform
@@ -32,6 +32,7 @@ public class RocketEnemyShoot : MonoBehaviour, IEnemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bulletsContainer = GameObject.Find("BulletsContainer");
         thisEnemyTransform = GetComponent<Transform>();
         //different spawn chance and delay for enemies to make diverse shooting style of same enemy type
         bulletSpawnChance = Random.Range(minSpawnChance, maxSpawnChance);
@@ -81,6 +82,7 @@ public class RocketEnemyShoot : MonoBehaviour, IEnemy
         bulletPosition.x = barrelTransform.position.x;
 
         GameObject Bullet = Instantiate(enemyBullet, bulletPosition, thisEnemyTransform.rotation);
+        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
         Bullet.GetComponent<RocketBulletCollision>().Init(this.gameObject);
 

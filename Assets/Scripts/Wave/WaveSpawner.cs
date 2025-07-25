@@ -21,7 +21,7 @@ public class WaveSpawner : MonoBehaviour
     public int shipRowsMax;
     public int shipPerRowMinAmount;
     public int shipPerRowMaxAmount;
-
+    public GameObject enemiesContainer;
     //Screen size
     private Vector3 bottomLeft;
     private Vector3 topRight;
@@ -92,6 +92,7 @@ public class WaveSpawner : MonoBehaviour
 
                 //create ship instance and set position
                 GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], spawnPos, Quaternion.identity);
+                ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
 
@@ -165,7 +166,7 @@ public class WaveSpawner : MonoBehaviour
 
                 //ship instance creation
                 GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], start, Quaternion.identity);
-
+                ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
 

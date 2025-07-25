@@ -19,7 +19,7 @@ public class DoubleBarrelEnemyShoot : MonoBehaviour, IEnemy
     private bool waiting = true;
     private float checkTimer = 0f;
     public float checkInterval = 3f;    // checking chance delay
-
+    private GameObject bulletsContainer;
     private int numberOfBulletInBurst;
     private bool shootLeft = true;
 
@@ -31,6 +31,7 @@ public class DoubleBarrelEnemyShoot : MonoBehaviour, IEnemy
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        bulletsContainer = GameObject.Find("BulletsContainer");
         thisEnemyTransform = GetComponent<Transform>();
         //different spawn chance and burst for enemies to make diverse shooting style of same enemy type
         bulletSpawnChance = Random.Range(minSpawnChance, maxSpawnChance);
@@ -76,6 +77,7 @@ public class DoubleBarrelEnemyShoot : MonoBehaviour, IEnemy
         shootLeft = !shootLeft;
         
         GameObject Bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
+        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
         Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 

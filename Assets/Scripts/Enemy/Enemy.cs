@@ -33,6 +33,8 @@ public class Enemy : MonoBehaviour, IHealth
         {
             currentHp -= damage;
             healthBar.SetHealth(currentHp);
+
+            Debug.Log("Animation DamageReceived");
             animator.SetTrigger("DamageReceived");
 
             foreach (var anim in aditionalAnimators)

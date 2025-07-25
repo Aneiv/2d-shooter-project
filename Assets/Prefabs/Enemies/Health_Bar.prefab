@@ -315,8 +315,8 @@ MonoBehaviour:
     m_NumAlphaKeys: 2
   fillHealth: {fileID: 172382826355382960}
   HealthBarUI: {fileID: 4595024234318745740}
-  comboDropSpeed: 50
-  comboDuration: 1.5
+  comboDropSpeed: 125
+  comboDuration: 0.5
   showUIDuration: 3
   hideUISpeed: 2
 --- !u!225 &4595024234318745740

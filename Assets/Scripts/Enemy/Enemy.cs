@@ -11,6 +11,11 @@ public class Enemy : MonoBehaviour, IHealth
 
     private Animator animator;
     public Animator[] aditionalAnimators;
+
+    public ParticleSystem explosionParticles;
+    public ParticleSystem fragParticles;
+    public float particleScale = 1.0f;
+    private Vector3 vectorParticleStartScale=new Vector3(0.4f, 0.4f, 0.4f);
     void Start()
     {
         waveManager = GameObject.FindGameObjectWithTag("GameController");
@@ -34,13 +39,7 @@ public class Enemy : MonoBehaviour, IHealth
             currentHp -= damage;
             healthBar.SetHealth(currentHp);
 
-            Debug.Log("Animation DamageReceived");
-            animator.SetTrigger("DamageReceived");
-
-            foreach (var anim in aditionalAnimators)
-            {
-                anim.SetTrigger("DamageReceived");
-            }
+            HitFlashAnim();
         }
         else
         {
@@ -52,10 +51,35 @@ public class Enemy : MonoBehaviour, IHealth
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {
+            ExplosionParticles();
+
             var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
             destroyTrigger.EnemyKilled();
             enemyKilled = true;
             Destroy(rootEnemy);
         }
+    }
+
+    private void HitFlashAnim()
+    {
+        animator.SetTrigger("DamageReceived");
+
+        foreach (var anim in aditionalAnimators)
+        {
+            anim.SetTrigger("DamageReceived");
+        }
+    }
+
+    private void ExplosionParticles()
+    {
+        ParticleSystem explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);
+        explosion.transform.localScale = vectorParticleStartScale * particleScale;
+        explosion.Play();
+        Destroy(explosion.gameObject, 0.5f);
+
+        ParticleSystem frag = Instantiate(fragParticles, transform.position, Quaternion.identity);
+        frag.transform.localScale = vectorParticleStartScale * particleScale;
+        frag.Play();
+        Destroy(frag.gameObject, 1f);
     }
 }

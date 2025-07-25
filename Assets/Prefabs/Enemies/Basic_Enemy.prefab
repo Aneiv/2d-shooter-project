@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3311269423818896415}
   - component: {fileID: 1903036097251743969}
   - component: {fileID: 7201754818127808976}
+  - component: {fileID: 6774383977169308499}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: Enemy
@@ -206,6 +207,29 @@ MonoBehaviour:
   healthBar: {fileID: 2109721598917302659}
   rootEnemy: {fileID: 2365903002932943826}
   aditionalAnimators: []
+  explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
+  fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
+--- !u!114 &6774383977169308499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752408685558560256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fee18879d230eeb4c9d14db3859bfc69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
+  bulletSpawnDelay: 0.2
+  minSpawnChance: 0.15
+  maxSpawnChance: 0.3
+  minSpawnDelay: 2
+  maxSpawnDelay: 5
+  bulletSpeed: 3
+  checkInterval: 1.5
+  firePoint: {fileID: 6447288022928259364}
 --- !u!1 &2365903002932943826
 GameObject:
   m_ObjectHideFlags: 0

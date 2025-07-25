@@ -331,6 +331,9 @@ MonoBehaviour:
   - {fileID: 511101951011357631}
   - {fileID: 5131427704152924764}
   - {fileID: 8782933419421617180}
+  explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
+  fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
+  particleScale: 1.2
 --- !u!95 &6519496198645813286
 Animator:
   serializedVersion: 7

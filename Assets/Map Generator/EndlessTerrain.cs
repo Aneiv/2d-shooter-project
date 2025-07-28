@@ -38,7 +38,7 @@ public class EndlessTerrain : MonoBehaviour
         UpdateVisibleChunks();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Vector3 scroll = Vector2.down * scrollSpeed * Time.deltaTime;
         worldOffset -= scroll;

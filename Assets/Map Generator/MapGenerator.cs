@@ -96,7 +96,7 @@ public class MapGenerator : MonoBehaviour
         }
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (mapDataThreadInfoQueue.Count > 0)
         {

@@ -229,9 +229,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340da7fa0d06d9e4bbb003e2f5a653cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMaterial: {fileID: 2100000, guid: 6a55f69173eab0d43b7c4d7a8eabe5ca, type: 2}
-  viewDistanceChunks: 1
   scrollSpeed: 1
+  tileMaterial: {fileID: 2100000, guid: 6a55f69173eab0d43b7c4d7a8eabe5ca, type: 2}
+  viewDistanceChunksX: 0
+  viewDistanceChunksY: 1
   objectsSpawner:
   - obejectPrefab: {fileID: 6498806104019520751, guid: e642f08507178c54cb2032c6fd0adb9b, type: 3}
     objectSpawnChance: 0.005

@@ -6,18 +6,22 @@ public class Player : MonoBehaviour, IHealth
     public int maxHp = 80;
     private int currentScore = 0;
     private int currentHp;
+    private int currentNumberOfCoins = 0;
     private Animator playerAnimator;
 
     public GameObject GameOverUI;
     public GameObject gameUI;
     public PlayerHealthBar healthBar;
-    public TMP_Text scoreText;
+    public TMP_Text totalScoreText;
+    public TMP_Text totalCoinsTextUI;
+    public TMP_Text totalCoinsTextPause;
+    public GameObject coinUI;
     void Start()
     {
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
         playerAnimator = GetComponent<Animator>();
-        scoreText.text = currentScore.ToString();
+        totalScoreText.text = currentScore.ToString();
     }
     public void TakeDamage(int damage)
     {
@@ -48,7 +52,18 @@ public class Player : MonoBehaviour, IHealth
     public void AddToScore(int score)
     {
         currentScore += score;
-        scoreText.text = currentScore.ToString();
+        totalScoreText.text = currentScore.ToString();
     }
 
+    public void AddToCoins(int coinsNumber)
+    {
+        currentNumberOfCoins += coinsNumber;
+        totalCoinsTextUI.text = currentNumberOfCoins.ToString();
+        totalCoinsTextPause.text = currentNumberOfCoins.ToString();
+        CoinTextUI coinTextUI = coinUI.GetComponent<CoinTextUI>();
+        if (coinTextUI != null) {
+            coinTextUI.showCoins();
+        }
+
+    }
 }

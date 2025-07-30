@@ -70,7 +70,7 @@ public class BulletCollisionDetection : MonoBehaviour
                 Destroy(currentSparksParticles.gameObject, 0.5f);
                 //Debug.Log("LOG Bullet hit Basic_Enemy");
                 Destroy(gameObject);
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, shooter);
             }
         }
     }

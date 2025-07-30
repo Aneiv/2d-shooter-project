@@ -1,19 +1,23 @@
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour, IHealth
 {
     public int maxHp = 80;
+    private int currentScore = 0;
     private int currentHp;
     private Animator playerAnimator;
 
     public GameObject GameOverUI;
     public GameObject gameUI;
     public PlayerHealthBar healthBar;
+    public TMP_Text scoreText;
     void Start()
     {
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
         playerAnimator = GetComponent<Animator>();
+        scoreText.text = currentScore.ToString();
     }
     public void TakeDamage(int damage)
     {
@@ -40,4 +44,11 @@ public class Player : MonoBehaviour, IHealth
 
         Destroy(gameObject);
     }
+
+    public void AddToScore(int score)
+    {
+        currentScore += score;
+        scoreText.text = currentScore.ToString();
+    }
+
 }

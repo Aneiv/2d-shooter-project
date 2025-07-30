@@ -1,8 +1,9 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IHealth
+public class Enemy : MonoBehaviour, IHealthEnemy
 {
     public int maxHp = 50;
+    public int scoreReward = 10;
     private int currentHp;
     public GameObject waveManager;
     public EnemyHealthBar healthBar;
@@ -31,7 +32,7 @@ public class Enemy : MonoBehaviour, IHealth
 
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, GameObject attacker)
     {
         //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
         if (currentHp - damage > 0)
@@ -43,14 +44,21 @@ public class Enemy : MonoBehaviour, IHealth
         }
         else
         {
-            Die();
+            Die(attacker);
         }
     }
-    public void Die()
+    public void Die(GameObject attacker)
     {
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {
+            // score reward
+            Player player = attacker.GetComponent<Player>();
+            if (player != null)
+            {
+                player.AddToScore(scoreReward);
+            }
+
             ExplosionParticles();
 
             var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();

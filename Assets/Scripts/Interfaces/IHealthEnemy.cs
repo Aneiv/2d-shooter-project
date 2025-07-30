@@ -5,9 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public interface IHealth
+
+public interface IHealthEnemy
 {
-    void TakeDamage(int damage);
-    void Die();
+    void TakeDamage(int damage, GameObject attacker);
+    void Die(GameObject attacker);
 }
 

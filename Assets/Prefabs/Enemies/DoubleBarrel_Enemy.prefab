@@ -127,6 +127,10 @@ PrefabInstance:
       propertyPath: maxHp
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 7201754818127808976, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
+      propertyPath: scoreReward
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7301902041281001110, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

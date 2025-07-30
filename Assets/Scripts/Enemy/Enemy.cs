@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Enemy : MonoBehaviour, IHealthEnemy
 {
@@ -17,6 +18,8 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     public ParticleSystem fragParticles;
     public float particleScale = 1.0f;
     private Vector3 vectorParticleStartScale=new Vector3(0.4f, 0.4f, 0.4f);
+
+    public GameObject scoreRewardPrefab;
     void Start()
     {
         waveManager = GameObject.FindGameObjectWithTag("GameController");
@@ -57,6 +60,12 @@ public class Enemy : MonoBehaviour, IHealthEnemy
             if (player != null)
             {
                 player.AddToScore(scoreReward);
+            }
+            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+            if (srAnim != null)
+            {
+                srAnim.SetText("+"+scoreReward.ToString());
             }
 
             ExplosionParticles();

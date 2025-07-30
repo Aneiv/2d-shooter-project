@@ -213,6 +213,7 @@ MonoBehaviour:
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
   particleScale: 1
+  scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
 --- !u!114 &8157663866430986762
 MonoBehaviour:
   m_ObjectHideFlags: 0

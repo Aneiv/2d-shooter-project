@@ -37,7 +37,7 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -2614495581696350283}
-    m_Position: {x: 330, y: 0, z: 0}
+    m_Position: {x: 370, y: 0, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4154974648850695562}
     m_Position: {x: 320, y: 110, z: 0}
@@ -89,6 +89,12 @@ AnimatorController:
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: DamageReceived
+    m_Type: 9
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: OnDie
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0

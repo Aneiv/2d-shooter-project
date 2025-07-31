@@ -52,7 +52,7 @@ public class Player : MonoBehaviour, IHealth
 
     public void AddToScore(int score)
     {
-        DisplayNumberAnimation(totalScoreText, currentScore, currentScore += score, 0.6f);
+        DisplayNumberAnimation(totalScoreText, currentScore, currentScore + score, 0.6f);
         currentScore += score;
         totalScoreText.text = currentScore.ToString(); //update score value
     }
@@ -63,7 +63,7 @@ public class Player : MonoBehaviour, IHealth
         if (coinTextUI != null)
         {
             coinTextUI.showCoins();
-            DisplayNumberAnimation(totalCoinsTextUI, currentNumberOfCoins, currentNumberOfCoins += coinsNumber, 0.2f);
+            DisplayNumberAnimation(totalCoinsTextUI, currentNumberOfCoins, currentNumberOfCoins + coinsNumber, 0.2f);
         }
         currentNumberOfCoins += coinsNumber;
         totalCoinsTextUI.text = currentNumberOfCoins.ToString();//update score value

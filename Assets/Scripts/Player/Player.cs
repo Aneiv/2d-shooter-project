@@ -1,3 +1,4 @@
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -52,18 +53,31 @@ public class Player : MonoBehaviour, IHealth
     public void AddToScore(int score)
     {
         currentScore += score;
-        totalScoreText.text = currentScore.ToString();
+        totalScoreText.text = currentScore.ToString(); //update score value
+        DisplayNumberAnimation(totalScoreText, currentScore, currentScore += score, 0.6f);
     }
 
     public void AddToCoins(int coinsNumber)
     {
         currentNumberOfCoins += coinsNumber;
-        totalCoinsTextUI.text = currentNumberOfCoins.ToString();
-        totalCoinsTextPause.text = currentNumberOfCoins.ToString();
+        totalCoinsTextUI.text = currentNumberOfCoins.ToString();//update score value
+        totalCoinsTextPause.text = currentNumberOfCoins.ToString();//update score value
         CoinTextUI coinTextUI = coinUI.GetComponent<CoinTextUI>();
-        if (coinTextUI != null) {
+        if (coinTextUI != null)
+        {
             coinTextUI.showCoins();
+            DisplayNumberAnimation(totalCoinsTextUI, currentNumberOfCoins, currentNumberOfCoins += coinsNumber, 0.2f);
         }
+    }
 
+    public void DisplayNumberAnimation(TMP_Text numberText, int currentScore, int targetScore, float animationPace)
+    {
+        numberText.text = currentScore.ToString(); //make display old value on UI to simulate animation for value increase
+        DOVirtual.Int(currentScore, targetScore, animationPace, (x) =>
+        {
+            currentScore = x;
+            numberText.text = currentScore.ToString();
+        })
+        .SetEase(Ease.Linear);
     }
 }

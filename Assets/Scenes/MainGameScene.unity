@@ -789,6 +789,10 @@ PrefabInstance:
       value: MapGeneratorManager
       objectReference: {fileID: 0}
     - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
+      propertyPath: chunksPoolSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
       propertyPath: viewDistanceChunksX
       value: 0
       objectReference: {fileID: 0}
@@ -796,6 +800,14 @@ PrefabInstance:
       propertyPath: viewDistanceChunksY
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
+      propertyPath: objectsSpawner.Array.data[0].objectPrefab
+      value: 
+      objectReference: {fileID: 6498806104019520751, guid: e642f08507178c54cb2032c6fd0adb9b, type: 3}
+    - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
+      propertyPath: objectsSpawner.Array.data[1].objectPrefab
+      value: 
+      objectReference: {fileID: 2554775441609789230, guid: 39d33636c9871564e94914cb14c88312, type: 3}
     - target: {fileID: 7680389049177955420, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
       propertyPath: objectsSpawner.Array.data[0].objectSpawnChance
       value: 0.1
@@ -3917,6 +3929,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
+      propertyPath: maxHp
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: coinUI
       value: 

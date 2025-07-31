@@ -19,8 +19,10 @@ public class EndlessTerrain : MonoBehaviour
     static MapGenerator mapGenerator;
     int chunkSize;
     Vector3 worldOffset;//center of screen
+    private Vector3 offsetAhead = Vector2.down * -10f; //Y-offset to make chunks spawn faster in fromt of player and disapper faster behind
 
-    Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();//dictionary of all chunks on map
+
+    public Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();//dictionary of all chunks on map
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
     public List<ObjectSpawner> objectsSpawner;
     Queue<TerrainChunk> chunkPool = new Queue<TerrainChunk>(); //queue for TerrainChunk pool
@@ -39,7 +41,6 @@ public class EndlessTerrain : MonoBehaviour
     {
         Vector3 scroll = Vector2.down * scrollSpeed * Time.deltaTime;
         worldOffset -= scroll;
-        Vector3 offsetAhead = Vector2.down * -10f; //Y-offset to make chunks spawn faster in fromt of player and disapper faster behind
         viewerPosition = worldOffset + offsetAhead;
         if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
@@ -51,6 +52,34 @@ public class EndlessTerrain : MonoBehaviour
         {
             if (chunk.IsVisible())
                 chunk.UpdatePositionRelativeToViewer(worldOffset);
+        }
+    }
+    //get chunk on which 'prefab' object is placed (its parent)
+    public TerrainChunk GetCurrentChunkByChild(GameObject prefab)
+    {
+        Vector2 chunkVector = ParseVector2FromString(prefab.transform.parent.name);
+        terrainChunkDictionary.TryGetValue(chunkVector, out TerrainChunk chunk);
+        return chunk;
+    }
+    //parse chunk name to vector2 from string
+    public static Vector2 ParseVector2FromString(string s)
+    {
+        string[] parts = s.Split('|');
+
+        if (parts.Length != 2)
+        {
+            Debug.LogError("cant format to Vector2: " + s);
+            return Vector2.zero;
+        }
+
+        if (float.TryParse(parts[0], out float x) && float.TryParse(parts[1], out float y))
+        {
+            return new Vector2(x, y);
+        }
+        else
+        {
+            Debug.LogError("cant parse: " + s);
+            return Vector2.zero;
         }
     }
     //update chunks (spawn, activate, chunk pool control)
@@ -130,7 +159,7 @@ public class EndlessTerrain : MonoBehaviour
             bounds = new Rect(position, Vector2.one * size);
             Vector3 positionV3 = new Vector3(centerPosition.x, centerPosition.y, 0);
             chunkObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
-            chunkObject.name = $"Chunk {coord.x}, {coord.y}";
+            chunkObject.name = $"{coord.x}|{coord.y}";
             chunkObject.transform.position = positionV3;
             chunkObject.transform.rotation = Quaternion.identity;
             chunkObject.transform.localScale = new Vector3(size, size, 1f);
@@ -230,6 +259,29 @@ public class EndlessTerrain : MonoBehaviour
                 }
             }
         }
+        //used to add collected (e.g. money) objects to pool
+        public void AddObjectToQueue(GameObject prefab)
+        {
+            //change object active state
+            prefab.SetActive(false);
+
+            //spawner searching
+            foreach (var spawner in objectSpawner)
+            {
+                if (prefab.name.Contains(spawner.objectPrefab.name))
+                {
+                    if (!localObjectPools.ContainsKey(spawner.objectPrefab))
+                    {
+                        localObjectPools[spawner.objectPrefab] = new Queue<GameObject>();
+                    }
+
+                    //add object to queue
+                    localObjectPools[spawner.objectPrefab].Enqueue(prefab);
+                    break;
+                }
+            }
+        }
+
         //color similarity check to place object on certain color tiles
         bool CheckColorSimilarity(Color a, Color[] b, float tolerance = 0.02f)
         {
@@ -308,7 +360,7 @@ public class EndlessTerrain : MonoBehaviour
             chunkObject.transform.position = new Vector3(centerPosition.x, centerPosition.y, 0);
             chunkObject.transform.localScale = new Vector3(size, size, 1f);
             chunkObject.transform.parent = parent;
-            chunkObject.name = $"Chunk {coord.x}, {coord.y}";
+            chunkObject.name = $"{coord.x}|{coord.y}";
 
             chunkObject.SetActive(true);
 

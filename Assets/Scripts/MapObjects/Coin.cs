@@ -1,11 +1,12 @@
 using UnityEngine;
+using static EndlessTerrain;
 
 public class Coin : MonoBehaviour
 {
     public int quantity = 5;
     void Start()
     {
-        
+
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -16,7 +17,16 @@ public class Coin : MonoBehaviour
             if (player != null)
             {
                 player.AddToCoins(quantity);
-                Destroy(gameObject);
+                //Add collected money to pool
+                Transform terrain = gameObject.transform.parent.parent;
+                var endlessTerrain = terrain.GetComponent<EndlessTerrain>();
+                //get correct chunk tile
+                TerrainChunk chunkTile = endlessTerrain.GetCurrentChunkByChild(gameObject);
+                //update queue in that chunk tile
+                if (chunkTile != null)
+                {
+                    chunkTile.AddObjectToQueue(gameObject);
+                }
             }
         }
     }

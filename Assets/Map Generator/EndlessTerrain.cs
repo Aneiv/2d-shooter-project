@@ -4,21 +4,16 @@ using UnityEngine.Windows;
 
 public class EndlessTerrain : MonoBehaviour
 {
-    const float scale = 1f;
-
-    const float viewerMoveThresholdForChunkUpdate = 0.2f; //how often chunks update
+    const float viewerMoveThresholdForChunkUpdate = 1f; //how often chunks update
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public static float maxViewDst;
     public float scrollSpeed;
-
-    //public Transform viewer;
     public Material tileMaterial;
-    //public int viewDistanceChunks = 3;
     [Header("Chunk render distance")]
-    public int viewDistanceChunksX = 1;
-    public int viewDistanceChunksY = 3;
-    
+    public int viewDistanceChunksX = 0;
+    public int viewDistanceChunksY = 1;
+
     public static Vector2 viewerPosition;
     Vector2 viewerPositionOld;
     static MapGenerator mapGenerator;
@@ -28,6 +23,7 @@ public class EndlessTerrain : MonoBehaviour
     Dictionary<Vector2, TerrainChunk> terrainChunkDictionary = new Dictionary<Vector2, TerrainChunk>();//dictionary of all chunks on map
     static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
     public List<ObjectSpawner> objectsSpawner;
+    Queue<TerrainChunk> chunkPool = new Queue<TerrainChunk>(); //queue for TerrainChunk pool
 
     void Start()
     {
@@ -35,6 +31,7 @@ public class EndlessTerrain : MonoBehaviour
         chunkSize = MapGenerator.mapChunkSize - 1;
         maxViewDst = chunkSize * viewDistanceChunksY;
         //mapGenerator.seed = Random.Range(0, 10000);//random seed for map at game start
+
         UpdateVisibleChunks();
     }
 
@@ -56,7 +53,7 @@ public class EndlessTerrain : MonoBehaviour
                 chunk.UpdatePositionRelativeToViewer(worldOffset);
         }
     }
-
+    //update chunks (spawn, activate, chunk pool control)
     void UpdateVisibleChunks()
     {
         foreach (var chunk in terrainChunksVisibleLastUpdate)
@@ -67,9 +64,6 @@ public class EndlessTerrain : MonoBehaviour
 
         int currentChunkCoordX = Mathf.RoundToInt(viewerPosition.x / chunkSize);
         int currentChunkCoordY = Mathf.RoundToInt(viewerPosition.y / chunkSize);
-        //Debug.DrawLine(Vector3.zero, new Vector3(viewerPosition.x, viewerPosition.y, 0), Color.red, 0.5f);
-        //Debug.Log($"Player pos: {viewerPosition}, chunk: ({currentChunkCoordX}, {currentChunkCoordY})");
-
         //visible chunks
         HashSet<Vector2> currentlyVisibleCoords = new HashSet<Vector2>();
 
@@ -86,27 +80,38 @@ public class EndlessTerrain : MonoBehaviour
                 }
                 else
                 {
-                    terrainChunkDictionary.Add(viewedChunkCoord, new TerrainChunk(viewedChunkCoord, chunkSize, transform, tileMaterial, objectsSpawner));
+                    TerrainChunk chunk;
+                    if (chunkPool.Count > 0) //check if there is free chunk in pool
+                    {
+                        chunk = chunkPool.Dequeue();
+                        chunk.Reuse(viewedChunkCoord, chunkSize, transform, tileMaterial, objectsSpawner);
+                    }
+                    else
+                    {
+                        chunk = new TerrainChunk(viewedChunkCoord, chunkSize, transform, tileMaterial, objectsSpawner);
+                    }
+                    terrainChunkDictionary.Add(viewedChunkCoord, chunk);
                 }
             }
         }
-        //delete not visible chunks
+        // enqueue not visible chunks
         List<Vector2> keysToRemove = new List<Vector2>();
         foreach (var kvp in terrainChunkDictionary)
         {
             if (!currentlyVisibleCoords.Contains(kvp.Key))
             {
-                kvp.Value.Destroy();
+                kvp.Value.Deactivate();
+                chunkPool.Enqueue(kvp.Value);//return to pool
                 keysToRemove.Add(kvp.Key);
             }
         }
-
         foreach (var key in keysToRemove)
         {
             terrainChunkDictionary.Remove(key);
         }
-    }
 
+    }
+    //Class for TerrainChunk gameObject
     public class TerrainChunk
     {
         GameObject chunkObject;
@@ -114,10 +119,12 @@ public class EndlessTerrain : MonoBehaviour
         Vector2 position;
         Rect bounds;
 
+        //dictionary for local(per chunk) pool with gameObjects to spawn on that chunk
+        private Dictionary<GameObject, Queue<GameObject>> localObjectPools = new Dictionary<GameObject, Queue<GameObject>>();
         public TerrainChunk(Vector2 coord, int size, Transform parent, Material material, List<ObjectSpawner> objectSpawner)
         {
             this.objectSpawner = objectSpawner;
-            Vector2 offset = new Vector2(size/2, 0f); //offset for chunk placement
+            Vector2 offset = new Vector2(size / 2, 0f);
             Vector2 centerPosition = coord * size + offset;
             position = centerPosition - Vector2.one * size / 2f;
             bounds = new Rect(position, Vector2.one * size);
@@ -125,8 +132,8 @@ public class EndlessTerrain : MonoBehaviour
             chunkObject = GameObject.CreatePrimitive(PrimitiveType.Quad);
             chunkObject.name = $"Chunk {coord.x}, {coord.y}";
             chunkObject.transform.position = positionV3;
-            chunkObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-            chunkObject.transform.localScale = new Vector3(size, size, 1f);//Vector3.one * size;
+            chunkObject.transform.rotation = Quaternion.identity;
+            chunkObject.transform.localScale = new Vector3(size, size, 1f);
             chunkObject.transform.parent = parent;
 
             chunkObject.GetComponent<MeshRenderer>().material = new Material(material);
@@ -134,7 +141,7 @@ public class EndlessTerrain : MonoBehaviour
 
             mapGenerator.RequestMapData(position, OnMapDataReceived);
         }
-
+        //spawn objects on chunk map (from local pool per every chunk)
         void OnMapDataReceived(MapData mapData)
         {
             if (chunkObject == null) return;
@@ -146,22 +153,20 @@ public class EndlessTerrain : MonoBehaviour
             );
             chunkObject.GetComponent<MeshRenderer>().material.mainTexture = texture;
 
+            ClearSpawnedObjects();
 
-            //spawn objects on chunk
             int resolution = mapGenerator.mapChunkResolution;
             int step = 8; //map sampling
-            for (int y = 0; y < resolution; y+=step)
+            for (int y = 0; y < resolution; y += step)
             {
-                for (int x = 0; x < resolution; x+=step)
+                for (int x = 0; x < resolution; x += step)
                 {
                     Color tileColor = mapData.colourMap[y * resolution + x];
 
                     for (int i = 0; i < objectSpawner.Count; i++)
                     {
-                        //on certain tile
-                        if (ChechColorSimilarity(tileColor, objectSpawner[i].colours) && Random.value < objectSpawner[i].objectSpawnChance) // chance to spawn
+                        if (CheckColorSimilarity(tileColor, objectSpawner[i].colours) && Random.value < objectSpawner[i].objectSpawnChance)
                         {
-                            //scale and spawn on right place
                             float chunkScale = chunkObject.transform.localScale.x;
                             Vector3 localOffset = new Vector3(
                                 ((float)x / resolution - 0.5f) * chunkScale,
@@ -169,19 +174,64 @@ public class EndlessTerrain : MonoBehaviour
                                 0f
                             );
                             Vector3 spawnPos = chunkObject.transform.position + localOffset;
+                            //get object from pool to spawn
+                            GameObject spawnObject = GetPooledObject(objectSpawner[i].objectPrefab);
 
-                            //object instantion create
-                            GameObject spawnObject = GameObject.Instantiate(objectSpawner[i].obejectPrefab, spawnPos, Quaternion.identity);
-                            spawnObject.transform.parent = chunkObject.transform; //new object is child of chunk in which is placed
-                            break;//so not to spawn 2 or more object in one place
+                            spawnObject.transform.position = spawnPos;
+                            spawnObject.transform.rotation = Quaternion.identity;
+                            spawnObject.transform.parent = chunkObject.transform;//new object is child of chunk in which is placed
+
+                            break; //so not to spawn 2 or more object in one place
                         }
                     }
                 }
             }
             UpdateTerrainChunk();
         }
-        //color similarity check
-        bool ChechColorSimilarity(Color a, Color[] b, float tolerance = 0.02f)
+
+        //get chunk from local pool or create new if pool is empty
+        private GameObject GetPooledObject(GameObject prefab)
+        {
+            if (!localObjectPools.ContainsKey(prefab))
+                localObjectPools[prefab] = new Queue<GameObject>();
+
+            if (localObjectPools[prefab].Count > 0)
+            {
+                GameObject obj = localObjectPools[prefab].Dequeue();
+                obj.SetActive(true);
+                return obj;
+            }
+            else
+            {
+                //create new if pool is empty
+                return GameObject.Instantiate(prefab);
+            }
+        }
+
+        //return spawned objects back to pool
+        private void ClearSpawnedObjects()
+        {
+            foreach (Transform child in chunkObject.transform)
+            {
+                GameObject childObj = child.gameObject;
+                childObj.SetActive(false);
+
+                //return to pool
+                foreach (var spawner in objectSpawner)
+                {
+                    if (childObj.name.Contains(spawner.objectPrefab.name))
+                    {
+                        if (!localObjectPools.ContainsKey(spawner.objectPrefab))
+                            localObjectPools[spawner.objectPrefab] = new Queue<GameObject>();
+
+                        localObjectPools[spawner.objectPrefab].Enqueue(childObj);
+                        break;
+                    }
+                }
+            }
+        }
+        //color similarity check to place object on certain color tiles
+        bool CheckColorSimilarity(Color a, Color[] b, float tolerance = 0.02f)
         {
             foreach (Color c in b)
             {
@@ -194,7 +244,7 @@ public class EndlessTerrain : MonoBehaviour
             }
             return false;
         }
-
+        //change visibiliy depending on distance from player
         public void UpdateTerrainChunk()
         {
             float viewerDstFromEdge = DistanceToRectEdge(EndlessTerrain.viewerPosition, bounds);
@@ -206,6 +256,7 @@ public class EndlessTerrain : MonoBehaviour
                 terrainChunksVisibleLastUpdate.Add(this);
             }
         }
+        //chunk position update
         public void UpdatePositionRelativeToViewer(Vector2 worldOffset)
         {
             Vector3 positionV3 = new Vector3(position.x - worldOffset.x, position.y - worldOffset.y, 0);
@@ -214,17 +265,16 @@ public class EndlessTerrain : MonoBehaviour
                 chunkObject.transform.position = positionV3;
             }
         }
-
-
-        public void Destroy()
+        //deactivate chunk
+        public void Deactivate()
         {
+            ClearSpawnedObjects();
             if (chunkObject != null)
             {
-                GameObject.Destroy(chunkObject);
+                chunkObject.SetActive(false);
             }
         }
-
-        //calculate distance from point to the edge of rectangle
+        //distance calculation
         float DistanceToRectEdge(Vector2 point, Rect rect)
         {
             float dx = Mathf.Max(rect.xMin - point.x, 0, point.x - rect.xMax);
@@ -244,13 +294,34 @@ public class EndlessTerrain : MonoBehaviour
         {
             return chunkObject.activeSelf;
         }
+
+        //reuse chunk
+        public void Reuse(Vector2 coord, int size, Transform parent, Material material, List<ObjectSpawner> objectSpawner)
+        {
+            this.objectSpawner = objectSpawner;
+
+            Vector2 offset = new Vector2(size / 2, 0f);
+            Vector2 centerPosition = coord * size + offset;
+            position = centerPosition - Vector2.one * size / 2f;
+            bounds = new Rect(position, Vector2.one * size);
+
+            chunkObject.transform.position = new Vector3(centerPosition.x, centerPosition.y, 0);
+            chunkObject.transform.localScale = new Vector3(size, size, 1f);
+            chunkObject.transform.parent = parent;
+            chunkObject.name = $"Chunk {coord.x}, {coord.y}";
+
+            chunkObject.SetActive(true);
+
+            mapGenerator.RequestMapData(position, OnMapDataReceived);
+        }
     }
+
 }
 
 [System.Serializable]
 public struct ObjectSpawner
 {
-    public GameObject obejectPrefab;
+    public GameObject objectPrefab;
     public float objectSpawnChance;
     public Color[] colours;
 }

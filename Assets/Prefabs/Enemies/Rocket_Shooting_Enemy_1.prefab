@@ -218,7 +218,12 @@ MonoBehaviour:
   waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
   healthBar: {fileID: 4115575369745409809}
   rootEnemy: {fileID: 8169252472499318893}
-  aditionalAnimators: []
+  flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
+  addSprites: []
+  engineParticles:
+  - {fileID: 6704120090086467020}
+  - {fileID: 6698081999843951871}
+  flashDuration: 0.1
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
   particleScale: 1
@@ -575,6 +580,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+--- !u!198 &6704120090086467020 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+  m_PrefabInstance: {fileID: 8382531801438338362}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6885867358404238655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3160189536785522693, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
@@ -681,6 +691,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+--- !u!198 &6698081999843951871 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+  m_PrefabInstance: {fileID: 8478364837363014665}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6805515481096567820 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3160189536785522693, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}

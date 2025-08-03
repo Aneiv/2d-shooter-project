@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UIElements;
+using DG.Tweening;
 
 public class Enemy : MonoBehaviour, IHealthEnemy
 {
@@ -11,8 +12,12 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     public GameObject rootEnemy;
     bool enemyKilled = false;
 
-    private Animator animator;
-    public Animator[] aditionalAnimators;
+    public Material flashMaterial;
+    private Material mainMaterial;
+    private SpriteRenderer mainSprite;
+    public SpriteRenderer[] addSprites;
+    public ParticleSystem[] engineParticles;
+    public float flashDuration = 0.1f;
 
     public ParticleSystem explosionParticles;
     public ParticleSystem fragParticles;
@@ -20,13 +25,15 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     private Vector3 vectorParticleStartScale=new Vector3(0.4f, 0.4f, 0.4f);
 
     public GameObject scoreRewardPrefab;
+
     void Start()
     {
         waveManager = GameObject.FindGameObjectWithTag("GameController");
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
 
-        animator = GetComponent<Animator>();
+        mainSprite = GetComponent<SpriteRenderer>();
+        mainMaterial = mainSprite.material;
     }
 
     // Update is called once per frame
@@ -43,7 +50,11 @@ public class Enemy : MonoBehaviour, IHealthEnemy
             currentHp -= damage;
             healthBar.SetHealth(currentHp);
 
-            HitFlashAnim();
+            HitFlashAnim(mainSprite);
+            foreach(var sprite in addSprites)
+            {
+                HitFlashAnim(sprite);
+            }
         }
         else
         {
@@ -73,18 +84,54 @@ public class Enemy : MonoBehaviour, IHealthEnemy
             var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
             destroyTrigger.EnemyKilled();
             enemyKilled = true;
+
+            DOTween.Kill(mainSprite);
+            foreach (var sprite in addSprites)
+            {
+                DOTween.Kill(sprite);
+            }
+            DOTween.Kill(gameObject);
             Destroy(rootEnemy);
         }
     }
 
-    private void HitFlashAnim()
+    private void HitFlashAnim(SpriteRenderer sprite)
     {
-        animator.SetTrigger("DamageReceived");
-
-        foreach (var anim in aditionalAnimators)
-        {
-            anim.SetTrigger("DamageReceived");
-        }
+        sprite.DOFade(0.1f, flashDuration)
+            .SetEase(Ease.InOutSine)
+            .SetLink(gameObject)
+            .OnStart(() =>
+            {
+                float halfTime = flashDuration / 2f;
+                DOVirtual.DelayedCall(halfTime, () =>
+                {
+                if (flashMaterial != null && !enemyKilled)
+                    {
+                        sprite.material = flashMaterial;
+                        foreach(var particle in engineParticles)
+                        {
+                            if(particle != null)
+                                particle.gameObject.SetActive(false);
+                        }
+                    } 
+                });
+            })
+            .OnComplete(() =>
+            {
+                sprite.DOFade(1f, flashDuration)
+                    .SetEase(Ease.InOutSine)
+                    .OnComplete(() =>
+                    {
+                        if (!enemyKilled) {
+                            sprite.material = mainMaterial;
+                            foreach (var particle in engineParticles)
+                            {
+                                if (particle != null)
+                                    particle.gameObject.SetActive(true);
+                            }
+                        }
+                    });
+            });
     }
 
     private void ExplosionParticles()

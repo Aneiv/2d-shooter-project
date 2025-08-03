@@ -59,7 +59,7 @@ public class BulletCollisionDetection : MonoBehaviour
         }
         else if (collision.CompareTag("Enemy") && shooterTag != "Enemy")
         {
-            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            IHealthEnemy enemy = collision.gameObject.GetComponent<IHealthEnemy>();
             if (enemy != null)
             {
                 Quaternion particleDirection = Quaternion.LookRotation(-transform.right);

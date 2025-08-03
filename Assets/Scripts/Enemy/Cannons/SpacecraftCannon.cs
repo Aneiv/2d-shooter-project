@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpacecraftCannon : MonoBehaviour
+public class SpacecraftCannon : MonoBehaviour, IShootReady
 {
 
     public Transform firePoint;

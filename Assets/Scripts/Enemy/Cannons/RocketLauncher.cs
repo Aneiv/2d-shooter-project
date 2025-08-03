@@ -3,7 +3,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class RocketLauncher : MonoBehaviour
+public class RocketLauncher : MonoBehaviour, IShootReady
 {
     public GameObject enemyBullet;
     public Transform firePoint;

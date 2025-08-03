@@ -62,15 +62,18 @@ public class BulletCollisionDetection : MonoBehaviour
             IHealthEnemy enemy = collision.gameObject.GetComponent<IHealthEnemy>();
             if (enemy != null)
             {
-                Quaternion particleDirection = Quaternion.LookRotation(-transform.right);
-                Vector3 offset = transform.right * 0.2f;
-                currentSparksParticles = Instantiate(SparksParticles, transform.position + offset, particleDirection);
-                currentSparksParticles.Play();
+                if (enemy.IsVulnerable)
+                {
+                    Quaternion particleDirection = Quaternion.LookRotation(-transform.right);
+                    Vector3 offset = transform.right * 0.2f;
+                    currentSparksParticles = Instantiate(SparksParticles, transform.position + offset, particleDirection);
+                    currentSparksParticles.Play();
 
-                Destroy(currentSparksParticles.gameObject, 0.5f);
-                //Debug.Log("LOG Bullet hit Basic_Enemy");
-                Destroy(gameObject);
-                enemy.TakeDamage(damage, shooter);
+                    Destroy(currentSparksParticles.gameObject, 0.5f);
+                    //Debug.Log("LOG Bullet hit Basic_Enemy");
+                    Destroy(gameObject);
+                    enemy.TakeDamage(damage, shooter);
+                }
             }
         }
     }

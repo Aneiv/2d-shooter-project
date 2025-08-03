@@ -10,5 +10,6 @@ public interface IHealthEnemy
 {
     void TakeDamage(int damage, GameObject attacker);
     void Die(GameObject attacker);
+    bool IsVulnerable { get; set; }
 }
 

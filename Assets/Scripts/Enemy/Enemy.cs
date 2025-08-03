@@ -10,11 +10,11 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     public GameObject waveManager;
     public EnemyHealthBar healthBar;
     public GameObject rootEnemy;
-    bool enemyKilled = false;
+    protected bool enemyKilled = false;
 
     public Material flashMaterial;
     private Material mainMaterial;
-    private SpriteRenderer mainSprite;
+    protected SpriteRenderer mainSprite;
     public SpriteRenderer[] addSprites;
     public ParticleSystem[] engineParticles;
     public float flashDuration = 0.1f;
@@ -26,7 +26,13 @@ public class Enemy : MonoBehaviour, IHealthEnemy
 
     public GameObject scoreRewardPrefab;
 
-    void Start()
+    protected bool isVulnerable = true;
+    public bool IsVulnerable
+    {
+        get { return isVulnerable; } set { isVulnerable = value; }
+    }
+
+    protected virtual void Start()
     {
         waveManager = GameObject.FindGameObjectWithTag("GameController");
         currentHp = maxHp;
@@ -44,24 +50,27 @@ public class Enemy : MonoBehaviour, IHealthEnemy
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
-        if (currentHp - damage > 0)
+        if (isVulnerable)
         {
-            currentHp -= damage;
-            healthBar.SetHealth(currentHp);
-
-            HitFlashAnim(mainSprite);
-            foreach(var sprite in addSprites)
+            //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
+            if (currentHp - damage > 0)
             {
-                HitFlashAnim(sprite);
+                currentHp -= damage;
+                healthBar.SetHealth(currentHp);
+
+                HitFlashAnim(mainSprite);
+                foreach (var sprite in addSprites)
+                {
+                    HitFlashAnim(sprite);
+                }
+            }
+            else
+            {
+                Die(attacker);
             }
         }
-        else
-        {
-            Die(attacker);
-        }
     }
-    public void Die(GameObject attacker)
+    virtual public void Die(GameObject attacker)
     {
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
@@ -95,7 +104,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy
         }
     }
 
-    private void HitFlashAnim(SpriteRenderer sprite)
+    protected void HitFlashAnim(SpriteRenderer sprite)
     {
         sprite.DOFade(0.1f, flashDuration)
             .SetEase(Ease.InOutSine)
@@ -134,7 +143,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy
             });
     }
 
-    private void ExplosionParticles()
+    protected void ExplosionParticles()
     {
         ParticleSystem explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);
         explosion.transform.localScale = vectorParticleStartScale * particleScale;

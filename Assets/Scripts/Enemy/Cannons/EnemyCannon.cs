@@ -21,6 +21,15 @@ public class EnemyCannon : MonoBehaviour, IHealthEnemy
 
     public GameObject scoreRewardPrefab;
 
+    protected bool isVulnerable = true;
+    public bool IsVulnerable
+    {
+        get { return isVulnerable; }
+        set { isVulnerable = value; }
+    }
+
+    private SpacecraftCarrierEnemy spacecraftCarrierEnemy;
+
     void Start()
     {
         currentHp = maxHp;
@@ -28,6 +37,7 @@ public class EnemyCannon : MonoBehaviour, IHealthEnemy
 
         mainSprite = GetComponent<SpriteRenderer>();
         mainMaterial = mainSprite.material;
+        spacecraftCarrierEnemy = FindFirstObjectByType<SpacecraftCarrierEnemy>();
     }
 
     // Update is called once per frame
@@ -38,17 +48,20 @@ public class EnemyCannon : MonoBehaviour, IHealthEnemy
 
     public void TakeDamage(int damage, GameObject attacker)
     {
-        //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
-        if (currentHp - damage > 0)
+        if (isVulnerable)
         {
-            currentHp -= damage;
-            healthBar.SetHealth(currentHp);
+            //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
+            if (currentHp - damage > 0)
+            {
+                currentHp -= damage;
+                healthBar.SetHealth(currentHp);
 
-            HitFlashAnim(mainSprite);
-        }
-        else
-        {
-            Die(attacker);
+                HitFlashAnim(mainSprite);
+            }
+            else
+            {
+                Die(attacker);
+            }
         }
     }
     public void Die(GameObject attacker)
@@ -56,6 +69,10 @@ public class EnemyCannon : MonoBehaviour, IHealthEnemy
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {
+            if (spacecraftCarrierEnemy != null) {
+                spacecraftCarrierEnemy.DestroyCannon();
+            }
+
             // score reward
             Player player = attacker.GetComponent<Player>();
             if (player != null)

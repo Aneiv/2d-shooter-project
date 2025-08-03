@@ -21,7 +21,7 @@ public class SpacecraftCannon : MonoBehaviour
     public float bulletSpawnDelay = 0.3f;
     public float bulletSpeed = 3f;
 
-    private bool waiting = false;
+    private bool waiting = true;
     private float reloadTimer = 0f;
 
     void Start()

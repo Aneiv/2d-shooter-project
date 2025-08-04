@@ -7,6 +7,7 @@ using System.Collections;
 public class WaveSpawner : MonoBehaviour
 {
     public GameObject[] enemiesPrefabs;     // Enemy Ship prefab
+    public GameObject minibossPrefab; // Mini boss prefab
     private float moveBegingYPosition = 8f;   // first Y position
     public float nextWaveTimeDelay; //delay before creating next wave
 
@@ -39,6 +40,7 @@ public class WaveSpawner : MonoBehaviour
         {
             UpDownSpawn,        //animationDurations[0]
             SpiralMovement,     //animationDurations[1] ...
+            SpawnMiniBoss, 
             //more to be made
         };
 
@@ -120,6 +122,45 @@ public class WaveSpawner : MonoBehaviour
                     });
             }
         }
+        WaveSpawned();
+    }
+
+    public void SpawnMiniBoss()
+    {
+        shipCount = 1;
+        float startX = 0f;
+        float endYPosition = 3f;
+        enemiesAmount = shipCount;
+
+        //get SpriteRenderer of that ship
+        shipSpriteRenderer = minibossPrefab.transform.Find("EnemyVisual").GetComponent<SpriteRenderer>();
+
+        // start position calculation
+        Vector3 spawnPos = new Vector3(startX, moveBegingYPosition, 0f);
+
+        //create ship instance and set position
+        GameObject ship = Instantiate(minibossPrefab, spawnPos, Quaternion.identity);
+        ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
+        //rotate ship to correct value
+        ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+
+        //idle animation play at random delay for every ship
+        var shipAnim = ship.GetComponent<Animator>();
+        var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+        float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+        shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+
+        ship.transform.DOMoveY(endYPosition, animationDurations[0])
+            .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
+            .SetDelay(0.3f) //delay between spawning rows of ships
+            .OnComplete(() =>
+            {
+                IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
+                if (enemyInterface != null)
+                {
+                    enemyInterface.OnArrival();
+                }
+            });
         WaveSpawned();
     }
 

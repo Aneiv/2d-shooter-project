@@ -15,7 +15,7 @@ public class NextWaveTrigger : MonoBehaviour
     public void EnemyKilled()
     {
         enemiesRemaining--;
-        //Debug.Log(enemiesRemaining);
+        //Debug.Log("There are: " + enemiesRemaining + " enemies left");
         if (enemiesRemaining <= 0)
         {
             //Debug.Log("nowa fala");
@@ -39,5 +39,10 @@ public class NextWaveTrigger : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    public void AddToEnemyCounter(int number)
+    {
+        enemiesRemaining += number;
     }
 }

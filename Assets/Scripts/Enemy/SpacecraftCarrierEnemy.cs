@@ -1,22 +1,19 @@
 ﻿using UnityEngine;
 using DG.Tweening;
 
-public class SpacecraftCarrierEnemy : Enemy
+public class SpacecraftCarrierEnemy : Enemy, IEnemy
 {
     public int cannonCounter = 6;
     public GameObject[] cannonsObjs;
+    public GameObject[] cannonContainers;
+    private SpacecraftCarrierSpawner SpacecraftCarrierSpawner;
 
 
     protected override void Start()
     {
-        base.Start();
-        foreach (GameObject obj in cannonsObjs) {
-            if(obj.TryGetComponent<IShootReady>(out var cannon))
-            {
-                cannon.ReadyToShoot();
-            }
-        }
+        base.Start();        
         isVulnerable = false;
+        SpacecraftCarrierSpawner = GetComponent<SpacecraftCarrierSpawner>();
     }
     public void DestroyCannon()
     {
@@ -26,33 +23,27 @@ public class SpacecraftCarrierEnemy : Enemy
         }
     }
 
-    override public void Die(GameObject attacker)
+    public void OnArrival()
     {
-        //Debug.Log("KILLED ENEMY");
-        if (!enemyKilled)
+        foreach (GameObject obj in cannonsObjs)
         {
-            // score reward
-            Player player = attacker.GetComponent<Player>();
-            if (player != null)
+            if (obj.TryGetComponent<IShootReady>(out var cannon))
             {
-                player.AddToScore(scoreReward);
+                cannon.ReadyToShoot();
             }
-            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
-            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
-            if (srAnim != null)
+        }
+        foreach(GameObject container in cannonContainers)
+        {
+            if(container.TryGetComponent<FollowSprite>(out var followSprite))
             {
-                srAnim.SetText("+" + scoreReward.ToString());
+                followSprite.StartFollow();
             }
+        }
 
-            ExplosionParticles();
-
-            enemyKilled = true;
-
-            DOTween.Kill(mainSprite);
-            DOTween.Kill(gameObject);
-            Destroy(rootEnemy);
+        if(SpacecraftCarrierSpawner != null)
+        {
+            SpacecraftCarrierSpawner.StartSpawningEnemies();
         }
     }
-
 }
 

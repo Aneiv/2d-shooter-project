@@ -29,6 +29,10 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         enemiesContainer = GameObject.FindGameObjectWithTag("EnemiesContainer");
         waveManager = GameObject.FindGameObjectWithTag("GameController");
         SpacecraftCarrierEnemy = GetComponent<SpacecraftCarrierEnemy>();
+    }
+
+    public void StartSpawningEnemies()
+    {
         StartCoroutine(CheckForAliveEnemiesLoop());
     }
 
@@ -49,10 +53,6 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
 
     void EnemiesWereSpawned()
     {
-        if (waveManager.gameObject.TryGetComponent<NextWaveTrigger>(out var newWaveTrigger))
-        {
-            newWaveTrigger.SetRemainingEnemies(enemiesCount + 1);
-        }
         SpiralMovement = null;
     }
     public IEnumerator SpiralMovementCoroutine()
@@ -73,6 +73,11 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
             //rotate ship to correct value
             ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+
+            if (waveManager.gameObject.TryGetComponent<NextWaveTrigger>(out var newWaveTrigger))
+            {
+                newWaveTrigger.AddToEnemyCounter(1);
+            }
 
             //idle animation play at random delay for every ship
             var shipAnim = ship.GetComponent<Animator>();

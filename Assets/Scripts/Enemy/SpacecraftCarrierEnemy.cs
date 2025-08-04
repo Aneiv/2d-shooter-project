@@ -1,12 +1,19 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using System.Collections;
 
 public class SpacecraftCarrierEnemy : Enemy, IEnemy
 {
     public int cannonCounter = 6;
     public GameObject[] cannonsObjs;
     public GameObject[] cannonContainers;
+    public GameObject[] deathExplosionsObj;
     private SpacecraftCarrierSpawner SpacecraftCarrierSpawner;
+    private Animator animator;
+
+    public float miniExplosionDelay = 0.2f;
+    public ParticleSystem hugeExplosionPart;
+    public ParticleSystem hugeFragPart;
 
 
     protected override void Start()
@@ -14,6 +21,7 @@ public class SpacecraftCarrierEnemy : Enemy, IEnemy
         base.Start();        
         isVulnerable = false;
         SpacecraftCarrierSpawner = GetComponent<SpacecraftCarrierSpawner>();
+        animator = GetComponent<Animator>();
     }
     public void DestroyCannon()
     {
@@ -44,6 +52,63 @@ public class SpacecraftCarrierEnemy : Enemy, IEnemy
         {
             SpacecraftCarrierSpawner.StartSpawningEnemies();
         }
+    }
+
+    public override void Die(GameObject attacker)
+    {
+        //Debug.Log("KILLED ENEMY");
+        if (!enemyKilled)
+        {
+            // score reward
+            Player player = attacker.GetComponent<Player>();
+            if (player != null)
+            {
+                player.AddToScore(scoreReward);
+            }
+            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+            if (srAnim != null)
+            {
+                srAnim.SetText("+" + scoreReward.ToString());
+            }
+            // death animation
+            Color color = mainSprite.color;
+            color.a = 1f;
+            mainSprite.color = color;
+            mainSprite.material = mainMaterial;
+
+            animator.SetTrigger("OnDeath");
+
+            // mini explosions
+            StartCoroutine(ExplosionsCoroutine());
+            
+
+            var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
+            destroyTrigger.EnemyKilled();
+            enemyKilled = true;
+
+            DOTween.Kill(mainSprite);
+            foreach (var sprite in addSprites)
+            {
+                DOTween.Kill(sprite);
+            }
+            DOTween.Kill(gameObject);
+            Destroy(rootEnemy, 2f);
+        }
+    }
+
+    IEnumerator ExplosionsCoroutine()
+    {
+        foreach (GameObject obj in deathExplosionsObj)
+        {
+            float scale = 1f;
+            Vector2 pos = obj.transform.position;
+            ExplosionParticles(pos, null, null, scale);
+            yield return new WaitForSeconds(miniExplosionDelay);
+            scale -= 0.1f;
+        }
+        yield return new WaitForSeconds(0.1f);
+        ExplosionParticles(null, hugeExplosionPart, hugeFragPart, 0.8f, 90f);
     }
 }
 

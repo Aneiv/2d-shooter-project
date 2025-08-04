@@ -44,7 +44,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             //Debug.Log($"Enemies globally: {enemies.Length}");
             if( enemies.Length <= 2) // 2 because enemies has 2 "Enemy" tag
             {
-                SpiralMovement = StartCoroutine(SpiralMovementCoroutine());
+                SpiralMovement = StartCoroutine(SpawnEnemiesCoroutine());
             }
 
             yield return new WaitForSeconds(checkForAliveEnemiesDelay);
@@ -55,7 +55,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
     {
         SpiralMovement = null;
     }
-    public IEnumerator SpiralMovementCoroutine()
+    public IEnumerator SpawnEnemiesCoroutine()
     {
         Vector2 spawnPoint = spawnPointObj.transform.position;
         List<Vector2> randomPositions = GetRandomUniquePositions();
@@ -64,6 +64,11 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         bool goLeft = false;
 
         foreach(Vector2 endPoint in randomPositions) {
+            if (!SpacecraftCarrierEnemy.IsAlive())
+            {
+                CancelSpawnEnemies();
+            }
+
             Vector2 midPoint = goLeft ? midPointLeftObj.transform.position : midPointRightObj.transform.position;
             goLeft = !goLeft;
 
@@ -142,4 +147,14 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
 
         return result;
     }
+
+    void CancelSpawnEnemies()
+    {
+        if (SpiralMovement != null)
+        {
+            StopCoroutine(SpiralMovement);
+            SpiralMovement = null;
+        }
+    }
+
 }

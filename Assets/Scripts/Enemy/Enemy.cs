@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     protected bool enemyKilled = false;
 
     public Material flashMaterial;
-    private Material mainMaterial;
+    protected Material mainMaterial;
     protected SpriteRenderer mainSprite;
     public SpriteRenderer[] addSprites;
     public ParticleSystem[] engineParticles;
@@ -144,17 +144,32 @@ public class Enemy : MonoBehaviour, IHealthEnemy
             });
     }
 
-    protected void ExplosionParticles()
+    protected void ExplosionParticles(Vector2? position = null,
+        ParticleSystem explPart = null,
+        ParticleSystem fragPart = null,
+        float? newParticleScale = null,
+        float? YRotation = null)
     {
-        ParticleSystem explosion = Instantiate(explosionParticles, transform.position, Quaternion.identity);
-        explosion.transform.localScale = vectorParticleStartScale * particleScale;
-        explosion.Play();
-        Destroy(explosion.gameObject, 0.5f);
+        particleScale = newParticleScale ?? particleScale;
 
-        ParticleSystem frag = Instantiate(fragParticles, transform.position, Quaternion.identity);
+        Vector2 pos = position ?? (Vector2)transform.position;
+        ParticleSystem usedExplosionParticles = explPart ?? explosionParticles;
+        ParticleSystem usedFragParticles = fragPart ?? fragParticles;
+
+        float xRot = YRotation != null ? -16f : 0f;
+        Quaternion rotation = Quaternion.Euler(xRot, YRotation ?? 0f, 0f);
+
+        ParticleSystem explosion = Instantiate(usedExplosionParticles, pos, rotation);
+        explosion.transform.localScale = vectorParticleStartScale * particleScale;
+        explosion.transform.parent = null;
+        explosion.Play();
+        Destroy(explosion.gameObject, 3f);
+
+        ParticleSystem frag = Instantiate(usedFragParticles, pos, rotation);
         frag.transform.localScale = vectorParticleStartScale * particleScale;
+        frag.transform.parent = null;
         frag.Play();
-        Destroy(frag.gameObject, 1f);
+        Destroy(frag.gameObject, 5f);
     }
 
     public bool IsAlive()

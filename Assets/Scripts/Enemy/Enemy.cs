@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     public int maxHp = 50;
     public int scoreReward = 10;
     private int currentHp;
+    [HideInInspector]
     public GameObject waveManager;
     public EnemyHealthBar healthBar;
     public GameObject rootEnemy;
@@ -154,5 +155,10 @@ public class Enemy : MonoBehaviour, IHealthEnemy
         frag.transform.localScale = vectorParticleStartScale * particleScale;
         frag.Play();
         Destroy(frag.gameObject, 1f);
+    }
+
+    public bool IsAlive()
+    {
+        return !enemyKilled;
     }
 }

@@ -57,7 +57,8 @@ public class BulletCollisionDetection : MonoBehaviour
                 
             }
         }
-        else if (collision.CompareTag("Enemy") && shooterTag != "Enemy")
+        else if ((collision.CompareTag("Enemy") || (collision.CompareTag("EnemyCannon"))) &&
+            (shooterTag != "Enemy" && shooterTag != "EnemyCannon"))
         {
             IHealthEnemy enemy = collision.gameObject.GetComponent<IHealthEnemy>();
             if (enemy != null)

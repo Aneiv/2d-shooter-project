@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5308521260581060957}
   m_Layer: 0
   m_Name: Spacecraft_Cannon
-  m_TagString: Untagged
+  m_TagString: EnemyCannon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111,7 +111,7 @@ GameObject:
   - component: {fileID: 2934357355467403126}
   m_Layer: 0
   m_Name: EnemyVisual
-  m_TagString: Enemy
+  m_TagString: EnemyCannon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -295,9 +295,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 50
   scoreReward: 10
+  waveManager: {fileID: 0}
   healthBar: {fileID: 3095573913884451546}
   rootEnemy: {fileID: 3788923130665433477}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
+  addSprites: []
+  engineParticles: []
   flashDuration: 0.1
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}

@@ -3933,7 +3933,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: maxHp
-      value: 100
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: coinUI

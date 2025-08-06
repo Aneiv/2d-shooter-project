@@ -99,9 +99,9 @@ public class SpacecraftCarrierEnemy : Enemy, IEnemy
 
     IEnumerator ExplosionsCoroutine()
     {
+        float scale = 1f;
         foreach (GameObject obj in deathExplosionsObj)
         {
-            float scale = 1f;
             Vector2 pos = obj.transform.position;
             ExplosionParticles(pos, null, null, scale);
             yield return new WaitForSeconds(miniExplosionDelay);

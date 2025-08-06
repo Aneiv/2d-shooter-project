@@ -64,6 +64,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         bool goLeft = false;
 
         foreach(Vector2 endPoint in randomPositions) {
+
             if (!SpacecraftCarrierEnemy.IsAlive())
             {
                 CancelSpawnEnemies();
@@ -71,6 +72,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
 
             Vector2 midPoint = goLeft ? midPointLeftObj.transform.position : midPointRightObj.transform.position;
             goLeft = !goLeft;
+            Vector2 midPoint2 = endPoint + new Vector2(0f, 0.2f);
 
             // spawn enemy
             int enemyIndex = UnityEngine.Random.Range(0, enemiesPrefabs.Length);
@@ -94,7 +96,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             DOVirtual.Float(0f, 1f, animationDuration, (t) =>
             {
                 //position on Bezier curve
-                Vector2 pos = QuadraticBezier(spawnPoint, midPoint, endPoint, t);
+                Vector2 pos = CubicBezier(spawnPoint, midPoint,midPoint2, endPoint, t);
                 ship.transform.position = pos;
 
                 if (t >= 0.998f)
@@ -104,7 +106,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                     return;
                 }
                 
-                Vector2 futurePos = QuadraticBezier(spawnPoint, midPoint, endPoint, Mathf.Min(t + 0.01f, 1f));
+                Vector2 futurePos = CubicBezier(spawnPoint, midPoint,midPoint2, endPoint, Mathf.Min(t + 0.01f, 1f));
                 Vector2 dir = (futurePos - pos).normalized;
                 float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
@@ -124,11 +126,16 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         EnemiesWereSpawned();
     }
     //additional function for Bezier curve calculation
-    Vector2 QuadraticBezier(Vector2 a, Vector2 b, Vector2 c, float t)
+    Vector2 CubicBezier(Vector2 a, Vector2 b, Vector2 c, Vector2 d, float t)
     {
         Vector2 ab = Vector2.Lerp(a, b, t);
         Vector2 bc = Vector2.Lerp(b, c, t);
-        return Vector2.Lerp(ab, bc, t);
+        Vector2 cd = Vector2.Lerp(c, d, t);
+
+        Vector2 abc = Vector2.Lerp(ab, bc, t);
+        Vector2 bcd = Vector2.Lerp(bc, cd, t);
+
+        return Vector2.Lerp(abc, bcd, t);
     }
 
     List<Vector2> GetRandomUniquePositions()

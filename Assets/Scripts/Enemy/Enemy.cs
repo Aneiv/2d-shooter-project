@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
 {
     [Header("Health stuff")]
     public int maxHp = 50;
-    private int currentHp;
+    protected int currentHp;
     protected bool isVulnerable = false;
     public bool IsVulnerable
     {
@@ -50,7 +50,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
         mainMaterial = mainSprite.material;
     }
 
-    public void TakeDamage(int damage, GameObject attacker)
+    virtual public void TakeDamage(int damage, GameObject attacker)
     {
         if (isVulnerable)
         {
@@ -69,6 +69,14 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             else
             {
                 Die(attacker);
+            }
+        }
+        else
+        {
+            InVulnerableHitAnim(mainSprite);
+            foreach (var sprite in addSprites)
+            {
+                InVulnerableHitAnim(sprite);
             }
         }
     }
@@ -131,10 +139,47 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             {
                 sprite.DOFade(1f, flashDuration)
                     .SetEase(Ease.InOutSine)
+                    .SetLink(gameObject)
                     .OnComplete(() =>
                     {
-                        if (!enemyKilled) {
+                        if (!enemyKilled)
+                        {
                             sprite.material = mainMaterial;
+                            foreach (var particle in engineParticles)
+                            {
+                                if (particle != null)
+                                    particle.gameObject.SetActive(true);
+                            }
+                        }
+                    });
+            });
+    }
+
+    protected void InVulnerableHitAnim(SpriteRenderer sprite)
+    {
+        sprite.DOColor(new Color(0f, 1.5f, 3f, 0.3f), flashDuration) // go to blue color
+            .SetEase(Ease.InOutSine)
+            .SetLink(gameObject)
+            .OnStart(() =>
+            {
+                if (!enemyKilled)
+                {
+                    foreach (var particle in engineParticles)
+                    {
+                        if (particle != null)
+                            particle.gameObject.SetActive(false);
+                    }
+                }
+            })
+            .OnComplete(() =>
+            {
+                sprite.DOColor(Color.white, flashDuration) // go to default color
+                    .SetEase(Ease.InOutSine)
+                    .SetLink(gameObject)
+                    .OnComplete(() =>
+                    {
+                        if (!enemyKilled)
+                        {
                             foreach (var particle in engineParticles)
                             {
                                 if (particle != null)

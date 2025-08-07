@@ -60,7 +60,7 @@ public class BulletCollisionDetection : MonoBehaviour
         else if ((collision.CompareTag("Enemy") || (collision.CompareTag("EnemyCannon"))) &&
             (shooterTag != "Enemy" && shooterTag != "EnemyCannon"))
         {
-            IHealthEnemy enemy = collision.gameObject.GetComponent<IHealthEnemy>();
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
                 if (enemy.IsVulnerable)
@@ -74,6 +74,11 @@ public class BulletCollisionDetection : MonoBehaviour
                     //Debug.Log("LOG Bullet hit Basic_Enemy");
                     Destroy(gameObject);
                     enemy.TakeDamage(damage, shooter);
+                }
+                else
+                {
+                    // triger InVulnerableHitAnim (blue flash)
+                    enemy.TakeDamage(0, shooter);
                 }
             }
         }

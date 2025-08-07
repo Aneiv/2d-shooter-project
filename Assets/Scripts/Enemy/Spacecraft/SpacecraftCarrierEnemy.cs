@@ -56,6 +56,25 @@ public class SpacecraftCarrierEnemy : Enemy
         }
     }
 
+    public override void TakeDamage(int damage, GameObject attacker)
+    {
+        if (isVulnerable)
+        {
+            //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
+            if (currentHp - damage > 0)
+            {
+                currentHp -= damage;
+                healthBar.SetHealth(currentHp);
+
+                HitFlashAnim(mainSprite);
+            }
+            else
+            {
+                Die(attacker);
+            }
+        }
+    }
+
     public override void Die(GameObject attacker)
     {
         //Debug.Log("KILLED ENEMY");

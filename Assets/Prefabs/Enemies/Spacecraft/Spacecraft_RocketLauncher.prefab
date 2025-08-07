@@ -111,7 +111,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 2773483569941617647, guid: 0eb4d612240f32a428e149078c4ed5e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -230,17 +230,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 50
   scoreReward: 10
-  waveManager: {fileID: 0}
+  scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
   healthBar: {fileID: 4875935760810650248}
-  rootEnemy: {fileID: 5535533522722055866}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
   engineParticles: []
   flashDuration: 0.1
+  rootEnemy: {fileID: 5535533522722055866}
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
   particleScale: 1
-  scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
+  waveManager: {fileID: 0}
 --- !u!1 &5535533522722055866
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +397,10 @@ PrefabInstance:
     - target: {fileID: 3710539445377101196, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
       propertyPath: m_Name
       value: Health_Bar
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448311554205364985, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
+      propertyPath: m_SortingOrder
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

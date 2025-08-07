@@ -83,7 +83,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7692226621546264347, guid: b719b0305d0bb9242bfa5267a79ac097, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -228,15 +228,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67c6e77f97e79d4a9b886ed51f562e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
-  bulletSpawnDelay: 0
   checkInterval: 0.5
-  minSpawnChance: 0.2
-  maxSpawnChance: 0.4
   minSpawnDelay: 0.5
   maxSpawnDelay: 2
+  minSpawnChance: 0.2
+  maxSpawnChance: 0.4
   minNumberOfBulletInBurst: 1
   maxNumberOfBulletInBurst: 1
+  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
   bulletSpeed: 3
   firePoint: {fileID: 6447288022928259364}
 --- !u!1 &2365903002932943826
@@ -342,6 +341,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5115734564812705696}
     m_Modifications:
+    - target: {fileID: 771386574334553760, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 0.19
@@ -576,6 +579,10 @@ PrefabInstance:
     - target: {fileID: 7448311554205364985, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
       propertyPath: m_RenderMode
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7448311554205364985, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
+      propertyPath: m_SortingOrder
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

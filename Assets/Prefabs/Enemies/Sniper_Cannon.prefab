@@ -76,7 +76,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0.0001, y: 0, z: 0}
@@ -252,7 +252,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 2450987995773903237, guid: b4b17a96607332245bd88cad7ee3a906, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -422,7 +422,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 1
   m_Positions:
   - {x: 0, y: 0, z: 0}
   - {x: 0.5, y: 0, z: 0}
@@ -505,6 +505,10 @@ PrefabInstance:
     - target: {fileID: 740780534235914095, guid: f7b44ee48e95b46439ff7859a4941dd1, type: 3}
       propertyPath: m_Name
       value: HurtfulRay_Particles
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005922381055752443, guid: f7b44ee48e95b46439ff7859a4941dd1, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5356040343631201000, guid: f7b44ee48e95b46439ff7859a4941dd1, type: 3}
       propertyPath: m_LocalPosition.x

@@ -43,6 +43,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 6416435102356453878, guid: 4a9771fbcc5304143acc7d5c29215c47, type: 3}
+    - target: {fileID: 156006258083994203, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
       propertyPath: m_Name
       value: DoubleBarrel_Enemy
@@ -102,6 +106,10 @@ PrefabInstance:
     - target: {fileID: 3462073977129897391, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 4237972963587095109, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6363159314845120352, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
       propertyPath: m_AnchorMax.x

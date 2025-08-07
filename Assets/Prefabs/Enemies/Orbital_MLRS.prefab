@@ -148,7 +148,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 1581582355822900590, guid: 48245c42f028799439f96010da9eeded, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -344,6 +344,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2428237307281868032}
     m_Modifications:
+    - target: {fileID: 771386574334553760, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 0.19
@@ -571,6 +575,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Health_Bar
       objectReference: {fileID: 0}
+    - target: {fileID: 7448311554205364985, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
+      propertyPath: m_SortingOrder
+      value: 12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -600,6 +608,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2428237307281868032}
     m_Modifications:
+    - target: {fileID: 771386574334553760, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 0.19
@@ -713,7 +725,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3735980356562544703, guid: 0d568999c4037df4397d70bd2a01dee0, type: 3}
       propertyPath: m_SortingOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4577450167710487679, guid: 0d568999c4037df4397d70bd2a01dee0, type: 3}
       propertyPath: m_Name
@@ -884,6 +896,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2428237307281868032}
     m_Modifications:
+    - target: {fileID: 771386574334553760, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 0.46
@@ -995,6 +1011,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2428237307281868032}
     m_Modifications:
+    - target: {fileID: 771386574334553760, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2980659412157094134, guid: a79cacf443db9064a92bf22d948b32e2, type: 3}
       propertyPath: ShapeModule.m_Scale.x
       value: 0.46

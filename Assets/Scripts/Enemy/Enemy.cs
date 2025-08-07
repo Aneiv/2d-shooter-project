@@ -2,17 +2,25 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using DG.Tweening;
 
-public class Enemy : MonoBehaviour, IHealthEnemy
+public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
 {
+    [Header("Health stuff")]
     public int maxHp = 50;
-    public int scoreReward = 10;
     private int currentHp;
-    [HideInInspector]
-    public GameObject waveManager;
-    public EnemyHealthBar healthBar;
-    public GameObject rootEnemy;
+    protected bool isVulnerable = false;
+    public bool IsVulnerable
+    {
+        get { return isVulnerable; }
+        set { isVulnerable = value; }
+    }
     protected bool enemyKilled = false;
 
+    [Header("UI stuff")]
+    public int scoreReward = 10;
+    public GameObject scoreRewardPrefab;
+    public EnemyHealthBar healthBar;
+
+    [Header("Flash Animation stuff")]
     public Material flashMaterial;
     protected Material mainMaterial;
     protected SpriteRenderer mainSprite;
@@ -20,18 +28,16 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     public ParticleSystem[] engineParticles;
     public float flashDuration = 0.1f;
 
+    [Header("Death stuff")]
+    public GameObject rootEnemy;
     public ParticleSystem explosionParticles;
     public ParticleSystem fragParticles;
     public float particleScale = 1.0f;
-    private Vector3 vectorParticleStartScale=new Vector3(0.4f, 0.4f, 0.4f);
+    private Vector3 vectorParticleStartScale = new Vector3(0.4f, 0.4f, 0.4f);
 
-    public GameObject scoreRewardPrefab;
-
-    protected bool isVulnerable = true;
-    public bool IsVulnerable
-    {
-        get { return isVulnerable; } set { isVulnerable = value; }
-    }
+    [HideInInspector]
+    public GameObject waveManager;
+    private EnemyShoot enemyShoot;
 
     protected virtual void Start()
     {
@@ -40,13 +46,8 @@ public class Enemy : MonoBehaviour, IHealthEnemy
         healthBar.SetMaxHealth(maxHp);
 
         mainSprite = GetComponent<SpriteRenderer>();
+        enemyShoot = GetComponent<EnemyShoot>();
         mainMaterial = mainSprite.material;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void TakeDamage(int damage, GameObject attacker)
@@ -175,5 +176,13 @@ public class Enemy : MonoBehaviour, IHealthEnemy
     public bool IsAlive()
     {
         return !enemyKilled;
+    }
+
+    virtual public void OnArrival()
+    {
+        isVulnerable = true;
+        if (enemyShoot != null) {
+            enemyShoot.OnArrival();
+        }
     }
 }

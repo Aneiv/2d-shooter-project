@@ -115,10 +115,10 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             .SetEase(Ease.InOutSine)
             .OnComplete(() =>
             {
-                IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
-                if (enemyInterface != null)
+                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                if (enemyInstance != null)
                 {
-                    enemyInterface.OnArrival();
+                    enemyInstance.OnArrival();
                 }
             });
             yield return new WaitForSeconds(spawnDelay);

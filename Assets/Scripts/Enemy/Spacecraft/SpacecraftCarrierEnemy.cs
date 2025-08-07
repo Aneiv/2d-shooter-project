@@ -2,19 +2,20 @@
 using DG.Tweening;
 using System.Collections;
 
-public class SpacecraftCarrierEnemy : Enemy, IEnemy
+public class SpacecraftCarrierEnemy : Enemy
 {
-    public int cannonCounter = 6;
-    public GameObject[] cannonsObjs;
-    public GameObject[] cannonContainers;
     public GameObject[] deathExplosionsObj;
-    private SpacecraftCarrierSpawner SpacecraftCarrierSpawner;
-    private Animator animator;
-
     public float miniExplosionDelay = 0.2f;
     public ParticleSystem hugeExplosionPart;
     public ParticleSystem hugeFragPart;
 
+    [Header("Cannons")]
+    public int cannonCounter = 6;
+    public GameObject[] cannonsObjs;
+    public GameObject[] cannonContainers;
+
+    private SpacecraftCarrierSpawner SpacecraftCarrierSpawner;
+    private Animator animator;
 
     protected override void Start()
     {
@@ -31,8 +32,9 @@ public class SpacecraftCarrierEnemy : Enemy, IEnemy
         }
     }
 
-    public void OnArrival()
+    public override void OnArrival()
     {
+        isVulnerable = false;
         foreach (GameObject obj in cannonsObjs)
         {
             if (obj.TryGetComponent<IShootReady>(out var cannon))

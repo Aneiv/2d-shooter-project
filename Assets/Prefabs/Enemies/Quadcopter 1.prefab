@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 999721307937157465}
   - component: {fileID: 1898431478648943543}
   - component: {fileID: 7722626094084997825}
-  - component: {fileID: 8157663866430986762}
+  - component: {fileID: 6231190284537562720}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: Enemy
@@ -206,9 +206,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 70
   scoreReward: 30
-  waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
+  scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
   healthBar: {fileID: 4160406656784625920}
-  rootEnemy: {fileID: 7653356360152750695}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
   engineParticles:
@@ -217,11 +216,12 @@ MonoBehaviour:
   - {fileID: 1649367924130822180}
   - {fileID: 7829194784472969733}
   flashDuration: 0.1
+  rootEnemy: {fileID: 7653356360152750695}
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
   particleScale: 1
-  scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
---- !u!114 &8157663866430986762
+  waveManager: {fileID: 6106434215873759395, guid: 5dac35d9758914347b9c7e44efcea6f5, type: 3}
+--- !u!114 &6231190284537562720
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,20 +230,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 2276404628542941893}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b344a1ad9dc6f447b18a346cbb96693, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a4eafe6334fa2c4a8d3013fd1026a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
-  bulletSpawnDelay: 0.5
+  checkInterval: 0.5
+  minSpawnDelay: 0.5
+  maxSpawnDelay: 0.5
   minSpawnChance: 0.4
   maxSpawnChance: 0.5
   minNumberOfBulletInBurst: 1
   maxNumberOfBulletInBurst: 3
+  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
   bulletSpeed: 3
-  checkInterval: 3
-  firePointLeft: {fileID: 4662321945573736300}
-  firePointRight: {fileID: 644312589667843388}
-  firePointCenter: {fileID: 732894170612308011}
+  firePoint: {fileID: 4662321945573736300}
+  firePoint2: {fileID: 732894170612308011}
+  firePoint3: {fileID: 644312589667843388}
 --- !u!1 &2672929342112620442
 GameObject:
   m_ObjectHideFlags: 0

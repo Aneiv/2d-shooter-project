@@ -1,22 +1,21 @@
+﻿
 using UnityEngine;
 
-public class OrbitalMLRSEnemyShoot : MonoBehaviour, IEnemy
+public class OrbitalMLRSEnemy : EnemyShoot
 {
-    private bool waiting = true;
     public float maxRandomShootingDelay = 2f;
     private float finalShootingDelay;
 
-    private float timer = 0f;
-
-    public GameObject frontCannon;
-    public GameObject backCannon;
-
-    private void Start()
+    [SerializeField]
+    private GameObject frontCannon;
+    [SerializeField]
+    private GameObject backCannon;
+    public override void Start()
     {
+        base.Start();
         finalShootingDelay = Random.value * maxRandomShootingDelay;
         timer = finalShootingDelay;
     }
-
     void FixedUpdate()
     {
         if (!waiting)
@@ -24,14 +23,10 @@ public class OrbitalMLRSEnemyShoot : MonoBehaviour, IEnemy
             if (timer <= 0f)
             {
                 var frontRocketLauncher = frontCannon.GetComponent<RocketLauncher>();
-                if (frontRocketLauncher != null)
+                var backRocketLauncher = backCannon.GetComponent<RocketLauncher>();
+                if (frontRocketLauncher != null && backRocketLauncher != null)
                 {
                     frontRocketLauncher.ReadyToShoot();
-                }
-
-                var backRocketLauncher = backCannon.GetComponent<RocketLauncher>();
-                if (backRocketLauncher != null)
-                {
                     backRocketLauncher.ReadyToShoot();
                 }
             }
@@ -39,9 +34,5 @@ public class OrbitalMLRSEnemyShoot : MonoBehaviour, IEnemy
             timer -= Time.deltaTime;
         }
     }
-
-    public void OnArrival()
-    {
-        waiting = false;
-    }
 }
+

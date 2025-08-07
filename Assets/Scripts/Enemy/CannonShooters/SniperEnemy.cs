@@ -1,17 +1,17 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
-public class SniperEnemyShoot : MonoBehaviour, IEnemy
+public class SniperEnemy : EnemyShoot
 {
-    private bool waiting = true;
     public float maxRandomShootingDelay = 2f;
     private float finalShootingDelay;
 
-    private float timer = 0f;
+    [SerializeField]
+    private GameObject cannon;
 
-    public GameObject cannon;
-
-    private void Start()
+    public override void Start()
     {
+        base.Start();
         finalShootingDelay = Random.value * maxRandomShootingDelay;
         timer = finalShootingDelay;
     }
@@ -34,9 +34,5 @@ public class SniperEnemyShoot : MonoBehaviour, IEnemy
             timer -= Time.deltaTime;
         }
     }
-
-    public void OnArrival()
-    {
-        waiting = false;
-    }
 }
+

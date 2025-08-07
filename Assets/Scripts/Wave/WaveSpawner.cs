@@ -114,10 +114,10 @@ public class WaveSpawner : MonoBehaviour
                     .SetDelay(i * 0.3f) //delay between spawning rows of ships
                     .OnComplete(() =>
                     {
-                        IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
-                        if (enemyInterface != null) 
+                        Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                        if (enemyInstance != null) 
                         {
-                            enemyInterface.OnArrival();
+                            enemyInstance.OnArrival();
                         }
                     });
             }
@@ -155,10 +155,10 @@ public class WaveSpawner : MonoBehaviour
             .SetDelay(0.3f) //delay between spawning rows of ships
             .OnComplete(() =>
             {
-                IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
-                if (enemyInterface != null)
+                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                if (enemyInstance != null)
                 {
-                    enemyInterface.OnArrival();
+                    enemyInstance.OnArrival();
                 }
             });
         WaveSpawned();
@@ -243,10 +243,10 @@ public class WaveSpawner : MonoBehaviour
                 .SetEase(Ease.InOutSine) //make smooth begin and end of animation
                 .OnComplete(() => //after animation end
                 {
-                    IEnemy enemyInterface = ship.GetComponentInChildren<IEnemy>();
-                    if (enemyInterface != null)
+                    Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                    if (enemyInstance != null)
                     {
-                        enemyInterface.OnArrival();
+                        enemyInstance.OnArrival();
                     }
 
                     //correct ship rotation

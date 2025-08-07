@@ -141,6 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6774383977169308499, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
+    - {fileID: 5993148789622937620, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4935836637643920760, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
@@ -149,14 +150,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1752408685558560256, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5327632929667090017}
+      addedObject: {fileID: 3046809236286629509}
   m_SourcePrefab: {fileID: 100100000, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
 --- !u!1 &244313252297315929 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1752408685558560256, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
   m_PrefabInstance: {fileID: 1959690300332761177}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5327632929667090017
+--- !u!114 &3046809236286629509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,19 +166,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 244313252297315929}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3265504cee30a9468de3c2ddd1c5ba5, type: 3}
+  m_Script: {fileID: 11500000, guid: 70fac248210f5964c92ee558d8716381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
-  bulletSpawnDelay: 0.2
+  checkInterval: 3
+  minSpawnDelay: 0.2
+  maxSpawnDelay: 0.2
   minSpawnChance: 0.15
   maxSpawnChance: 0.3
   minNumberOfBulletInBurst: 2
   maxNumberOfBulletInBurst: 5
+  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
   bulletSpeed: 3
-  checkInterval: 3
-  firePointLeft: {fileID: 8640285690083568648}
-  firePointRight: {fileID: 4777028093688158589}
+  firePoint: {fileID: 8640285690083568648}
+  firePoint2: {fileID: 4777028093688158589}
 --- !u!4 &4777028093688158589 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6447288022928259364, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}

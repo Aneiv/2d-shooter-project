@@ -1,11 +1,13 @@
+using DG.Tweening;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
-using DG.Tweening;
 
 public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
 {
     [Header("Health stuff")]
     public int maxHp = 50;
+    public int collisionDamage = 20;
     protected int currentHp;
     protected bool isVulnerable = false;
     public bool IsVulnerable
@@ -95,7 +97,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
             if (srAnim != null)
             {
-                srAnim.SetText("+"+scoreReward.ToString());
+                srAnim.SetScore(scoreReward);
             }
 
             ExplosionParticles();
@@ -112,6 +114,25 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             DOTween.Kill(gameObject);
             Destroy(rootEnemy);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && isVulnerable)
+        {
+            GameObject playerObj = collision.gameObject;
+            OnCollisionWithPlayer(playerObj);
+        }
+    }
+
+    virtual protected void OnCollisionWithPlayer(GameObject playerObj)
+    {
+        Player player = playerObj.GetComponent<Player>();
+        if (player != null)
+        {
+            player.TakeDamage(collisionDamage);
+        }
+        Die(playerObj);
     }
 
     protected void HitFlashAnim(SpriteRenderer sprite)

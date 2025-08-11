@@ -198,7 +198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 1
+  speed: 2
   rotateSpeed: 100
   burstParticle: {fileID: 3929812176606454808}
   explodeRadius: 0.5

@@ -30,7 +30,7 @@ public class EnemyCannon : Enemy
             ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
             if (srAnim != null)
             {
-                srAnim.SetText("+" + scoreReward.ToString());
+                srAnim.SetScore(scoreReward);
             }
 
             ExplosionParticles();
@@ -42,4 +42,5 @@ public class EnemyCannon : Enemy
             Destroy(rootEnemy);
         }
     }
+    protected override void OnCollisionWithPlayer(GameObject playerObj) {}
 }

@@ -6,6 +6,8 @@ public class ScoreRewardAnim : MonoBehaviour
     public float moveSpeed = 1.5f;
     public float fadeDuration = 1.0f;
     private float timer = 0f;
+    private float initScale = 0.006f;
+    private float size = 1f;
     private CanvasGroup canvasGroup;
     public TMP_Text scoreText;
 
@@ -34,11 +36,14 @@ public class ScoreRewardAnim : MonoBehaviour
         }
     }
 
-    public void SetText(string text)
+    public void SetScore(int score)
     {
         if(scoreText != null)
         {
-            scoreText.text = text;
+            scoreText.text = "+" + score.ToString();
+
+            size = Mathf.Min(Mathf.Log10(score), 2f);
+            transform.localScale = new Vector3(initScale, initScale, initScale) * size;
         }
     }
 }

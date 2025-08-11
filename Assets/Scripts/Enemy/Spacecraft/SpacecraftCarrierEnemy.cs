@@ -90,7 +90,7 @@ public class SpacecraftCarrierEnemy : Enemy
             ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
             if (srAnim != null)
             {
-                srAnim.SetText("+" + scoreReward.ToString());
+                srAnim.SetScore(scoreReward);
             }
             // death animation
             Color color = mainSprite.color;
@@ -131,5 +131,7 @@ public class SpacecraftCarrierEnemy : Enemy
         yield return new WaitForSeconds(0.1f);
         ExplosionParticles(null, hugeExplosionPart, hugeFragPart, 0.8f, 90f);
     }
+
+    protected override void OnCollisionWithPlayer(GameObject playerObj) {}
 }
 

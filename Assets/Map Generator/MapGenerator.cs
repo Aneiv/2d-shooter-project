@@ -30,6 +30,11 @@ public class MapGenerator : MonoBehaviour
     
     public List<TerrainType> terrainRegions;
 
+    [Header("GradientAndShader")]
+    int gradientStep = 5; // colors between start and end color
+    float thetaSun = 60f; // the azimuth angle(the angle between the geographic direction [North])
+    float phiSun = 20f; // the elevation angle(the angle above the surface)
+
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
 
@@ -128,6 +133,12 @@ public class MapGenerator : MonoBehaviour
 
         Color[] colourMap = new Color[mapChunkResolution * mapChunkResolution];
 
+        // sun and shade details
+
+        float thetaRadSun = thetaSun * Mathf.Deg2Rad;
+        float phiRadSun = phiSun * Mathf.Deg2Rad;
+
+
         for (int y = 0; y < mapChunkResolution; y++)
         {
             for (int x = 0; x < mapChunkResolution; x++)
@@ -144,31 +155,81 @@ public class MapGenerator : MonoBehaviour
                 //    }
                 //}
 
-                for (int i = 0; i < terrainRegions.Count; i++)
-                {
-                    float min = i==0 ? 0f : terrainRegions[i - 1].height;
-                    float max = terrainRegions[i].height;
-
-                    if (currentHeight >= min && currentHeight <= max)
-                    {
-                        Color colorStart = terrainRegions[i].colorStart;
-                        Color colorEnd = terrainRegions[i].colorEnd;
-
-                        float normalizedHeight = (currentHeight - min) / (max - min);
-                        float step = 5f;
-                        normalizedHeight = Mathf.Ceil(normalizedHeight * step) / step;
-                        normalizedHeight = Mathf.Clamp01(normalizedHeight);
-                        Color blendColor = Color.Lerp(colorStart, colorEnd, normalizedHeight);
-
-                        int flippedY = mapChunkResolution - 1 - y;
-                        colourMap[flippedY * mapChunkResolution + x] = blendColor;
-                        break;
-                    }
-                }
+                AddGradient(colourMap, currentHeight, x, y, gradientStep);
+                AddShaders(colourMap, noiseMap, currentHeight, x, y, phiRadSun, phiRadSun);
+                
             }
         }
 
         return new MapData(noiseMap, colourMap);
+    }
+
+    void AddGradient(Color[] colourMap, float currentHeight, int x, int y, int step = 5)
+    {
+        int flippedY = mapChunkResolution - 1 - y;
+        for (int i = 0; i < terrainRegions.Count; i++)
+        {
+            float min = i == 0 ? 0f : terrainRegions[i - 1].height;
+            float max = terrainRegions[i].height;
+
+            if (currentHeight >= min && currentHeight <= max)
+            {
+                Color colorStart = terrainRegions[i].colorStart;
+                Color colorEnd = terrainRegions[i].colorEnd;
+
+                float normalizedHeight = (currentHeight - min) / (max - min);
+                normalizedHeight = Mathf.Ceil(normalizedHeight * step) / step;
+                normalizedHeight = Mathf.Clamp01(normalizedHeight);
+                Color blendColor = Color.Lerp(colorStart, colorEnd, normalizedHeight);
+
+                colourMap[flippedY * mapChunkResolution + x] = blendColor;
+                break;
+            }
+        }
+    }
+
+    void AddShaders(Color[] colourMap, float[,] noiseMap,  float currentHeight, int x, int y,
+        float phiRad,float thetaRad)
+    {
+        int flippedY = mapChunkResolution - 1 - y;
+
+        float slope;
+        float aspect;
+        float brightness;
+        float waterHeight = terrainRegions[0].height;
+        // shading
+        if (currentHeight > waterHeight)
+        {
+            // on border of chunks
+            int xm1 = Mathf.Max(x - 1, 0);
+            int xp1 = Mathf.Min(x + 1, mapChunkResolution - 1);
+            int ym1 = Mathf.Max(y - 1, 0);
+            int yp1 = Mathf.Min(y + 1, mapChunkResolution - 1);
+
+            float dzdx = ((noiseMap[xm1, y] - noiseMap[xp1, y]) / 2f) * mapChunkResolution;
+            float dzdy = ((noiseMap[x, ym1] - noiseMap[x, yp1]) / 2f) * mapChunkResolution;
+
+            slope = Mathf.Atan(Mathf.Sqrt(dzdx * dzdx + dzdy * dzdy));
+
+            aspect = Mathf.Atan2(dzdy, -dzdx);
+
+            brightness = Mathf.Cos(phiRad) * Mathf.Cos(slope) + Mathf.Sin(phiRad) * Mathf.Sin(slope) * Mathf.Cos(thetaRad - aspect);
+            float normalizedBrightness = (brightness + 1) / 2f;
+            normalizedBrightness = Mathf.Pow(normalizedBrightness, 1f / 3f);
+            if (normalizedBrightness > 0.8f) normalizedBrightness = Mathf.Pow(normalizedBrightness, 1f / 2f);
+
+            Color currColor = colourMap[flippedY * mapChunkResolution + x];
+            Color shadedColor = Color.Lerp(Color.black, currColor, normalizedBrightness);
+
+            colourMap[flippedY * mapChunkResolution + x] = shadedColor;
+        }
+        else
+        {
+            Color currColor = colourMap[flippedY * mapChunkResolution + x];
+            Color shadedColor = Color.Lerp(Color.black, currColor, 0.9f);
+
+            colourMap[flippedY * mapChunkResolution + x] = shadedColor;
+        }
     }
 
     void OnValidate()

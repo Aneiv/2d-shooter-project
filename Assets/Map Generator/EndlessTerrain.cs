@@ -283,7 +283,7 @@ public class EndlessTerrain : MonoBehaviour
         }
 
         //color similarity check to place object on certain color tiles
-        bool CheckColorSimilarity(Color a, Color[] b, float tolerance = 0.02f)
+        bool CheckColorSimilarity(Color a, Color[] b, float tolerance = 0.2f)
         {
             foreach (Color c in b)
             {

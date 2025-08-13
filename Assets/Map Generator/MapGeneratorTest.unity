@@ -311,9 +311,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1415023152}
-  - component: {fileID: 1415023151}
   - component: {fileID: 1415023150}
   - component: {fileID: 1415023153}
+  - component: {fileID: 1415023154}
   m_Layer: 0
   m_Name: MapGenerator
   m_TagString: Untagged
@@ -333,67 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596b71a550da5404e9e250ac069c4b3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textureRender: {fileID: 1941892245}
---- !u!114 &1415023151
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415023149}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b05a632ea3aa225478c611e412ef598c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  drawMode: 1
-  normalizeMode: 1
-  editorPreviewLOD: 0
-  noiseScale: 56.05
-  octaves: 5
-  persistance: 0.377
-  lacunarity: 1.83
-  seed: 1
-  offset: {x: 0, y: 0}
-  meshHeightMultiplier: 0
-  meshHeightCurve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  autoUpdate: 1
-  regions:
-  - name: Water1
-    height: 0.3
-    colour: {r: 0, g: 0.2, b: 0.4, a: 0}
-  - name: Water2
-    height: 0.4
-    colour: {r: 0.2, g: 0.4, b: 0.8, a: 0}
-  - name: Sand1
-    height: 0.45
-    colour: {r: 0.95686275, g: 0.8862745, b: 0.7019608, a: 0}
-  - name: Grass1
-    height: 0.6
-    colour: {r: 0.2880918, g: 0.735849, b: 0.30618304, a: 0}
-  - name: Grass2
-    height: 0.65
-    colour: {r: 0.23891956, g: 0.5566038, b: 0.2517553, a: 0}
-  - name: Mountains1
-    height: 0.75
-    colour: {r: 0.54509807, g: 0.46666667, b: 0.39607844, a: 0}
-  - name: Mountains2
-    height: 0.8
-    colour: {r: 0.4716981, g: 0.42134303, b: 0.3760235, a: 0}
-  - name: Mountains3
-    height: 0.9
-    colour: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 0}
-  - name: Mountains4
-    height: 0.95
-    colour: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0}
-  - name: Mountains5
-    height: 1
-    colour: {r: 1, g: 1, b: 1, a: 0}
+  textureRender: {fileID: 1941892244}
 --- !u!4 &1415023152
 Transform:
   m_ObjectHideFlags: 0
@@ -421,9 +361,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 340da7fa0d06d9e4bbb003e2f5a653cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewer: {fileID: 1971128300}
+  scrollSpeed: 0
   tileMaterial: {fileID: 2100000, guid: 6a55f69173eab0d43b7c4d7a8eabe5ca, type: 2}
-  viewDistanceChunks: 1
+  viewDistanceChunksX: 0
+  viewDistanceChunksY: 1
+  objectsSpawner: []
+--- !u!114 &1415023154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1415023149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b05a632ea3aa225478c611e412ef598c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawMode: 1
+  normalizeMode: 1
+  editorPreviewLOD: 0
+  noiseScale: 64.1
+  octaves: 7
+  persistance: 0.55
+  lacunarity: 1.8
+  seed: 1
+  offset: {x: 0, y: 0}
+  meshHeightMultiplier: 0
+  meshHeightCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  mapChunkResolution: 512
+  autoUpdate: 1
+  terrainRegions:
+  - name: Water
+    height: 0.3
+    colorStart: {r: 0.09019608, g: 0.5568628, b: 0.76470596, a: 0}
+    colorEnd: {r: 0.16078432, g: 0.9686275, b: 0.9960785, a: 0}
+  - name: Sand
+    height: 0.35
+    colorStart: {r: 0.754717, g: 0.7283084, b: 0.5731577, a: 0}
+    colorEnd: {r: 0.89019614, g: 0.8588236, b: 0.6745098, a: 0}
+  - name: Grass
+    height: 0.65
+    colorStart: {r: 0.45882356, g: 0.93725497, b: 0.48627454, a: 0}
+    colorEnd: {r: 0.08235294, g: 0.7058824, b: 0.54509807, a: 0}
+  - name: Mountains1
+    height: 0.75
+    colorStart: {r: 0.08235294, g: 0.7058824, b: 0.54509807, a: 0}
+    colorEnd: {r: 0.08235295, g: 0.7058824, b: 0.29778445, a: 0}
+  - name: Mountains2
+    height: 0.85
+    colorStart: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
+    colorEnd: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 0}
+  - name: Snow
+    height: 1
+    colorStart: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 0}
+    colorEnd: {r: 1, g: 1, b: 1, a: 0}
 --- !u!1 &1941892244
 GameObject:
   m_ObjectHideFlags: 0
@@ -506,7 +503,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 241, y: 241, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

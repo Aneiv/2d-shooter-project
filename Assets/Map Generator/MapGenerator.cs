@@ -1,7 +1,7 @@
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class MapGenerator : MonoBehaviour
     public int mapChunkResolution = 121;
     public bool autoUpdate;
     
-    public List<TerrainType> regions;
+    public List<TerrainType> terrainRegions;
 
     Queue<MapThreadInfo<MapData>> mapDataThreadInfoQueue = new Queue<MapThreadInfo<MapData>>();
     Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQueue = new Queue<MapThreadInfo<MeshData>>();
@@ -134,12 +134,34 @@ public class MapGenerator : MonoBehaviour
             {
                 float currentHeight = noiseMap[x, y];
 
-                for (int i = 0; i < regions.Count; i++)
+                //for (int i = 0; i < regions.Count; i++)
+                //{
+                //    if (currentHeight <= regions[i].height)
+                //    {
+                //        int flippedY = mapChunkResolution - 1 - y;
+                //        colourMap[flippedY * mapChunkResolution + x] = regions[i].colour;
+                //        break;
+                //    }
+                //}
+
+                for (int i = 0; i < terrainRegions.Count; i++)
                 {
-                    if (currentHeight <= regions[i].height)
+                    float min = i==0 ? 0f : terrainRegions[i - 1].height;
+                    float max = terrainRegions[i].height;
+
+                    if (currentHeight >= min && currentHeight <= max)
                     {
+                        Color colorStart = terrainRegions[i].colorStart;
+                        Color colorEnd = terrainRegions[i].colorEnd;
+
+                        float normalizedHeight = (currentHeight - min) / (max - min);
+                        float step = 5f;
+                        normalizedHeight = Mathf.Ceil(normalizedHeight * step) / step;
+                        normalizedHeight = Mathf.Clamp01(normalizedHeight);
+                        Color blendColor = Color.Lerp(colorStart, colorEnd, normalizedHeight);
+
                         int flippedY = mapChunkResolution - 1 - y;
-                        colourMap[flippedY * mapChunkResolution + x] = regions[i].colour;
+                        colourMap[flippedY * mapChunkResolution + x] = blendColor;
                         break;
                     }
                 }
@@ -175,7 +197,8 @@ public struct TerrainType
 {
     public string name;
     public float height;
-    public Color colour;
+    public Color colorStart;
+    public Color colorEnd;
 }
 
 public struct MapData

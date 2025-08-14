@@ -218,7 +218,11 @@ public class EndlessTerrain : MonoBehaviour
                             GameObject spawnObject = GetPooledObject(objectSpawner[i].objectPrefab);
 
                             spawnObject.transform.position = spawnPos;
-                            spawnObject.transform.rotation = Quaternion.identity;
+
+                            bool isRotated = Random.value > 0.5f;
+                            Quaternion rotation = isRotated ? Quaternion.Euler(new Vector3(0f,180f, 0f)) : Quaternion.identity;
+                            spawnObject.transform.rotation = rotation;
+
                             spawnObject.transform.parent = chunkObject.transform;//new object is child of chunk in which is placed
 
                             break; //so not to spawn 2 or more object in one place

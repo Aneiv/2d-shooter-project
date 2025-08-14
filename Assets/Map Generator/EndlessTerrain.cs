@@ -190,7 +190,17 @@ public class EndlessTerrain : MonoBehaviour
             {
                 for (int x = 0; x < resolution; x += step)
                 {
-                    Color tileColor = mapData.colourMap[y * resolution + x];
+                    int noiseOffset = 2;
+                    int xNoise = Random.Range(-noiseOffset, noiseOffset + 1);
+                    int yNoise = Random.Range(-noiseOffset, noiseOffset + 1);
+
+                    int newx = x + xNoise;
+                    int newy = y + yNoise;
+
+                    if (newx < 0 || newx >= resolution || newy < 0 || newy >= resolution)
+                        continue;
+
+                    Color tileColor = mapData.colourMap[newy * resolution + newx];
 
                     for (int i = 0; i < objectSpawner.Count; i++)
                     {
@@ -198,10 +208,11 @@ public class EndlessTerrain : MonoBehaviour
                         {
                             float chunkScale = chunkObject.transform.localScale.x;
                             Vector3 localOffset = new Vector3(
-                                ((float)x / resolution - 0.5f) * chunkScale,
-                                ((float)y / resolution - 0.5f) * chunkScale,
+                                ((float)newx / resolution - 0.5f) * chunkScale,
+                                ((float)newy / resolution - 0.5f) * chunkScale,
                                 0f
                             );
+
                             Vector3 spawnPos = chunkObject.transform.position + localOffset;
                             //get object from pool to spawn
                             GameObject spawnObject = GetPooledObject(objectSpawner[i].objectPrefab);
@@ -213,6 +224,7 @@ public class EndlessTerrain : MonoBehaviour
                             break; //so not to spawn 2 or more object in one place
                         }
                     }
+
                 }
             }
             UpdateTerrainChunk();

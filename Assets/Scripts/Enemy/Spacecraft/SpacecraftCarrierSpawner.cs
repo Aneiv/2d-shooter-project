@@ -16,6 +16,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
     public GameObject midPointLeftObj;
     public GameObject midPointRightObj;
     public GameObject[] positionsObj;
+    public GameObject[] defencePositionsObj;
 
     public float spawnDelay = 0.5f;
     public float checkForAliveEnemiesDelay = 5f;
@@ -31,10 +32,11 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
     private Coroutine EnemyChangePossitions;
     private Coroutine InRestMovement;
     private bool IsInCircleMovement = false;
+    private bool IsInChangePositionMovement = false;
 
     private GameObject[] enemiesInstances;
     private int[] currentEnemyPossIndexes;
-    private EnemyPossitionStatus enemyPossitionStatus;
+    private EnemyPositionStatus enemyPositionStatus;
 
     private float inPossitionDuration;
     public float minInPossDuration = 5f;
@@ -75,8 +77,9 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
     void EnemiesWereSpawned()
     {
         SpawnMovement = null;
-        enemyPossitionStatus = EnemyPossitionStatus.REST;
+        enemyPositionStatus = EnemyPositionStatus.IN_POSITION;
         IsInCircleMovement = false;
+        IsInChangePositionMovement = false;
 
         if (EnemyChangePossitions == null)
         {
@@ -99,7 +102,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         enemiesInstances = new GameObject[enemiesCount];
 
         bool goLeft = false;
-        enemyPossitionStatus = EnemyPossitionStatus.SPAWNING;
+        enemyPositionStatus = EnemyPositionStatus.SPAWNING;
 
         int shipIndex = 0;
         foreach(Vector2 endPoint in randomPositions) {
@@ -189,13 +192,13 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
     {
         while (SpacecraftCarrierEnemy.IsAlive())
         {
-            switch (enemyPossitionStatus)
+            switch (enemyPositionStatus)
             {
-                case EnemyPossitionStatus.SPAWNING:
+                case EnemyPositionStatus.SPAWNING:
                     Debug.Log("Enemy is spawning...");
                     break;
 
-                case EnemyPossitionStatus.REST:
+                case EnemyPositionStatus.IN_POSITION:
                     if(InRestMovement == null)
                     {
                         Debug.Log("Enemy is resting...");
@@ -203,7 +206,15 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                     }
                     break;
 
-                case EnemyPossitionStatus.IN_CIRCLE:
+                case EnemyPositionStatus.IN_DEFENCE:
+                    if (InRestMovement == null)
+                    {
+                        Debug.Log("Enemy is in defence...");
+                        InRestMovement = StartCoroutine(InRestMovementCoroutine());
+                    }
+                    break;
+
+                case EnemyPositionStatus.IN_CIRCLE:
                     if (!IsInCircleMovement)
                     {
                         Debug.Log("Enemy is moving in circle...");
@@ -213,8 +224,23 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                     }
                     break;
 
-                case EnemyPossitionStatus.IN_DEFENCE:
-                    Debug.Log("Enemy is in defence mode...");
+                case EnemyPositionStatus.TO_DEFENCE:
+                    if (!IsInChangePositionMovement)
+                    {
+                        Debug.Log("Enemy is changing position...");
+                        IsInChangePositionMovement = true;
+                        ForEveryShipDOTween(GoToPositionDOTween);
+                    }
+                    
+                    break;
+                case EnemyPositionStatus.TO_POSITION:
+                    if (!IsInChangePositionMovement)
+                    {
+                        Debug.Log("Enemy is changing position...");
+                        IsInChangePositionMovement = true;
+                        ForEveryShipDOTween(GoToPositionDOTween);
+                    }
+
                     break;
 
                 default:
@@ -304,19 +330,80 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             }
             else
             {
-                enemyPossitionStatus = EnemyPossitionStatus.REST;
+                enemyPositionStatus = EnemyPositionStatus.IN_POSITION;
                 IsInCircleMovement = false;
+            }
+        });
+    }
+
+    void GoToPositionDOTween(GameObject ship, int shipIndex)
+    {
+        int currentIndex = currentEnemyPossIndexes[shipIndex];
+        GameObject startPosObj = new();
+        GameObject endPosObj = new();
+        if (enemyPositionStatus == EnemyPositionStatus.TO_DEFENCE)
+        {
+            startPosObj = positionsObj[currentIndex];
+            endPosObj = defencePositionsObj[currentIndex];
+        }else if (enemyPositionStatus == EnemyPositionStatus.TO_POSITION)
+        {
+            startPosObj = defencePositionsObj[currentIndex];
+            endPosObj = positionsObj[currentIndex];
+        }
+
+        Vector2 startPos = startPosObj.transform.position;
+        Vector2 endPos = endPosObj.transform.position;
+
+
+        //movement animation start
+        DOVirtual.Float(0f, 1f, animationDuration, (t) =>
+        {
+            // in case ship was destroyed
+            if (ship == null || !SpacecraftCarrierEnemy.IsAlive()) return;
+
+            Vector2 pos = Vector2.Lerp(startPos, endPos, t);
+            ship.transform.position = pos;
+
+            if (t >= 0.998f)
+            {
+                ship.transform.position = endPos;
+                ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
+                return;
+            }
+        })
+        .SetEase(Ease.InOutSine)
+        .SetTarget(ship)
+        .OnComplete(() =>
+        {
+            if (ship == null) return;
+            IsInChangePositionMovement = false;
+
+            if (enemyPositionStatus == EnemyPositionStatus.TO_DEFENCE)
+            {
+                enemyPositionStatus = EnemyPositionStatus.IN_DEFENCE;
+            }
+            else if (enemyPositionStatus == EnemyPositionStatus.TO_POSITION)
+            {
+                enemyPositionStatus = EnemyPositionStatus.IN_POSITION;
             }
         });
     }
 
     IEnumerator InRestMovementCoroutine()
     {
+
         inPossitionDuration = UnityEngine.Random.Range(minInPossDuration, maxInPossDuration);
 
         yield return new WaitForSeconds(inPossitionDuration);
 
-        enemyPossitionStatus = EnemyPossitionStatus.IN_CIRCLE;
+        bool randomChoice = UnityEngine.Random.value < 0.5f;
+        if (enemyPositionStatus == EnemyPositionStatus.IN_POSITION)
+        {
+            enemyPositionStatus = randomChoice ? EnemyPositionStatus.TO_DEFENCE : EnemyPositionStatus.IN_CIRCLE;
+        }
+        else if (enemyPositionStatus == EnemyPositionStatus.IN_DEFENCE) {
+            enemyPositionStatus = EnemyPositionStatus.TO_POSITION;
+        }
 
         InRestMovement = null;
     }
@@ -360,11 +447,13 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         }
     }
 
-    private enum EnemyPossitionStatus
+    private enum EnemyPositionStatus
     {
         SPAWNING,
-        REST,
+        TO_POSITION,
+        IN_POSITION,
         IN_CIRCLE,
+        TO_DEFENCE,
         IN_DEFENCE
     }
 }

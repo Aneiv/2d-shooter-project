@@ -39,14 +39,14 @@ public class SpacecraftCarrierEnemy : Enemy
         {
             if (obj.TryGetComponent<IShootReady>(out var cannon))
             {
-                cannon.ReadyToShoot();
+                //cannon.ReadyToShoot();
             }
         }
         foreach(GameObject container in cannonContainers)
         {
             if(container.TryGetComponent<FollowSprite>(out var followSprite))
             {
-                followSprite.StartFollow();
+                //followSprite.StartFollow();
             }
         }
 

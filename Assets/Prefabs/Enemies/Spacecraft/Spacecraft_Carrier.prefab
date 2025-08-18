@@ -234,7 +234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3764694334183148876}
   m_Layer: 0
-  m_Name: Position_6
+  m_Name: Position_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -564,6 +564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 500
+  collisionDamage: 20
   scoreReward: 1000
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
   healthBar: {fileID: 4385201000227122457}
@@ -622,12 +623,13 @@ MonoBehaviour:
   - {fileID: 9118903134406600649}
   - {fileID: 8365223934203916224}
   - {fileID: 1609410814112013890}
-  - {fileID: 9193641895993370068}
-  - {fileID: 6437366498620850966}
   - {fileID: 3191437630786312854}
+  - {fileID: 6437366498620850966}
+  - {fileID: 9193641895993370068}
   spawnDelay: 0.5
   checkForAliveEnemiesDelay: 5
   animationDuration: 1.5
+  inPossitionDuration: 10
 --- !u!1 &6437366498620850966
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,7 +935,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6907236021980952691}
   m_Layer: 0
-  m_Name: Position_4
+  m_Name: Position_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

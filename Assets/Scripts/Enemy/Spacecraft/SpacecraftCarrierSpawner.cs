@@ -195,13 +195,13 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             switch (enemyPositionStatus)
             {
                 case EnemyPositionStatus.SPAWNING:
-                    Debug.Log("Enemy is spawning...");
+                    //Debug.Log("Enemy is spawning...");
                     break;
 
                 case EnemyPositionStatus.IN_POSITION:
                     if(InRestMovement == null)
                     {
-                        Debug.Log("Enemy is resting...");
+                        //Debug.Log("Enemy is resting...");
                         InRestMovement = StartCoroutine(InRestMovementCoroutine());
                     }
                     break;
@@ -209,7 +209,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                 case EnemyPositionStatus.IN_DEFENCE:
                     if (InRestMovement == null)
                     {
-                        Debug.Log("Enemy is in defence...");
+                        //Debug.Log("Enemy is in defence...");
                         InRestMovement = StartCoroutine(InRestMovementCoroutine());
                     }
                     break;
@@ -217,7 +217,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                 case EnemyPositionStatus.IN_CIRCLE:
                     if (!IsInCircleMovement)
                     {
-                        Debug.Log("Enemy is moving in circle...");
+                        //Debug.Log("Enemy is moving in circle...");
                         IsInCircleMovement = true;
                         GetRandomNumberOfInCircleSteps();
                         ForEveryShipDOTween(InCircleMovementDOTween);
@@ -227,7 +227,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                 case EnemyPositionStatus.TO_DEFENCE:
                     if (!IsInChangePositionMovement)
                     {
-                        Debug.Log("Enemy is changing position...");
+                        //Debug.Log("Enemy is changing position...");
                         IsInChangePositionMovement = true;
                         ForEveryShipDOTween(GoToPositionDOTween);
                     }
@@ -236,7 +236,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
                 case EnemyPositionStatus.TO_POSITION:
                     if (!IsInChangePositionMovement)
                     {
-                        Debug.Log("Enemy is changing position...");
+                        //Debug.Log("Enemy is changing position...");
                         IsInChangePositionMovement = true;
                         ForEveryShipDOTween(GoToPositionDOTween);
                     }

@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-using DG.Tweening;
+﻿using DG.Tweening;
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
+using UnityEngine;
 
 public class SpacecraftCarrierEnemy : Enemy
 {
@@ -15,6 +16,7 @@ public class SpacecraftCarrierEnemy : Enemy
     public GameObject[] cannonContainers;
 
     private SpacecraftCarrierSpawner SpacecraftCarrierSpawner;
+    private SpacecraftCarrierShoot SpacecraftCarrierShoot;
     private Animator animator;
 
     protected override void Start()
@@ -22,6 +24,7 @@ public class SpacecraftCarrierEnemy : Enemy
         base.Start();        
         isVulnerable = false;
         SpacecraftCarrierSpawner = GetComponent<SpacecraftCarrierSpawner>();
+        SpacecraftCarrierShoot = GetComponent<SpacecraftCarrierShoot>();
         animator = GetComponent<Animator>();
     }
     public void DestroyCannon()
@@ -54,6 +57,10 @@ public class SpacecraftCarrierEnemy : Enemy
         {
             SpacecraftCarrierSpawner.StartSpawningEnemies();
         }
+        if(SpacecraftCarrierShoot != null)
+        {
+            SpacecraftCarrierShoot.OnArrival();
+        }
     }
 
     public override void TakeDamage(int damage, GameObject attacker)
@@ -80,18 +87,8 @@ public class SpacecraftCarrierEnemy : Enemy
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {
-            // score reward
             Player player = attacker.GetComponent<Player>();
-            if (player != null)
-            {
-                player.AddToScore(scoreReward);
-            }
-            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
-            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
-            if (srAnim != null)
-            {
-                srAnim.SetScore(scoreReward);
-            }
+
             // death animation
             Color color = mainSprite.color;
             color.a = 1f;
@@ -101,8 +98,7 @@ public class SpacecraftCarrierEnemy : Enemy
             animator.SetTrigger("OnDeath");
 
             // mini explosions
-            StartCoroutine(ExplosionsCoroutine());
-            
+            StartCoroutine(ExplosionsCoroutine(player));
 
             var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
             destroyTrigger.EnemyKilled();
@@ -118,7 +114,7 @@ public class SpacecraftCarrierEnemy : Enemy
         }
     }
 
-    IEnumerator ExplosionsCoroutine()
+    IEnumerator ExplosionsCoroutine(Player player)
     {
         float scale = 1f;
         foreach (GameObject obj in deathExplosionsObj)
@@ -130,6 +126,18 @@ public class SpacecraftCarrierEnemy : Enemy
         }
         yield return new WaitForSeconds(0.1f);
         ExplosionParticles(null, hugeExplosionPart, hugeFragPart, 0.8f, 90f);
+
+        // score reward
+        if (player != null)
+        {
+            player.AddToScore(scoreReward);
+        }
+        GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+        ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+        if (srAnim != null)
+        {
+            srAnim.SetScore(scoreReward);
+        }
     }
 
     protected override void OnCollisionWithPlayer(GameObject playerObj) {}

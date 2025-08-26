@@ -300,21 +300,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1975137273742205165}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c5dbca704919d468cc842ef49ac40e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d59d314e1f710b44922c63b4f80a117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 3771688134555677581}
+  minReloadDelay: 6
+  maxReloadDelay: 6
   aimingRay: {fileID: 3793572314702257296}
   hurtfulRay: {fileID: 4466528013487720397}
+  hurtfulRayParticle: {fileID: 3901023839851915027, guid: f7b44ee48e95b46439ff7859a4941dd1, type: 3}
   damage: 15
-  reloadDelay: 6
   rotationSpeed: 200
+  hurtfulLaserBeamDuration: 0.6
   onPlayerTrackingTime: 1
   lockAimTime: 2
-  hurtfulLaserBeamDuration: 0.6
   aimingLaserBlinkDuration: 0.2
   numberOfBlinks: 3
-  hurtfulRayParticle: {fileID: 8459926216167392175}
 --- !u!1 &6749389110365031275
 GameObject:
   m_ObjectHideFlags: 0
@@ -558,10 +559,5 @@ PrefabInstance:
 --- !u!4 &653286657735566932 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5356040343631201000, guid: f7b44ee48e95b46439ff7859a4941dd1, type: 3}
-  m_PrefabInstance: {fileID: 4847151457118987452}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &8459926216167392175 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 3901023839851915027, guid: f7b44ee48e95b46439ff7859a4941dd1, type: 3}
   m_PrefabInstance: {fileID: 4847151457118987452}
   m_PrefabAsset: {fileID: 0}

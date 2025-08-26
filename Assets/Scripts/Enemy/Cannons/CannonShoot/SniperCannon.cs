@@ -1,54 +1,34 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-public class SniperCannon : MonoBehaviour
+public class SniperCannon : EnemyCannonShoot
 {
-    public Transform firePoint;
-    private Transform targetPlayer;
-    private Rigidbody2D rb;
-
+    [Header("Laser")]
     public LineRenderer aimingRay;
     public LineRenderer hurtfulRay;
-
-    private Vector2 targetPosition;
-
-    public int damage = 15;
-
-    public float reloadDelay = 6f;
-    public float rotationSpeed = 200f;
-
-    public float onPlayerTrackingTime = 1f; // time of aiming the cannon at the player
-    public float lockAimTime = 2f;
-    public float hurtfulLaserBeamDuration = 0.8f;
-
-    public float aimingLaserBlinkDuration = 0.2f;
-    public int numberOfBlinks = 3;
-
-    private bool waiting = true;
-    private float reloadTimer = 0f;
-    private float aimingTimer = 0f;
-
-    private RaycastHit2D[] hitsInfoAim;
-    private Coroutine aimAndShootCoroutine;
     public ParticleSystem hurtfulRayParticle;
     private ParticleSystem currentHurtfulRayParticle;
+    public int damage = 15;
 
-    void Start()
+    [Header("Shooting")]
+    private RaycastHit2D[] hitsInfoAim;
+    private Coroutine aimAndShootCoroutine;
+    public float rotationSpeed = 200f;
+    public float hurtfulLaserBeamDuration = 0.8f;
+
+    [Header("Aiming")]
+    public float onPlayerTrackingTime = 1f; // time of aiming the cannon at the player
+    public float lockAimTime = 2f;
+    public float aimingLaserBlinkDuration = 0.2f;
+    public int numberOfBlinks = 3;
+    private float aimingTimer = 0f;
+    private Vector2 targetPosition;
+
+    public override void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            targetPlayer = player.transform;
-            aimingRay.enabled = true;
-            hurtfulRay.enabled = false;
-        }
-    }
-
-    public void ReadyToShoot()
-    {
-        waiting = false;
+        base.Start();
+        aimingRay.enabled = true;
+        hurtfulRay.enabled = false;
     }
 
     private void FixedUpdate()
@@ -72,7 +52,7 @@ public class SniperCannon : MonoBehaviour
     {
         aimingTimer = lockAimTime;
 
-        while(aimingTimer > 0f)
+        while (aimingTimer > 0f)
         {
             targetPosition = targetPlayer.position;
             //destination
@@ -119,7 +99,8 @@ public class SniperCannon : MonoBehaviour
         // laser blink
         aimingRay.SetPosition(1, firePoint.position + firePoint.up * 100);
 
-        for (int i = 0; i < numberOfBlinks * 2; i++) {
+        for (int i = 0; i < numberOfBlinks * 2; i++)
+        {
             aimingRay.enabled = !aimingRay.enabled;
             yield return new WaitForSeconds(aimingLaserBlinkDuration);
         }
@@ -139,7 +120,7 @@ public class SniperCannon : MonoBehaviour
 
         hurtfulRay.SetPosition(1, shootHitPoint);
 
-        
+
 
         foreach (RaycastHit2D hit in hitsInfoShoot)
         {
@@ -167,3 +148,4 @@ public class SniperCannon : MonoBehaviour
         aimAndShootCoroutine = null;
     }
 }
+

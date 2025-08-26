@@ -22,7 +22,7 @@ public class SniperEnemy : EnemyShoot
         {
             if (timer <= 0f)
             {
-                var sniperCannon = cannon.GetComponent<SniperCannon>();
+                var sniperCannon = cannon.GetComponent<EnemyCannonShoot>();
                 var followSprite = cannon.GetComponent<FollowSprite>();
                 if (sniperCannon != null && followSprite != null)
                 {

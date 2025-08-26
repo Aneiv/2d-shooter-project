@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using System.Collections;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class SpacecraftCarrierEnemy : Enemy
@@ -40,7 +39,7 @@ public class SpacecraftCarrierEnemy : Enemy
         isVulnerable = false;
         foreach (GameObject obj in cannonsObjs)
         {
-            if (obj.TryGetComponent<IShootReady>(out var cannon))
+            if (obj.TryGetComponent<EnemyCannonShoot>(out var cannon))
             {
                 cannon.ReadyToShoot();
             }

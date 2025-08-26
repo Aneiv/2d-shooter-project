@@ -22,8 +22,8 @@ public class OrbitalMLRSEnemy : EnemyShoot
         {
             if (timer <= 0f)
             {
-                var frontRocketLauncher = frontCannon.GetComponent<RocketLauncher>();
-                var backRocketLauncher = backCannon.GetComponent<RocketLauncher>();
+                var frontRocketLauncher = frontCannon.GetComponent<EnemyCannonShoot>();
+                var backRocketLauncher = backCannon.GetComponent<EnemyCannonShoot>();
                 if (frontRocketLauncher != null && backRocketLauncher != null)
                 {
                     frontRocketLauncher.ReadyToShoot();

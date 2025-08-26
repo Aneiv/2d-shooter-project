@@ -270,17 +270,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 8544748957233154593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ac9f990d56b564d9605faf9c998712, type: 3}
+  m_Script: {fileID: 11500000, guid: f536f233586b28a499238bcfc383df19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   firePoint: {fileID: 4604581485195215139}
-  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
   minReloadDelay: 2
   maxReloadDelay: 4
-  rotationSpeed: 200
+  enemyBullet: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
+  bulletSpeed: 3
   numberOfBulletInBurst: 3
   bulletSpawnDelay: 0.3
-  bulletSpeed: 3
+  rotationSpeed: 200
 --- !u!114 &2934357355467403126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 50
+  collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
   healthBar: {fileID: 3095573913884451546}

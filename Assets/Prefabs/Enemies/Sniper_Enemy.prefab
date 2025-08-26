@@ -1024,9 +1024,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1975137273742205165, guid: c1d71f37152f49f45a7d178cd55860f2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6275590187032057396}
-    - targetCorrespondingSourceObject: {fileID: 1975137273742205165, guid: c1d71f37152f49f45a7d178cd55860f2, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8782933419421617180}
   m_SourcePrefab: {fileID: 100100000, guid: c1d71f37152f49f45a7d178cd55860f2, type: 3}
 --- !u!4 &2608363724341156564 stripped
 Transform:
@@ -1053,28 +1050,6 @@ MonoBehaviour:
   lider: {fileID: 4970138151470204692}
   xOffset: 0
   yOffset: -0.521
---- !u!95 &8782933419421617180
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5142183001056880211}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: dba4192837b22d844ac8923871b440a1, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &8183895496505487460 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 3289498319921182426, guid: c1d71f37152f49f45a7d178cd55860f2, type: 3}

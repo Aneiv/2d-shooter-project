@@ -1,45 +1,24 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
-public class SpacecraftCannon : MonoBehaviour, IShootReady
+public class BasicCannon : EnemyCannonShoot
 {
-
-    public Transform firePoint;
-    private Transform targetPlayer;
-    private Rigidbody2D rb;
+    [Header("Bullet")]
     public GameObject enemyBullet;
-    private GameObject bulletsContainer;
-
-    private Vector2 targetPosition;
-    private Vector2 direction;
-
-    public float minReloadDelay = 2f;
-    public float maxReloadDelay = 4f;
-
-    public float rotationSpeed = 200f;
-    public int numberOfBulletInBurst = 3;
-    public float bulletSpawnDelay = 0.3f;
     public float bulletSpeed = 3f;
 
-    private bool waiting = true;
-    private float reloadTimer = 0f;
+    [Header("Shooting")]
+    public int numberOfBulletInBurst = 3;
+    public float bulletSpawnDelay = 0.3f;
+    public float rotationSpeed = 200f;
 
-    void Start()
+    protected Vector2 targetPosition;
+    protected Vector2 direction;
+
+    public override void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        bulletsContainer = GameObject.Find("BulletsContainer");
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            targetPlayer = player.transform;
-        }
-        reloadTimer = Random.Range(minReloadDelay, maxReloadDelay);
-    }
-
-    public void ReadyToShoot()
-    {
-        waiting = false;
+        base.Start();
+        reloadTimer = reloadDelay;
     }
 
     private void FixedUpdate()
@@ -64,7 +43,7 @@ public class SpacecraftCannon : MonoBehaviour, IShootReady
             {
                 waiting = true;
                 reloadTimer = Random.Range(minReloadDelay, maxReloadDelay);
-                
+
                 StartCoroutine(SpawnBulletCoroutine());
             }
         }
@@ -96,3 +75,4 @@ public class SpacecraftCannon : MonoBehaviour, IShootReady
         rbBullet.linearVelocity = direction.normalized * bulletSpeed;
     }
 }
+

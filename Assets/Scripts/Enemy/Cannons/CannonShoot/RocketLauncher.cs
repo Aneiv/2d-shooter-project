@@ -1,60 +1,37 @@
-using System.Collections;
-using TMPro;
-using Unity.Mathematics;
+﻿using System.Collections;
 using UnityEngine;
 
-public class RocketLauncher : MonoBehaviour, IShootReady
+public class RocketLauncher : EnemyCannonShoot
 {
+    [Header("Bullet")]
     public GameObject enemyBullet;
-    public Transform firePoint;
-    //target player location
-    private Transform targetPlayer;
 
-    public float reloadDelay = 6f;
-    public float rotationDuration = 0.5f;
+    [Header("Shooting")]
     public float rocketSpawnDelay = 0.2f;
-
-    private bool isWaitingForShot = true;
-    private float timer = 0f;
-
     public int numberOfRocketInSalvo = 3;
 
+    [Header("Rotation")]
+    public float rotationDuration = 0.5f;
     public float rotationAngleOfReloading = -90f;
     public float rotationAngleOfReadyToShot = 60f;
-    private GameObject bulletsContainer;
-
-    void Start()
-    {
-        bulletsContainer = GameObject.Find("BulletsContainer");
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-        {
-            targetPlayer = player.transform;
-        }
-    }
 
     private void FixedUpdate()
     {
-        if (!isWaitingForShot)
+        if (!waiting)
         {
-            timer -= Time.deltaTime;
-            if(timer <= 0f)
+            reloadTimer -= Time.deltaTime;
+            if (reloadTimer <= 0f)
             {
-                timer = reloadDelay;
+                reloadTimer = reloadDelay;
 
                 StartCoroutine(SpawnRocketsCoroutine());
             }
         }
     }
 
-    public void ReadyToShoot()
-    {
-        isWaitingForShot = false;
-    }
-
     IEnumerator SpawnRocketsCoroutine()
     {
-        isWaitingForShot = true;
+        waiting = true;
 
         // rotate cannon to AngleOfReadyToShot
         yield return StartCoroutine(RotateToAngle(rotationAngleOfReadyToShot, rotationDuration));
@@ -70,7 +47,7 @@ public class RocketLauncher : MonoBehaviour, IShootReady
         // rotate cannon to AngleOfReloading
         yield return StartCoroutine(RotateToAngle(rotationAngleOfReloading, rotationDuration));
 
-        isWaitingForShot = false;
+        waiting = false;
     }
 
     IEnumerator RotateToAngle(float targetAngle, float duration)
@@ -104,5 +81,5 @@ public class RocketLauncher : MonoBehaviour, IShootReady
         var rocket = Bullet.GetComponent<LightRocketBulletMovement>();
         rocket.target = targetPlayer; //give player position to bullet when spawned
     }
-
 }
+

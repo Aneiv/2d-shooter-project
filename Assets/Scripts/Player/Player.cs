@@ -5,10 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour, IHealth
 {
     public int maxHp = 80;
-    private int currentScore = 0;
+    public int currentScore = 0;
     private int currentHp;
     private int currentNumberOfCoins = 0;
     private Animator playerAnimator;
+    private GameOverMenu gameOverMenu;
 
     public GameObject GameOverUI;
     public GameObject gameUI;
@@ -17,12 +18,15 @@ public class Player : MonoBehaviour, IHealth
     public TMP_Text totalCoinsTextUI;
     public TMP_Text totalCoinsTextPause;
     public GameObject coinUI;
+    public GameObject canvas;
+    
     void Start()
     {
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
         playerAnimator = GetComponent<Animator>();
         totalScoreText.text = currentScore.ToString();
+        gameOverMenu = canvas.GetComponent<GameOverMenu>();
     }
     public void TakeDamage(int damage)
     {
@@ -46,6 +50,7 @@ public class Player : MonoBehaviour, IHealth
         GameOverUI.SetActive(true);
         Time.timeScale = 0f;
         PauseMenu.GameIsPaused = true;
+        gameOverMenu.OnMenuShow();
 
         Destroy(gameObject);
     }

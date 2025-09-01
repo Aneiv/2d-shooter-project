@@ -34,6 +34,8 @@ public class DreadWingEnemy : Enemy
     private bool secondPhaseActivated = false;
     private bool thirdPhaseActivated = false;
     //private bool arrived = false;
+    private DreadWingShoot DreadWingShoot;
+
     protected override void Start()
     {
         base.Start();
@@ -51,6 +53,7 @@ public class DreadWingEnemy : Enemy
             DoubleWaves
             //more to be made
         };
+        DreadWingShoot = GetComponent<DreadWingShoot>();
     }
     public void SpawnAttack()
     {
@@ -124,12 +127,12 @@ public class DreadWingEnemy : Enemy
         DOVirtual.Float(0f, 1f, 3.5f, (t) =>
         {
             //position on Bezier curve
-            Vector2 pos = QuadraticBezier(PosOut0, PosOut1, PosOut2, t);
+            Vector2 pos = BezierCurve.Quadratic(PosOut0, PosOut1, PosOut2, t);
             rootEnemy.transform.position = pos; //boss position change
 
             //future position calculation (for place and rotation prediction)
             //Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
-            Vector2 futurePos = QuadraticBezier(PosOut0, PosOut1, PosOut2, Mathf.Min(t + 0.01f, 1f));
+            Vector2 futurePos = BezierCurve.Quadratic(PosOut0, PosOut1, PosOut2, Mathf.Min(t + 0.01f, 1f));
 
             Vector2 dir = (futurePos - pos).normalized;
             float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f; //angle calculation
@@ -151,12 +154,13 @@ public class DreadWingEnemy : Enemy
                     DOVirtual.Float(0f, 1f, 3.5f, (t) =>
                     {
                         //position on Bezier curve
-                        Vector2 pos = QuadraticBezier(PosIn0, PosIn1, PosIn2, t);
+                        Vector2 PosIn12 = new Vector2(PosIn2.x, PosIn2.y - 0.2f);
+                        Vector2 pos = BezierCurve.Cubic(PosIn0, PosIn1, PosIn12 ,PosIn2, t);
                         rootEnemy.transform.position = pos; //boss position change
 
                         //future position calculation (for place and rotation prediction)
                         //Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
-                        Vector2 futurePos = QuadraticBezier(PosIn0, PosIn1, PosIn2, Mathf.Min(t + 0.01f, 1f));
+                        Vector2 futurePos = BezierCurve.Cubic(PosIn0, PosIn1,PosIn12 ,PosIn2, Mathf.Min(t + 0.01f, 1f));
 
                         Vector2 dir = (futurePos - pos).normalized;
                         float targetAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg - 90f; //angle calculation
@@ -172,17 +176,11 @@ public class DreadWingEnemy : Enemy
                     })
                                     .OnComplete(() => //after fly-in animation end
                                     {
-                                        isVulnerable = true;
+                                        OnThirdPhaseActions();
                                     });
                 });
 }
-    //additional function for Bezier curve calculation
-    Vector2 QuadraticBezier(Vector2 a, Vector2 b, Vector2 c, float t)
-    {
-        Vector2 ab = Vector2.Lerp(a, b, t);
-        Vector2 bc = Vector2.Lerp(b, c, t);
-        return Vector2.Lerp(ab, bc, t);
-    }
+
 
     public override void OnArrival()
     {
@@ -333,6 +331,17 @@ public class DreadWingEnemy : Enemy
         customDelay = true;
         delay = newDelay;
     }
+
+    private void OnThirdPhaseActions()
+    {
+        isVulnerable = true;
+
+        if (DreadWingShoot != null) {
+            DreadWingShoot.StartShootingFromBelowDeck();
+        }
+    }
+
+
     /*
         IEnumerator ExplosionsCoroutine(Player player)
         {

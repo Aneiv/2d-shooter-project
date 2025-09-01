@@ -8,6 +8,7 @@ public class WaveSpawner : MonoBehaviour
 {
     public GameObject[] enemiesPrefabs;     // Enemy Ship prefab
     public GameObject minibossPrefab; // Mini boss prefab
+    public GameObject bossPrefab;
     private float moveBegingYPosition = 8f;   // first Y position
     public float nextWaveTimeDelay; //delay before creating next wave
 
@@ -41,6 +42,7 @@ public class WaveSpawner : MonoBehaviour
             UpDownSpawn,        //animationDurations[0]
             SpiralMovement,     //animationDurations[1] ...
             SpawnMiniBoss, 
+            SpawnBoss
             //more to be made
         };
 
@@ -151,6 +153,46 @@ public class WaveSpawner : MonoBehaviour
         shipAnimator.Play("Idle", 0, randomOffset);//layer 0
 
         ship.transform.DOMoveY(endYPosition, animationDurations[0])
+            .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
+            .SetDelay(0.3f) //delay between spawning rows of ships
+            .OnComplete(() =>
+            {
+                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                if (enemyInstance != null)
+                {
+                    enemyInstance.OnArrival();
+                }
+            });
+        WaveSpawned();
+    }
+
+    public void SpawnBoss()
+    {
+        shipCount = 1;
+        float startX = 0f;
+        float endYPosition = 3f;
+        enemiesAmount = shipCount;
+
+        //get SpriteRenderer of that ship
+        shipSpriteRenderer = bossPrefab.transform.Find("EnemyVisual").GetComponent<SpriteRenderer>();
+
+        // start position calculation
+        Vector3 spawnPos = new Vector3(startX, moveBegingYPosition, 0f);
+
+        //create ship instance and set position
+        GameObject ship = Instantiate(bossPrefab, spawnPos, Quaternion.identity);
+        ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
+        //rotate ship to correct value
+        ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+
+        //idle animation play at random delay for every ship
+        var shipAnim = ship.GetComponent<Animator>();
+        var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
+        float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+        shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+
+        //Appear Animation
+        ship.transform.DOMoveY(endYPosition, animationDurations[3])
             .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
             .SetDelay(0.3f) //delay between spawning rows of ships
             .OnComplete(() =>

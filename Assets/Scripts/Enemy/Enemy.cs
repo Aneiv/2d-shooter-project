@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
 
     [HideInInspector]
     public GameObject waveManager;
-    private EnemyShoot enemyShoot;
+    protected EnemyShoot enemyShoot;
 
     protected virtual void Start()
     {

@@ -11,16 +11,16 @@ public class EnemyHealthBar : MonoBehaviour
 
     public float comboDropSpeed = 0.1f;
 
-    private float comboTimer = 0f;
+    protected float comboTimer = 0f;
     public float comboDuration = 1.0f;
 
-    private float showUITimer = 0f;
+    protected float showUITimer = 0f;
     public float showUIDuration = 2.0f;
     public float hideUISpeed = 5f;
-    private float lastHealthVal = 0f;
+    protected float lastHealthVal = 0f;
 
 
-    public void SetMaxHealth(int health)
+    public virtual void SetMaxHealth(int health)
     {
         healthBar.maxValue = health;
         healthBar.value = health;

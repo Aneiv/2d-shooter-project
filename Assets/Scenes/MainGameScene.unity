@@ -2027,11 +2027,13 @@ MonoBehaviour:
   - {fileID: 7653356360152750695, guid: 757e0d1be72a7ea4d9ba93bc6f039f73, type: 3}
   - {fileID: 8169252472499318893, guid: 35cc083ba05d1534e9e547ce1d474e99, type: 3}
   minibossPrefab: {fileID: 928562139588765756, guid: 29b089893d5e44041966d3d3e77f5a45, type: 3}
+  bossPrefab: {fileID: 5416460489378605842, guid: 115cbed435fa7524ea1754fb6e41a5d2, type: 3}
   nextWaveTimeDelay: 2
   animationDurations:
   - 1.5
   - 2
   - 1.5
+  - 3
   shipRowsMin: 1
   shipRowsMax: 4
   shipPerRowMinAmount: 1
@@ -5445,6 +5447,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
+      propertyPath: maxHp
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 124903982796063979, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: canvas
       value: 
       objectReference: {fileID: 450453844}
@@ -5515,6 +5521,18 @@ PrefabInstance:
     - target: {fileID: 361797508338985370, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148436781427189562, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
+      propertyPath: bulletSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148436781427189562, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
+      propertyPath: bulletSpawnDelay
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148436781427189562, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
+      propertyPath: shootingCooldown
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6942302534895174928, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
       propertyPath: m_Name

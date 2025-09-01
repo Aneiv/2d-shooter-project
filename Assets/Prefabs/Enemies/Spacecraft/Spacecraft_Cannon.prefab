@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 7443960713890252958}
   - component: {fileID: 4560532843370745043}
   - component: {fileID: 5066616198906231930}
-  - component: {fileID: 5768880510554856324}
+  - component: {fileID: 756177558256618027}
   - component: {fileID: 2934357355467403126}
   m_Layer: 0
   m_Name: EnemyVisual
@@ -177,7 +177,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 5
-  m_Sprite: {fileID: 2450987995773903237, guid: b4b17a96607332245bd88cad7ee3a906, type: 3}
+  m_Sprite: {fileID: -3190599381928712351, guid: 84d40420e92d6fa4194c6f53959f6cea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -261,7 +261,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.14, y: 0.23}
   m_EdgeRadius: 0
---- !u!114 &5768880510554856324
+--- !u!114 &756177558256618027
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

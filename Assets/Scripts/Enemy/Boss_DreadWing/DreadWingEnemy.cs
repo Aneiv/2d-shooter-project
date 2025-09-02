@@ -36,6 +36,12 @@ public class DreadWingEnemy : Enemy
     //private bool arrived = false;
     private DreadWingShoot DreadWingShoot;
 
+    [Header("Explosions")]
+    public GameObject[] deathExplosionsObj;
+    public float miniExplosionDelay = 0.3f;
+    public ParticleSystem hugeExplosionTextPart;
+    public ParticleSystem hugeFragPart;
+
     protected override void Start()
     {
         base.Start();
@@ -45,7 +51,7 @@ public class DreadWingEnemy : Enemy
         //add HP for wing and other cannon types
         maxHp += allCannonsCounter * singleCannonScoreValue;
         healthBar.SetMaxHealth(maxHp);
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
 
         attackPatterns = new List<Action>
         {
@@ -253,19 +259,15 @@ public class DreadWingEnemy : Enemy
         {
             Player player = attacker.GetComponent<Player>();
 
-            // death animation
+            // color
             Color color = mainSprite.color;
             color.a = 1f;
             mainSprite.color = color;
             mainSprite.material = mainMaterial;
 
-            animator.SetTrigger("OnDeath");
-
             // mini explosions
-            //StartCoroutine(ExplosionsCoroutine(player));
-
-            var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
-            destroyTrigger.EnemyKilled();
+            animator.SetTrigger("OnDeath");
+            StartCoroutine(ExplosionsAndDeathCoroutine(player));
             enemyKilled = true;
 
             DOTween.Kill(mainSprite);
@@ -274,8 +276,46 @@ public class DreadWingEnemy : Enemy
                 DOTween.Kill(sprite);
             }
             DOTween.Kill(gameObject);
-            Destroy(rootEnemy, 2f);
+            Destroy(rootEnemy, 4f);
         }
+    }
+
+    IEnumerator ExplosionsAndDeathCoroutine(Player player)
+    {
+        // quick explosions
+        foreach (GameObject obj in deathExplosionsObj)
+        {
+            Vector2 pos = obj.transform.position;
+            ExplosionParticles(pos, null, null, 1f);
+            yield return new WaitForSeconds(miniExplosionDelay / 2f);
+        }
+
+        // explosions when boss is falling
+        float scale = 1f;
+        foreach (GameObject obj in deathExplosionsObj)
+        {
+            Vector2 pos = obj.transform.position;
+            ExplosionParticles(pos, null, null, scale);
+            yield return new WaitForSeconds(miniExplosionDelay);
+            scale -= 0.1f;
+        }
+        yield return new WaitForSeconds(0.5f);
+        ExplosionParticles(null, hugeExplosionTextPart, hugeFragPart, 0.8f, 75f,90f);
+
+        // score reward
+        if (player != null)
+        {
+            player.AddToScore(scoreReward);
+        }
+        GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+        ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+        if (srAnim != null)
+        {
+            srAnim.SetScore(scoreReward);
+        }
+
+        var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
+        destroyTrigger.EnemyKilled();
     }
 
     private void AttackCenter()
@@ -340,34 +380,6 @@ public class DreadWingEnemy : Enemy
             DreadWingShoot.StartShootingFromBelowDeck();
         }
     }
-
-
-    /*
-        IEnumerator ExplosionsCoroutine(Player player)
-        {
-            float scale = 1f;
-            foreach (GameObject obj in deathExplosionsObj)
-            {
-                Vector2 pos = obj.transform.position;
-                ExplosionParticles(pos, null, null, scale);
-                yield return new WaitForSeconds(miniExplosionDelay);
-                scale -= 0.1f;
-            }
-            yield return new WaitForSeconds(0.1f);
-            ExplosionParticles(null, hugeExplosionPart, hugeFragPart, 0.8f, 90f);
-
-            // score reward
-            if (player != null)
-            {
-                player.AddToScore(scoreReward);
-            }
-            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
-            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
-            if (srAnim != null)
-            {
-                srAnim.SetScore(scoreReward);
-            }
-        }*/
 
     protected override void OnCollisionWithPlayer(GameObject playerObj) { }
 }

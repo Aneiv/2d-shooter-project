@@ -124,7 +124,7 @@ public class SpacecraftCarrierEnemy : Enemy
             scale -= 0.1f;
         }
         yield return new WaitForSeconds(0.1f);
-        ExplosionParticles(null, hugeExplosionPart, hugeFragPart, 0.8f, 90f);
+        ExplosionParticles(null, hugeExplosionPart, hugeFragPart, 0.8f, -16f,90f);
 
         // score reward
         if (player != null)

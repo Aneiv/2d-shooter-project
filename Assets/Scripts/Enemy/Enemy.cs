@@ -214,6 +214,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
         ParticleSystem explPart = null,
         ParticleSystem fragPart = null,
         float? newParticleScale = null,
+        float? XRotation = null,
         float? YRotation = null)
     {
         particleScale = newParticleScale ?? particleScale;
@@ -222,8 +223,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
         ParticleSystem usedExplosionParticles = explPart ?? explosionParticles;
         ParticleSystem usedFragParticles = fragPart ?? fragParticles;
 
-        float xRot = YRotation != null ? -16f : 0f;
-        Quaternion rotation = Quaternion.Euler(xRot, YRotation ?? 0f, 0f);
+        Quaternion rotation = Quaternion.Euler(XRotation ?? 0f, YRotation ?? 0f, 0f);
 
         ParticleSystem explosion = Instantiate(usedExplosionParticles, pos, rotation);
         explosion.transform.localScale = vectorParticleStartScale * particleScale;

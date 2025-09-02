@@ -31,6 +31,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3338644814625499922}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &32821448905583772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7634986171976971744}
+  m_Layer: 0
+  m_Name: DeathExplosionPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7634986171976971744
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32821448905583772}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2845073798559282516}
+  - {fileID: 5697174872790940502}
+  - {fileID: 1502911917734516699}
+  - {fileID: 5273219959711598658}
+  - {fileID: 3809102099032396720}
+  m_Father: {fileID: 8257950127259420511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &42254569836154470
 GameObject:
   m_ObjectHideFlags: 0
@@ -157,7 +193,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 424985637006226748}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &848454490128488201
+--- !u!1 &1135865436502455328
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -165,29 +201,60 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5142427144088590810}
+  - component: {fileID: 5697174872790940502}
   m_Layer: 0
-  m_Name: FirePoint
+  m_Name: Explosion_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5142427144088590810
+--- !u!4 &5697174872790940502
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 848454490128488201}
+  m_GameObject: {fileID: 1135865436502455328}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.18, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.57, y: -0.02, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8257950127259420511}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
+  m_Father: {fileID: 7634986171976971744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1413797953262881880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502911917734516699}
+  m_Layer: 0
+  m_Name: Explosion_3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1502911917734516699
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1413797953262881880}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.75, y: -0.17, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7634986171976971744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1469369154540439155
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,7 +785,6 @@ Transform:
   - {fileID: 6287948568032688856}
   - {fileID: 6902932223683380378}
   - {fileID: 1605019753934404823}
-  - {fileID: 3051395539345792081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &5602668795157500298
@@ -776,9 +842,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5759419423635818161}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.056645345, y: 0.056645345, z: 0.056645345}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3956047720986071256}
@@ -788,7 +854,7 @@ Transform:
   - {fileID: 6753476968201713989}
   - {fileID: 5296156354662087927}
   - {fileID: 3303300750324200509}
-  m_Father: {fileID: 3894590240267951211}
+  m_Father: {fileID: 8257950127259420511}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5946946626771444900
 GameObject:
@@ -1070,6 +1136,37 @@ Transform:
   - {fileID: 8058111727240898549}
   m_Father: {fileID: 9061134335828364977}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7401121123222851438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5273219959711598658}
+  m_Layer: 0
+  m_Name: Explosion_4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5273219959711598658
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7401121123222851438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.89, y: -0.23, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7634986171976971744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7618306513999885909
 GameObject:
   m_ObjectHideFlags: 0
@@ -1100,6 +1197,37 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 424985637006226748}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7766548981251318190
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2845073798559282516}
+  m_Layer: 0
+  m_Name: Explosion_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2845073798559282516
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7766548981251318190}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.23, y: 0.22, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7634986171976971744}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7829921056577578605
 GameObject:
@@ -1249,6 +1377,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 424985637006226748}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8523490513544390061
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3809102099032396720}
+  m_Layer: 0
+  m_Name: Explosion_5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3809102099032396720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8523490513544390061}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.12, y: 0.5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7634986171976971744}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8860331699790876107
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,8 +1444,9 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 4055342048203332916}
-  - {fileID: 5142427144088590810}
   - {fileID: 6061421783509243080}
+  - {fileID: 3051395539345792081}
+  - {fileID: 7634986171976971744}
   m_Father: {fileID: 3894590240267951211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3443108281356346842
@@ -1547,6 +1707,18 @@ MonoBehaviour:
     - {fileID: 1574292635544217933}
   nextAttackMaxTimeDelay: 4.5
   singleCannonScoreValue: 50
+  deathExplosionsObj:
+  - {fileID: 7766548981251318190}
+  - {fileID: 1135865436502455328}
+  - {fileID: 1413797953262881880}
+  - {fileID: 7401121123222851438}
+  - {fileID: 8523490513544390061}
+  - {fileID: 1135865436502455328}
+  - {fileID: 1413797953262881880}
+  miniExplosionDelay: 0.3
+  smallExplosionTextPart: {fileID: 3854300608750968949, guid: e93744e61f88eec4cb127b136471daf6, type: 3}
+  hugeExplosionTextPart: {fileID: 3656461245386293603, guid: 6549fb503cabba844b6a57c0f2a32c38, type: 3}
+  hugeFragPart: {fileID: 7393039654786248658, guid: 7a4c4fc23038ea446ae7751985bedc3c, type: 3}
 --- !u!114 &6503910068993542702
 MonoBehaviour:
   m_ObjectHideFlags: 0

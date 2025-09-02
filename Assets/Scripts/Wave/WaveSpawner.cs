@@ -41,7 +41,7 @@ public class WaveSpawner : MonoBehaviour
         {
             //UpDownSpawn,        //animationDurations[0]
             //SpiralMovement,     //animationDurations[1] ...
-            //SpawnMiniBoss, 
+            //SpawnMiniBoss,
             SpawnBoss
             //more to be made
         };

@@ -7,6 +7,10 @@ public class DreadWingEnemyCannon : Enemy
 
     public EnemyHealthBar enemyHealthBar;
     private DreadWingEnemyHealthBar enemyHealthBarScript;
+
+    public ParticleSystem firePart;
+    public ParticleSystem smokePart;
+    public float fireSmokePartScale;
     protected override void Start()
     {
         base.Start();
@@ -25,6 +29,21 @@ public class DreadWingEnemyCannon : Enemy
             {
                 dreadWingEnemy.DestroyCannon();
             }
+
+            // fire and smoke particles
+            var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
+            var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+
+            fireInstance.transform.SetParent(dreadWingEnemy.transform, true);
+            smokeInstance.transform.SetParent(dreadWingEnemy.transform, true);
+
+            var mainFire = fireInstance.main;
+            mainFire.startSizeMultiplier = fireSmokePartScale;
+            var mainSmoke = smokeInstance.main;
+            mainSmoke.startSizeMultiplier = fireSmokePartScale * 2;
+
+            fireInstance.Play();
+            smokeInstance.Play();
 
             // score reward
             Player player = attacker.GetComponent<Player>();

@@ -867,7 +867,7 @@ MonoBehaviour:
   - {fileID: 2008643216130227425}
   - {fileID: 7265565072787853702}
   - {fileID: 7730569818997337412}
-  flashDuration: 0.1
+  flashDuration: 0.05
   rootEnemy: {fileID: 928562139588765756}
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}

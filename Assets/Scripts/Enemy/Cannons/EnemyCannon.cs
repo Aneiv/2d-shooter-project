@@ -3,6 +3,9 @@ using DG.Tweening;
 public class EnemyCannon : Enemy
 {
     private SpacecraftCarrierEnemy spacecraftCarrierEnemy;
+    public ParticleSystem firePart;
+    public ParticleSystem smokePart;
+    public float fireSmokePartScale;
 
     protected override void Start()
     {
@@ -19,6 +22,21 @@ public class EnemyCannon : Enemy
             if (spacecraftCarrierEnemy != null) {
                 spacecraftCarrierEnemy.DestroyCannon();
             }
+
+            // fire and smoke particles
+            var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
+            var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+
+            fireInstance.transform.SetParent(spacecraftCarrierEnemy.transform, true);
+            smokeInstance.transform.SetParent(spacecraftCarrierEnemy.transform, true);
+
+            var mainFire = fireInstance.main;
+            mainFire.startSizeMultiplier = fireSmokePartScale;
+            var mainSmoke = smokeInstance.main;
+            mainSmoke.startSizeMultiplier = fireSmokePartScale * 2;
+
+            fireInstance.Play();
+            smokeInstance.Play();
 
             // score reward
             Player player = attacker.GetComponent<Player>();

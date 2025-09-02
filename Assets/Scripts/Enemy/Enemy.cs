@@ -66,6 +66,17 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
                 {
                     HitFlashAnim(sprite);
                 }
+
+                // flash on ParticleSystem
+                //var childParticles = GetComponentsInChildren<ParticleSystem>();
+                //foreach (var child in childParticles)
+                //{
+                //    var sprite = child.GetComponent<Renderer>();
+                //    if (sprite != null)
+                //    {
+                //        HitFlashAnim(sprite);
+                //    }
+                //}
             }
             else
             {

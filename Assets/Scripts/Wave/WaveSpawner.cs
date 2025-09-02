@@ -39,9 +39,9 @@ public class WaveSpawner : MonoBehaviour
         //list of functions for spawn enemies
         spawnPatterns = new List<Action>
         {
-            //UpDownSpawn,        //animationDurations[0]
-            //SpiralMovement,     //animationDurations[1] ...
-            //SpawnMiniBoss,
+            UpDownSpawn,        //animationDurations[0]
+            SpiralMovement,     //animationDurations[1] ...
+            SpawnMiniBoss,
             SpawnBoss
             //more to be made
         };

@@ -411,3 +411,6 @@ MonoBehaviour:
   particleScale: 1
   waveManager: {fileID: 0}
   enemyHealthBar: {fileID: 0}
+  firePart: {fileID: 4634140138894600049, guid: 65ea650935a4eab4fae26bfd638534cc, type: 3}
+  smokePart: {fileID: 7803332637225220306, guid: d0fb9799876a4024f9a02f215c23796d, type: 3}
+  fireSmokePartScale: 3

@@ -42,6 +42,9 @@ public class DreadWingEnemy : Enemy
     public ParticleSystem hugeExplosionTextPart;
     public ParticleSystem hugeFragPart;
 
+    public ParticleSystem firePart;
+    public float fireSmokePartScale;
+
     protected override void Start()
     {
         base.Start();
@@ -287,6 +290,13 @@ public class DreadWingEnemy : Enemy
         {
             Vector2 pos = obj.transform.position;
             ExplosionParticles(pos, null, null, 1f);
+            // fire
+            var fireInstance = Instantiate(firePart, pos, Quaternion.identity);
+            fireInstance.transform.SetParent(transform, true);
+            var mainFire = fireInstance.main;
+            mainFire.startSizeMultiplier = fireSmokePartScale;
+            fireInstance.Play();
+
             yield return new WaitForSeconds(miniExplosionDelay / 2f);
         }
 

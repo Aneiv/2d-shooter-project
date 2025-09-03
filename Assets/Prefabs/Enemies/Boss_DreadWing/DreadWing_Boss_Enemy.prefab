@@ -1391,6 +1391,7 @@ GameObject:
   - component: {fileID: 7501151474821073371}
   - component: {fileID: 5643135515243652684}
   - component: {fileID: 6503910068993542702}
+  - component: {fileID: 2854799569174622242}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: Enemy
@@ -1613,7 +1614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e65865f2e29f340a237ce1c3f409ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 300
+  maxHp: 900
   collisionDamage: 20
   scoreReward: 3000
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
@@ -1711,6 +1712,22 @@ MonoBehaviour:
   bulletSpawnDelay: 0.3
   numberOfBulletInBurst: 5
   numberOfChosenFP: 3
+--- !u!114 &2854799569174622242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8860331699790876107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9658471b3c79b7a42943d0cae24b8823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 7533115655605972119, guid: aaa1ebff602e3dc4d8d7df9947034b5a, type: 3}
+  animationDuration: 3
+  minSpawnDelay: 3
+  maxSpawnDelay: 5
 --- !u!1 &9042572707214368805
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,7 +1808,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1315185889221329390, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: rotationAngleOfReadyToShot
-      value: -120
+      value: 270
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp

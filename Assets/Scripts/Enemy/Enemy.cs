@@ -95,22 +95,25 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             }
         }
     }
-    virtual public void Die(GameObject attacker)
+    virtual public void Die(GameObject attacker = null)
     {
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {
             // score reward
-            Player player = attacker.GetComponent<Player>();
-            if (player != null)
+            if(attacker != null)
             {
-                player.AddToScore(scoreReward);
-            }
-            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
-            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
-            if (srAnim != null)
-            {
-                srAnim.SetScore(scoreReward);
+                Player player = attacker.GetComponent<Player>();
+                if (player != null)
+                {
+                    player.AddToScore(scoreReward);
+                }
+                GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+                ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+                if (srAnim != null)
+                {
+                    srAnim.SetScore(scoreReward);
+                }
             }
 
             ExplosionParticles();

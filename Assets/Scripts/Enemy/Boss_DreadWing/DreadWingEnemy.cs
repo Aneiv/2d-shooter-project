@@ -34,6 +34,7 @@ public class DreadWingEnemy : Enemy
     private bool thirdPhaseActivated = false;
     //private bool arrived = false;
     private DreadWingShoot DreadWingShoot;
+    private DreadWingSpawner DreadWingSpawner;
 
     [Header("Explosions")]
     public GameObject[] deathExplosionsObj;
@@ -90,6 +91,7 @@ public class DreadWingEnemy : Enemy
             //more to be made
         };
         DreadWingShoot = GetComponent<DreadWingShoot>();
+        DreadWingSpawner = GetComponent<DreadWingSpawner>();
 
         // boss hp bar UI
         GameObject bossBarObj = GameObject.FindGameObjectWithTag("BossHealthBar");
@@ -429,9 +431,11 @@ public class DreadWingEnemy : Enemy
     {
         isVulnerable = true;
 
-        if (DreadWingShoot != null) {
+        if (DreadWingShoot != null && DreadWingSpawner != null) {
             DreadWingShoot.StartShootingFromBelowDeck();
+            DreadWingSpawner.StartSpawningEnemies();
         }
+
     }
 
     protected override void OnCollisionWithPlayer(GameObject playerObj) { }

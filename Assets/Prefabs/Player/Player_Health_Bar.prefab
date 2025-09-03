@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 7448311554205364985}
   - component: {fileID: 2039085093220275172}
   - component: {fileID: 2427062136370013927}
-  - component: {fileID: 3636244112046610978}
+  - component: {fileID: 6943848991315829986}
   m_Layer: 5
   m_Name: Player_Health_Bar
   m_TagString: Untagged
@@ -326,7 +326,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2427062136370013927
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &3636244112046610978
+--- !u!114 &6943848991315829986
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -353,7 +353,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3710539445377101196}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 068ca494d7218604f86c375aa65f66de, type: 3}
+  m_Script: {fileID: 11500000, guid: 80fdb56cb6603c14798574b5eeaec08d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 7711891242354761045}
@@ -361,16 +361,16 @@ MonoBehaviour:
   Gradient:
     serializedVersion: 2
     key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 1, g: 0.4890508, b: 0, a: 1}
-    key2: {r: 0.0777452, g: 1, b: 0, a: 0}
+    key1: {r: 1, g: 0.4901961, b: 0, a: 1}
+    key2: {r: 0.078431375, g: 1, b: 0, a: 0}
     key3: {r: 0, g: 0, b: 0, a: 0}
     key4: {r: 0, g: 0, b: 0, a: 0}
     key5: {r: 0, g: 0, b: 0, a: 0}
     key6: {r: 0, g: 0, b: 0, a: 0}
     key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 19661
-    ctime1: 48766
-    ctime2: 49151
+    ctime0: 9830
+    ctime1: 26214
+    ctime2: 65535
     ctime3: 0
     ctime4: 0
     ctime5: 0

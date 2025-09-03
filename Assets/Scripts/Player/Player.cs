@@ -13,7 +13,7 @@ public class Player : MonoBehaviour, IHealth
 
     public GameObject GameOverUI;
     public GameObject gameUI;
-    public PlayerHealthBar healthBar;
+    public HealthBar healthBar;
     public TMP_Text totalScoreText;
     public TMP_Text totalCoinsTextUI;
     public TMP_Text totalCoinsTextPause;

@@ -19,7 +19,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
     [Header("UI stuff")]
     public int scoreReward = 10;
     public GameObject scoreRewardPrefab;
-    public EnemyHealthBar healthBar;
+    public HealthBar healthBar;
 
     [Header("Flash Animation stuff")]
     public Material flashMaterial;
@@ -42,10 +42,13 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
 
     protected virtual void Start()
     {
+        isVulnerable = false;
         waveManager = GameObject.FindGameObjectWithTag("GameController");
         currentHp = maxHp;
-        healthBar.SetMaxHealth(maxHp);
-
+        if (healthBar != null)
+        {
+            healthBar.SetMaxHealth(maxHp);
+        }
         mainSprite = GetComponent<SpriteRenderer>();
         enemyShoot = GetComponent<EnemyShoot>();
         mainMaterial = mainSprite.material;
@@ -188,7 +191,8 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
 
     protected void InVulnerableHitAnim(SpriteRenderer sprite)
     {
-        sprite.DOColor(new Color(0f, 1.5f, 3f, 0.3f), flashDuration) // go to blue color
+        Material mat = sprite.material;
+        mat.DOColor(new Color(0f, 1.5f, 3f, 0.3f), flashDuration) // go to blue color
             .SetEase(Ease.InOutSine)
             .SetLink(gameObject)
             .OnStart(() =>
@@ -204,7 +208,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             })
             .OnComplete(() =>
             {
-                sprite.DOColor(Color.white, flashDuration) // go to default color
+                mat.DOColor(Color.white, flashDuration) // go to default color
                     .SetEase(Ease.InOutSine)
                     .SetLink(gameObject)
                     .OnComplete(() =>

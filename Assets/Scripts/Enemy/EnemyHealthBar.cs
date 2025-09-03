@@ -1,18 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyHealthBar : MonoBehaviour
+public class EnemyHealthBar : HealthBar
 {
-    public Slider healthBar;
-    public Slider comboBar;
-    public Gradient Gradient;
-    public Image fillHealth;
     public CanvasGroup HealthBarUI;
-
-    public float comboDropSpeed = 0.1f;
-
-    protected float comboTimer = 0f;
-    public float comboDuration = 1.0f;
 
     protected float showUITimer = 0f;
     public float showUIDuration = 2.0f;
@@ -20,43 +11,29 @@ public class EnemyHealthBar : MonoBehaviour
     protected float lastHealthVal = 0f;
 
 
-    public virtual void SetMaxHealth(int health)
+    public override void SetMaxHealth(int health)
     {
-        healthBar.maxValue = health;
-        healthBar.value = health;
-
-        comboBar.maxValue = health;
-        comboBar.value = health;
-
-        fillHealth.color = Gradient.Evaluate(1f);
+        base.SetMaxHealth(health);
 
         lastHealthVal = health;
 
         HealthBarUI.alpha = 0f; // hide bar
     }
 
-    public void SetHealth(int health)
+    public override void SetHealth(int health)
     {
-        healthBar.value = health;
+        base.SetHealth(health);
+
         comboBar.value = lastHealthVal;
-      
-
-        fillHealth.color = Gradient.Evaluate(healthBar.normalizedValue);
-
-        comboTimer = comboDuration;
         showUITimer = showUIDuration;
 
         HealthBarUI.alpha = 1f; // show bar
 
     }
 
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
-        // combo bar drop
-        if (healthBar.value < comboBar.value && comboTimer <= 0) {
-            comboBar.value -= comboDropSpeed * Time.deltaTime;
-            lastHealthVal = healthBar.value;
-        }
+        base.FixedUpdate();
         
         // fade out
         if (showUITimer <= 0 && HealthBarUI.alpha > 0) 
@@ -64,7 +41,6 @@ public class EnemyHealthBar : MonoBehaviour
             comboBar.value = 0f;
             HealthBarUI.alpha = Mathf.Max(0f, HealthBarUI.alpha - hideUISpeed * Time.deltaTime);
         }
-        comboTimer -= Time.deltaTime;
         showUITimer -= Time.deltaTime;
     }
 }

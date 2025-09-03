@@ -10,7 +10,6 @@ public class EnemyCannon : Enemy
     protected override void Start()
     {
         base.Start();
-        isVulnerable = true;
         spacecraftCarrierEnemy = FindFirstObjectByType<SpacecraftCarrierEnemy>();
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerHealthBar : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     public Slider healthBar;
     public Slider comboBar;
@@ -10,11 +10,11 @@ public class PlayerHealthBar : MonoBehaviour
 
     public float comboDropSpeed = 0.1f;
 
-    private float comboTimer = 0f;
+    protected float comboTimer = 0f;
     public float comboDuration = 1.0f;
 
 
-    public void SetMaxHealth(int health)
+    public virtual void SetMaxHealth(int health)
     {
         healthBar.maxValue = health;
         healthBar.value = health;
@@ -25,7 +25,7 @@ public class PlayerHealthBar : MonoBehaviour
         fillHealth.color = Gradient.Evaluate(1f);
     }
 
-    public void SetHealth(int health)
+    public virtual void SetHealth(int health)
     {
         healthBar.value = health;
 
@@ -34,7 +34,7 @@ public class PlayerHealthBar : MonoBehaviour
         comboTimer = comboDuration;
     }
 
-    private void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         // combo bar drop
         if (healthBar.value < comboBar.value && comboTimer <= 0) {
@@ -43,4 +43,7 @@ public class PlayerHealthBar : MonoBehaviour
         
         comboTimer -= Time.deltaTime;
     }
+    public virtual void Show() {}
+
+    public virtual void Hide() {}
 }

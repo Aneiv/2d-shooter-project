@@ -7,10 +7,18 @@ public class NextWaveTrigger : MonoBehaviour
     private int enemiesRemaining=0;
     private GameObject bulletsContainer;
     private Transform bulletsContainerTr;
+
+    private BossHealthBar bossHealthBar; // UI hp bar
     private void Start()
     {
         bulletsContainer = GameObject.Find("BulletsContainer");
         bulletsContainerTr = bulletsContainer.transform;
+
+        GameObject bossBarObj = GameObject.FindGameObjectWithTag("BossHealthBar");
+        if (bossBarObj != null)
+        {
+            bossHealthBar = bossBarObj.GetComponent<BossHealthBar>();
+        }
     }
     public void EnemyKilled()
     {
@@ -24,6 +32,10 @@ public class NextWaveTrigger : MonoBehaviour
     }
     private void LoadNextWave()
     {
+        if (bossHealthBar != null) {
+            bossHealthBar.Hide();
+        }
+
         var waveSpawner = gameObject.GetComponent<WaveSpawner>();
         ClearRemainingBullets();
         waveSpawner.SpawnWave();

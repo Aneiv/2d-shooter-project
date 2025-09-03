@@ -9,6 +9,7 @@ TagManager:
   - PlayerBullet
   - EnemyCannon
   - EnemiesContainer
+  - BossHealthBar
   layers:
   - Default
   - TransparentFX

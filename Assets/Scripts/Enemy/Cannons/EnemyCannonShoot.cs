@@ -15,9 +15,16 @@ public class EnemyCannonShoot : MonoBehaviour, IShootReady
     public float maxReloadDelay;
     protected float reloadDelay;
     protected float reloadTimer = 0f;
+
+    protected Enemy enemyCannon;
     public void ReadyToShoot()
     {
         waiting = false;
+        // only for miniBoss or boss
+        if(enemyCannon != null)
+        {
+            enemyCannon.OnArrival();
+        }
     }
 
     virtual public void Start()
@@ -29,6 +36,11 @@ public class EnemyCannonShoot : MonoBehaviour, IShootReady
         if (player != null)
         {
             targetPlayer = player.transform;
+        }
+
+        Enemy mainCannon = GetComponent<Enemy>();
+        if (mainCannon != null) {
+            enemyCannon = mainCannon;
         }
 
         reloadDelay = Random.Range(minReloadDelay, maxReloadDelay);

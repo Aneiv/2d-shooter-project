@@ -30,6 +30,8 @@ public class WaveSpawner : MonoBehaviour
 
     //spawn patterns
     private List<Action> spawnPatterns;
+
+    private BossHealthBar bossHealthBar; // UI hp bar
     void Start()
     {
         //Calculation of screen size
@@ -45,6 +47,12 @@ public class WaveSpawner : MonoBehaviour
             SpawnBoss
             //more to be made
         };
+
+        GameObject bossBarObj = GameObject.FindGameObjectWithTag("BossHealthBar");
+        if (bossBarObj != null)
+        {
+            bossHealthBar = bossBarObj.GetComponent<BossHealthBar>();
+        }
 
         //choose random wave style
         SpawnWave();
@@ -168,6 +176,7 @@ public class WaveSpawner : MonoBehaviour
 
     public void SpawnBoss()
     {
+
         shipCount = 1;
         float startX = 0f;
         float endYPosition = 3f;
@@ -201,6 +210,11 @@ public class WaveSpawner : MonoBehaviour
                 if (enemyInstance != null)
                 {
                     enemyInstance.OnArrival();
+                }
+
+                if (bossHealthBar != null)
+                {
+                    bossHealthBar.Show();
                 }
             });
         WaveSpawned();

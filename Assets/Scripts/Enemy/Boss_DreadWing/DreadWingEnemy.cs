@@ -28,7 +28,6 @@ public class DreadWingEnemy : Enemy
     private List<Action> attackPatterns;
     public float nextAttackMaxTimeDelay; //max delay before next attack (range[3,max])
     private float delay;
-    public int singleCannonScoreValue = 50;
     private bool customDelay = true;
 
     private bool secondPhaseActivated = false;
@@ -51,9 +50,37 @@ public class DreadWingEnemy : Enemy
         isVulnerable = false;
         wingCannonCounter = cannonsObjsLeftWing.Length + cannonsObjsRightWing.Length;
         allCannonsCounter = wingCannonCounter + cannonsRocketLaunchers.Length + cannonsSniperCannon.Length;
+
         //add HP for wing and other cannon types
-        maxHp += allCannonsCounter * singleCannonScoreValue;
-        healthBar.SetMaxHealth(maxHp);
+        GameObject[][] allCannonsArrays = new GameObject[][]
+        {
+            cannonsObjsLeftWing,
+            cannonsObjsRightWing,
+            cannonsRocketLaunchers,
+            cannonsSniperCannon
+        };
+
+        foreach (var cannonArray in allCannonsArrays)
+        {
+            if (cannonArray == null) continue;
+
+            foreach (var cannonObj in cannonArray)
+            {
+                if (cannonObj == null) continue;
+
+                Enemy cannon = cannonObj.GetComponent<Enemy>();
+                if (cannon != null)
+                {
+                    maxHp += cannon.maxHp;
+                }
+                else
+                {
+                    Debug.LogWarning($"Obj {cannonObj.name} doesnt have class Enemy!");
+                }
+            }
+        }
+        currentHp = maxHp;
+
         animator = GetComponent<Animator>();
 
         attackPatterns = new List<Action>
@@ -63,6 +90,19 @@ public class DreadWingEnemy : Enemy
             //more to be made
         };
         DreadWingShoot = GetComponent<DreadWingShoot>();
+
+        // boss hp bar UI
+        GameObject bossBarObj = GameObject.FindGameObjectWithTag("BossHealthBar");
+        if (bossBarObj != null)
+        {
+            healthBar = bossBarObj.GetComponent<BossHealthBar>();
+            BossHealthBar bossHealthBar = healthBar as BossHealthBar;
+            if (bossHealthBar != null)
+            {
+                bossHealthBar.SetMaxHealth(maxHp);
+                bossHealthBar.SetBossName("Dread Wing");
+            }
+        }
     }
     public void SpawnAttack()
     {
@@ -83,7 +123,7 @@ public class DreadWingEnemy : Enemy
         SpawnAttack(); //loop 
     }
 
-    public void DestroyCannon()
+    public void DestroyCannon(int cannonHp)
     {
         allCannonsCounter--;
         if (allCannonsCounter <= cannonsRocketLaunchers.Length + cannonsSniperCannon.Length && secondPhaseActivated == false)
@@ -97,6 +137,9 @@ public class DreadWingEnemy : Enemy
             ActiveThirdPhase();
             thirdPhaseActivated = true;
         }
+
+        currentHp -= cannonHp;
+        healthBar.SetHealth(currentHp);
     }
     private void ActiveSecondPhase()
     {

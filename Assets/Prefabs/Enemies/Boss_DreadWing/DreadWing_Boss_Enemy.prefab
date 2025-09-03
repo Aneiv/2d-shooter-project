@@ -1411,7 +1411,6 @@ Transform:
   m_LocalScale: {x: 17.6537, y: 17.6537, z: 17.6537}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 6061421783509243080}
   - {fileID: 3051395539345792081}
   - {fileID: 7634986171976971744}
   m_Father: {fileID: 3894590240267951211}
@@ -1618,7 +1617,7 @@ MonoBehaviour:
   collisionDamage: 20
   scoreReward: 3000
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
-  healthBar: {fileID: 2853011459766039901}
+  healthBar: {fileID: 0}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
   engineParticles: []
@@ -1673,7 +1672,6 @@ MonoBehaviour:
     - {fileID: 3277197628243410468}
     - {fileID: 1574292635544217933}
   nextAttackMaxTimeDelay: 4.5
-  singleCannonScoreValue: 50
   deathExplosionsObj:
   - {fileID: 7766548981251318190}
   - {fileID: 1135865436502455328}
@@ -1793,7 +1791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1315185889221329390, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: rotationAngleOfReadyToShot
-      value: 120
+      value: -120
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp
@@ -1815,10 +1813,6 @@ PrefabInstance:
       propertyPath: fragParticles
       value: 
       objectReference: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
-    - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: scoreRewardPrefab
       value: 
@@ -1970,18 +1964,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1673034432996696577}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R3
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2088,18 +2074,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1574215577574293410}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R4
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2206,18 +2184,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 3036727649435781116}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R0
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2393,10 +2363,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
     - target: {fileID: 2712664759188938475, guid: 8a309eec3cdb80844bf0ad4ecb43a47a, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
-    - target: {fileID: 2712664759188938475, guid: 8a309eec3cdb80844bf0ad4ecb43a47a, type: 3}
       propertyPath: scoreRewardPrefab
       value: 
       objectReference: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
@@ -2473,7 +2439,6 @@ MonoBehaviour:
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
   particleScale: 1
   waveManager: {fileID: 0}
-  enemyHealthBar: {fileID: 2853011459766039901}
   firePart: {fileID: 4634140138894600049, guid: 65ea650935a4eab4fae26bfd638534cc, type: 3}
   smokePart: {fileID: 7803332637225220306, guid: d0fb9799876a4024f9a02f215c23796d, type: 3}
   fireSmokePartScale: 3
@@ -2489,18 +2454,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 2521658193763588101}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L0
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2607,18 +2564,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 3665622912565394632}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R5
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2878,18 +2827,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 6136376058728321817}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L1
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2996,18 +2937,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 7763478580235139207}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L4
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3114,18 +3047,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 7498799850359463960}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L2
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3232,18 +3157,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 7116167029422115448}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R1
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3350,18 +3267,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 7082320763242795667}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L3
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3468,18 +3377,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 8727734043961894423}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L5
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3574,246 +3475,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 733877e285f4ea145afb8f55ade884ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &8620590591017240111
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 8257950127259420511}
-    m_Modifications:
-    - target: {fileID: 994610305304066708, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 994610305304066708, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2039085093220275172, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_PresetInfoIsWorld
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0.05
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.56645346
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.56645346
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.56645346
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -0.21
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3519134691310975842, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3519134691310975842, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3710539445377101196, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_Name
-      value: Health_Bar
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448311554205364985, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_RenderMode
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448311554205364985, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      propertyPath: m_SortingOrder
-      value: 12
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8493574941088208257, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3710539445377101196, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-      insertIndex: 4
-      addedObject: {fileID: 2853011459766039901}
-  m_SourcePrefab: {fileID: 100100000, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
---- !u!114 &328977167402105740 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8300907664127245731, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-  m_PrefabInstance: {fileID: 8620590591017240111}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2063872721936718714 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7711891242354761045, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-  m_PrefabInstance: {fileID: 8620590591017240111}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &4961848039056518051 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3710539445377101196, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-  m_PrefabInstance: {fileID: 8620590591017240111}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2853011459766039901
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4961848039056518051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a080560dd6a0d48be702e7360d88a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthBar: {fileID: 2063872721936718714}
-  comboBar: {fileID: 328977167402105740}
-  Gradient:
-    serializedVersion: 2
-    key0: {r: 1, g: 0, b: 0, a: 1}
-    key1: {r: 0.11748052, g: 1, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 26214
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 1
-    m_ColorSpace: -1
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
-  fillHealth: {fileID: 8486488361503169695}
-  HealthBarUI: {fileID: 5217054331303958179}
-  comboDropSpeed: 125
-  comboDuration: 0.5
-  showUIDuration: 3
-  hideUISpeed: 2
-  dreadWingEnemy: {fileID: 8860331699790876107}
---- !u!225 &5217054331303958179 stripped
-CanvasGroup:
-  m_CorrespondingSourceObject: {fileID: 4595024234318745740, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-  m_PrefabInstance: {fileID: 8620590591017240111}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &6061421783509243080 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2574936972624286439, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-  m_PrefabInstance: {fileID: 8620590591017240111}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8486488361503169695 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 172382826355382960, guid: e0c3b12d79357c64ea8b3db6e00ba116, type: 3}
-  m_PrefabInstance: {fileID: 8620590591017240111}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8848309205476207695
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3832,7 +3493,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1315185889221329390, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: rotationAngleOfReadyToShot
-      value: 60
+      value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp
@@ -3854,10 +3515,6 @@ PrefabInstance:
       propertyPath: fragParticles
       value: 
       objectReference: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
-    - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: scoreRewardPrefab
       value: 
@@ -3942,6 +3599,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3748086519833788685, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3748086519833788685, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3748086519833788685, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3956592281908039025, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -4013,18 +3682,10 @@ PrefabInstance:
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 8599324583682959154}
-    - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R2
       objectReference: {fileID: 0}
-    - target: {fileID: 2249209765583631788, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-      propertyPath: enemyHealthBar
-      value: 
-      objectReference: {fileID: 2853011459766039901}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class LightRocketBulletMovement : RocketBulletMovement
 {
-    private float targetAngle;
+    protected float targetAngle;
 
-    private float timer;
+    protected float rotationTimer;
     public float rotationTime = 3f;
 
     public float maxRandomNoisePlayerPosition = 10f;
@@ -23,7 +23,7 @@ public class LightRocketBulletMovement : RocketBulletMovement
             Vector2 noisyTarget = new Vector2(playerPos.x + randomNoisePos, playerPos.y + randomNoisePos);
 
             targetPosition = noisyTarget;  //saving position
-            timer = rotationTime;
+            rotationTimer = rotationTime;
         }
     }
 
@@ -45,7 +45,7 @@ public class LightRocketBulletMovement : RocketBulletMovement
             }
         }
 
-        if(timer >= 0f)
+        if(rotationTimer >= 0f)
         {
             //destination
             Vector2 toTarget = targetPosition - rb.position;
@@ -62,6 +62,6 @@ public class LightRocketBulletMovement : RocketBulletMovement
         //movement
         rb.linearVelocity = transform.up * speed;
 
-        timer -= Time.deltaTime;
+        rotationTimer -= Time.deltaTime;
     }
 }

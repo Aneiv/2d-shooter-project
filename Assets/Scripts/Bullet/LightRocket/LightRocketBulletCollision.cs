@@ -17,7 +17,7 @@ public class LightRocketBulletCollision: RocketBulletCollision
         }
         else if (collision.CompareTag("PlayerBullet"))
         {
-            LightRocket bullet = GetComponent<LightRocket>();
+            SturdyBullet bullet = GetComponent<SturdyBullet>();
             GameObject playerBullet = collision.gameObject;
             BulletCollisionDetection playerBulletCollision = playerBullet.GetComponent<BulletCollisionDetection>();
             if (bullet != null)

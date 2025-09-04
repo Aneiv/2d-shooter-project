@@ -1812,7 +1812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: healthBar
@@ -3514,7 +3514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp
-      value: 50
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: healthBar

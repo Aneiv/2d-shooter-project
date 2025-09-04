@@ -277,7 +277,7 @@ public class WaveSpawner : MonoBehaviour
                 DOVirtual.Float(0f, 1f, animationDurations[1], (t) =>
                 {
                     //position on Bezier curve
-                    Vector2 pos = QuadraticBezier(start, control, end, t);
+                    Vector2 pos = BezierCurve.Quadratic(start, control, end, t);
                     ship.transform.position = pos; //ship position change
 
                     if (t >= 0.998f)
@@ -288,7 +288,7 @@ public class WaveSpawner : MonoBehaviour
                     }
                     //future position calculation (for place and rotation prediction)
                     //Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
-                    Vector2 futurePos = QuadraticBezier(start, control, end, Mathf.Min(t + 0.01f, 1f));
+                    Vector2 futurePos = BezierCurve.Quadratic(start, control, end, Mathf.Min(t + 0.01f, 1f));
 
                     Vector2 dir = (futurePos - pos).normalized;
                     float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; //angle calculation
@@ -309,13 +309,6 @@ public class WaveSpawner : MonoBehaviour
                     //ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
                 });
             }
-        }
-        //additional function for Bezier curve calculation
-        Vector2 QuadraticBezier(Vector2 a, Vector2 b, Vector2 c, float t)
-        {
-            Vector2 ab = Vector2.Lerp(a, b, t);
-            Vector2 bc = Vector2.Lerp(b, c, t);
-            return Vector2.Lerp(ab, bc, t);
         }
         WaveSpawned();
     }

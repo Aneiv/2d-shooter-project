@@ -378,9 +378,9 @@ MonoBehaviour:
   firePoint: {fileID: 3328511696641161996}
   minReloadDelay: 2
   maxReloadDelay: 4
-  enemyBullet: {fileID: 3118706909285683340, guid: 804de699b2998c04a880abdb791eee9e, type: 3}
-  rocketSpawnDelay: 0.1
-  numberOfRocketInSalvo: 12
+  enemyBullet: {fileID: 1243084912126169848, guid: 58fd338da7ed37c43b11ea622db292c5, type: 3}
+  rocketSpawnDelay: 0.2
+  numberOfRocketInSalvo: 3
   rotationDuration: 0.5
   rotationAngleOfReloading: 180
   rotationAngleOfReadyToShot: 120
@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 50
+  maxHp: 170
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 0}

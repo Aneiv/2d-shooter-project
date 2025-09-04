@@ -8,7 +8,7 @@ public class RocketBulletCollision : MonoBehaviour
     private float leftXClamp, rightXClamp, downYClamp, upYClamp;
     private float clampSize = 0.5f;
 
-    public GameObject shooter;
+    [HideInInspector] public GameObject shooter;
     public int damage;
 
     // runs before Start()

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4964374006303085325}
   - component: {fileID: 3685250086799059141}
   - component: {fileID: 6871229408504208096}
-  - component: {fileID: 8517910281273755846}
-  - component: {fileID: 7455647347942928552}
+  - component: {fileID: 4269838205310820026}
+  - component: {fileID: 6032031443378388234}
   - component: {fileID: 8078470835293243942}
   m_Layer: 0
   m_Name: RocketBullet_1
@@ -167,12 +167,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 6707335622748340237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b35cc7c288b3fba4a91e650e5438c087, type: 3}
+  m_Script: {fileID: 11500000, guid: c3937285a7579c048bc8ba1acf5ea792, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hp: 30
+--- !u!114 &4269838205310820026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6707335622748340237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fc0150dc90a03b42b35490b14b73244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shooter: {fileID: 0}
   damage: 20
---- !u!114 &8517910281273755846
+--- !u!114 &6032031443378388234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,20 +194,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6707335622748340237}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9e9bcf9072d62b48b50846b9a610d2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hp: 30
---- !u!114 &7455647347942928552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6707335622748340237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e27506185e86e64fb3592c95d332886, type: 3}
+  m_Script: {fileID: 11500000, guid: 3f9832db375924b4da69ceaa32dca38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}

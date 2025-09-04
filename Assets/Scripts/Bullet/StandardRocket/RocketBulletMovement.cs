@@ -3,23 +3,22 @@ using UnityEngine;
 
 public class RocketBulletMovement : MonoBehaviour
 {
-    public Transform target;
+    [HideInInspector] public Transform target;
     public float speed = 5f;
     public float rotateSpeed = 200f;
 
-    private Rigidbody2D rb;
-    private Vector2 targetPosition;      //player position
-    private bool reachedTarget = false;
+    protected Rigidbody2D rb;
+    protected Vector2 targetPosition;      //player position
+    protected bool reachedTarget = false;
     public ParticleSystem burstParticle; //burst particle system
     public float explodeRadius; //objects in that area get damage from explosion
     //public float playerDamageZone; //radius of circle that designate bullet explosion
 
-    private Vector2 direction;
+    protected Vector2 direction;
     private bool bouncingUp = false;
 
     float screenCenterYPos;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
 
@@ -33,8 +32,7 @@ public class RocketBulletMovement : MonoBehaviour
         screenCenterYPos = screenCenter.y;
     }
 
-    // Update is called once per frame
-    void Update()
+    protected virtual void FixedUpdate()
     {
         if (reachedTarget) return;
         if (target == null) return;
@@ -77,7 +75,7 @@ public class RocketBulletMovement : MonoBehaviour
         rb.linearVelocity = transform.up * speed;
     }
 
-    void Explode()
+    protected virtual void Explode()
     {
         reachedTarget = true;
         //check other players in radius of explosion
@@ -102,6 +100,8 @@ public class RocketBulletMovement : MonoBehaviour
     }
     public void Bounce(Transform playerBulletTransform)
     {
+        if (reachedTarget) return;
+        if (target == null) return;
         //flag to check if bullet is in bounce state
         bouncingUp = true;
 
@@ -127,7 +127,7 @@ public class RocketBulletMovement : MonoBehaviour
 
 
     //show radius of exposion when selected on edit mode
-    void OnDrawGizmosSelected()
+    protected void OnDrawGizmosSelected()
     {
         //color
         Gizmos.color = Color.red;

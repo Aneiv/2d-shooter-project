@@ -166,11 +166,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3118706909285683340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22b55180be800704094310188c2304af, type: 3}
+  m_Script: {fileID: 11500000, guid: 8971e92b24ca42146bc1a53087012b22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shooter: {fileID: 0}
-  damage: 10
+  hp: 1
 --- !u!114 &8041610140962123483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,16 +179,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3118706909285683340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 202a481914afca5448c2a448ea791635, type: 3}
+  m_Script: {fileID: 11500000, guid: 53abdbae0bc56d1449f02fe4b8766171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 2
-  rotateSpeed: 100
-  burstParticle: {fileID: 8392874094234861965}
-  explodeRadius: 0.3
-  rotationTime: 1.5
-  maxRandomNoisePlayerPosition: 0.5
+  shooter: {fileID: 0}
+  damage: 10
 --- !u!114 &2642281551616978309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,10 +193,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3118706909285683340}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 926854e8739921749b3a7ab62e3d02e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 39a6710489cb55943ab3601d7d2dc172, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 1
+  target: {fileID: 0}
+  speed: 2
+  rotateSpeed: 100
+  burstParticle: {fileID: 8392874094234861965}
+  explodeRadius: 0.3
+  rotationTime: 1.5
+  maxRandomNoisePlayerPosition: 0.5
 --- !u!1001 &8626755559354136196
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -3,17 +3,6 @@ using UnityEngine;
 public class SturdyBullet : MonoBehaviour, IHealth
 {
     public int hp = 50;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void TakeDamage(int damage)
     {
@@ -27,7 +16,7 @@ public class SturdyBullet : MonoBehaviour, IHealth
             Die();
         }
     }
-    public void Die()
+    public virtual void Die()
     {
         var RocketExplosionParticles = GetComponent<RocketBulletMovement>();
         RocketExplosionParticles.ExplodeParticles();

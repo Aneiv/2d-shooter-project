@@ -10,6 +10,10 @@ public class EnemyHealthBar : HealthBar
     public float hideUISpeed = 5f;
     protected float lastHealthVal = 0f;
 
+    public override void Hide()
+    {
+        showUITimer = 0f; // hide bar with fade out
+    }
 
     public override void SetMaxHealth(int health)
     {
@@ -25,6 +29,7 @@ public class EnemyHealthBar : HealthBar
         base.SetHealth(health);
 
         comboBar.value = lastHealthVal;
+
         showUITimer = showUIDuration;
 
         HealthBarUI.alpha = 1f; // show bar
@@ -33,14 +38,24 @@ public class EnemyHealthBar : HealthBar
 
     protected override void FixedUpdate()
     {
-        base.FixedUpdate();
-        
+        // combo bar drop
+        if (healthBar.value < comboBar.value && comboTimer <= 0)
+        {
+            comboBar.value -= comboDropSpeed * Time.deltaTime;
+            lastHealthVal = healthBar.value;
+        }
+
         // fade out
-        if (showUITimer <= 0 && HealthBarUI.alpha > 0) 
+        if (showUITimer <= 0 && HealthBarUI.alpha > 0)
         {
             comboBar.value = 0f;
             HealthBarUI.alpha = Mathf.Max(0f, HealthBarUI.alpha - hideUISpeed * Time.deltaTime);
         }
+        comboTimer -= Time.deltaTime;
         showUITimer -= Time.deltaTime;
+    }
+    private void LateUpdate()
+    {
+        transform.rotation = Quaternion.identity; // health bar doesn't rotate
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Obsolete]
 public class DreadWingEnemyHealthBar : EnemyHealthBar
 {
     public GameObject dreadWingEnemy;
@@ -8,7 +10,7 @@ public class DreadWingEnemyHealthBar : EnemyHealthBar
     {
         dreadWingEnemyScript = dreadWingEnemy.GetComponent<DreadWingEnemy>();
     }
-
+    [Obsolete]
     public void SingleCannonDestroyed(float damage)
     {
         float currentHp = lastHealthVal - damage;

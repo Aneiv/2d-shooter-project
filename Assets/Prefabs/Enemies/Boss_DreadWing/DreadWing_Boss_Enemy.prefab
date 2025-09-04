@@ -1459,7 +1459,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: -6924464067260547471, guid: 043a182232e56d143842fc6e28219ec9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1808,11 +1808,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1315185889221329390, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: rotationAngleOfReadyToShot
-      value: 270
+      value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: healthBar
@@ -1924,7 +1924,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4274665863581563301, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6484016873133361731, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_Name
@@ -2401,7 +2401,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5450314056982160044, guid: 8a309eec3cdb80844bf0ad4ecb43a47a, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9037838709089744027, guid: 8a309eec3cdb80844bf0ad4ecb43a47a, type: 3}
       propertyPath: m_Name
@@ -2442,7 +2442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 20
+  maxHp: 50
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
@@ -3514,7 +3514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: maxHp
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1453951590128098543, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: healthBar
@@ -3642,7 +3642,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4274665863581563301, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_SortingOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6484016873133361731, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_Name

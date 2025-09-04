@@ -5,9 +5,6 @@ public class DreadWingEnemyCannon : Enemy
 {
     private DreadWingEnemy dreadWingEnemy;
 
-    //public EnemyHealthBar enemyHealthBar;
-    //private DreadWingEnemyHealthBar enemyHealthBarScript;
-
     public ParticleSystem firePart;
     public ParticleSystem smokePart;
     public float fireSmokePartScale;
@@ -17,7 +14,6 @@ public class DreadWingEnemyCannon : Enemy
 
         isVulnerable = false;
         dreadWingEnemy = FindFirstObjectByType<DreadWingEnemy>();
-        //enemyHealthBarScript = enemyHealthBar.GetComponent<DreadWingEnemyHealthBar>();
     }
 
     public override void Die(GameObject attacker)
@@ -60,7 +56,6 @@ public class DreadWingEnemyCannon : Enemy
 
             ExplosionParticles();
 
-            //enemyHealthBarScript.SingleCannonDestroyed(dreadWingEnemy.singleCannonScoreValue);
             enemyKilled = true;
 
             DOTween.Kill(mainSprite);

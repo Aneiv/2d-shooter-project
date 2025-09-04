@@ -12,7 +12,13 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
     public bool IsVulnerable
     {
         get { return isVulnerable; }
-        set { isVulnerable = value; }
+        set { 
+            isVulnerable = value;
+            if(value == false && healthBar != null)
+            {
+                healthBar.Hide();
+            }
+        }
     }
     protected bool enemyKilled = false;
 

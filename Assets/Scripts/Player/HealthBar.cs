@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -43,7 +44,7 @@ public class HealthBar : MonoBehaviour
         
         comboTimer -= Time.deltaTime;
     }
-    public virtual void Show() {}
+    public virtual void Show() { throw new NotImplementedException(); }
 
-    public virtual void Hide() {}
+    public virtual void Hide() { throw new NotImplementedException(); }
 }

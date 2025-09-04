@@ -54,12 +54,15 @@ public class DreadWingCannon : EnemyCannonShoot
     {        
         yield return new WaitForSeconds(intialDelay);
 
+        mainEnemy.IsVulnerable = true;
+
         for (int i = 0; i < numberOfBulletInBurst; i++)
         {
             SpawnBullet();
             yield return new WaitForSeconds(bulletSpawnDelay);
         }
         waiting = false;
+        mainEnemy.IsVulnerable = false;
     }
 
     void SpawnBullet()
@@ -79,6 +82,9 @@ public class DreadWingCannon : EnemyCannonShoot
     }
     private void DrawBulletTrajectory(Vector3 position, Vector2 direction)
     {
+        if (mainEnemy == null) return;
+        if (!mainEnemy.IsAlive()) return;
+
         GameObject lineObj = new GameObject("BulletTrajectoryLine");
         lineObj.transform.parent = bulletsContainer.transform;
         LineRenderer lr = lineObj.AddComponent<LineRenderer>();
@@ -98,14 +104,17 @@ public class DreadWingCannon : EnemyCannonShoot
         seq.Append(lr.material.DOFade(1f, 0.1f)); 
         seq.Append(lr.material.DOFade(0f, 0.1f));
         seq.SetLoops(4, LoopType.Yoyo);
-        seq.OnComplete(() =>
-        {
-            Destroy(lineObj);
-        });
+        seq
+            .SetTarget(mainEnemy)
+            .OnComplete(() => Destroy(lineObj))
+            .OnKill(() => Destroy(lineObj));
     }
 
     public void RotateCannonToDestination(Transform destination, float intialDelay, float bulletSpawnDelay, int numberOfBulletInBurst, bool addOffset)
     {
+        if (mainEnemy == null) return;
+        if (!mainEnemy.IsAlive()) return;
+
         float rotationDuration = 0.5f; 
 
         // aim
@@ -127,7 +136,9 @@ public class DreadWingCannon : EnemyCannonShoot
 
         //rb.rotation -= rotateAmount * rotationSpeed * Time.deltaTime;
 
-        rb.DORotate(angle, rotationDuration).OnComplete(() =>
+        rb.DORotate(angle, rotationDuration)
+            .SetTarget(mainEnemy)
+            .OnComplete(() =>
         {
             DrawBulletTrajectory(firePoint.position, toTarget); //draw bullet trajectory
             StartCoroutine(SpawnBulletCoroutine(intialDelay, bulletSpawnDelay, numberOfBulletInBurst));

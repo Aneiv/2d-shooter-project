@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DreadWing_Boss_SniperCannon
       objectReference: {fileID: 0}
+    - target: {fileID: 3289498319921182426, guid: c1d71f37152f49f45a7d178cd55860f2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8648996164728462442, guid: c1d71f37152f49f45a7d178cd55860f2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

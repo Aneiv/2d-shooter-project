@@ -3,7 +3,6 @@ using DG.Tweening.Core.Easing;
 using System.Collections;
 using System.Net;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class DreadWingSpawner : MonoBehaviour
 {
@@ -19,11 +18,13 @@ public class DreadWingSpawner : MonoBehaviour
     public float maxSpawnDelay;
     private float spawnDelay;
 
-    private float spawnYPos = 8f;   // first Y position
-    private float destYPos = 3f;
+    private const float spawnYPos = 8f;   // first Y position
+    private const float destYPos = 3f;
 
-    private float minXPos = -2.5f;
-    private float maxXPos = 2.5f;
+    private const float minXPos = 1.5f;
+    private const float maxXPos = 2.5f;
+
+    private bool spawnFromLeft = false;
 
     void Start()
     {
@@ -44,9 +45,22 @@ public class DreadWingSpawner : MonoBehaviour
 
     IEnumerator SpawnEnemiesCoroutine()
     {
-        Vector2 spawnPoint = new Vector2(Random.Range(minXPos, maxXPos), spawnYPos);
-        Vector2 endPoint = new Vector2(Random.Range(minXPos, maxXPos), destYPos);
-        Vector2 midPoint = new Vector2(endPoint.x, destYPos + 0.35f);
+        float spawnXPos = Random.Range(minXPos, maxXPos);
+        float endXPos = Random.Range(0f, minXPos);
+
+        if (spawnFromLeft)
+        {
+            spawnXPos = -spawnXPos;
+            endXPos = -endXPos;
+        }
+        spawnFromLeft = !spawnFromLeft;
+
+        Vector2 spawnPoint = new Vector2(spawnXPos, spawnYPos);
+        Vector2 endPoint = new Vector2(endXPos, destYPos);
+        Vector2 controlPoint = new Vector2(
+            (spawnPoint.x + endPoint.x) / 2f,
+            4f
+        );
 
         GameObject enemy = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
         enemy.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
@@ -57,21 +71,10 @@ public class DreadWingSpawner : MonoBehaviour
             newWaveTrigger.AddToEnemyCounter(1);
         }
 
-        //movement animation start
-        DOVirtual.Float(0f, 1f, animationDuration, (t) => { 
-            //position on Bezier curve
-            Vector2 pos = BezierCurve.Quadratic(spawnPoint, midPoint, endPoint, t);
-            enemy.transform.position = pos;
-            if (t >= 0.998f) { 
-                enemy.transform.position = endPoint;
-                enemy.transform.rotation = Quaternion.Euler(0, 0, 180f);
-                return; 
-            } 
-            Vector2 futurePos = BezierCurve.Quadratic(spawnPoint, midPoint, endPoint, Mathf.Min(t + 0.01f, 1f));
-            Vector2 dir = (futurePos - pos).normalized; 
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; 
-            enemy.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // -90f offset
-                                                                            }) 
+        Vector3[] path = new Vector3[] { spawnPoint, controlPoint, endPoint };
+
+        enemy.transform
+            .DOPath(path, animationDuration, PathType.CatmullRom)
             .SetEase(Ease.Linear)
             .OnComplete(() => { 
                 Enemy enemyInstance = enemy.GetComponentInChildren<Enemy>();
@@ -80,7 +83,7 @@ public class DreadWingSpawner : MonoBehaviour
                 }
             });
 
-            yield return new WaitForSeconds(spawnDelay);
+        yield return new WaitForSeconds(spawnDelay);
         StartSpawningEnemies();
     }
 }

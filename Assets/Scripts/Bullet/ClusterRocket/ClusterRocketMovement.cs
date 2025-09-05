@@ -63,6 +63,8 @@ public class ClusterRocketMovement : LightRocketBulletMovement
 
     private void DivisionParticles()
     {
-        Instantiate(divisionParticle, transform.position, Quaternion.identity).Play();
+        ParticleSystem dp = Instantiate(divisionParticle, transform.position, Quaternion.identity);
+        dp.Play();
+        Destroy(dp.gameObject, dp.main.duration + dp.main.startLifetime.constantMax);
     }
 }

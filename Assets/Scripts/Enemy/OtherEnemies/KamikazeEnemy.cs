@@ -1,7 +1,6 @@
 ﻿
 using TMPro;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 public class KamikazeEnemy : EnemyShoot
 {

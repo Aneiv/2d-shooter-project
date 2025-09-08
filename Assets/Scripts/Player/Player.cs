@@ -46,13 +46,18 @@ public class Player : MonoBehaviour, IHealth
 
     public void Die()
     {
+        OnGameOver();
+
+        Destroy(gameObject);
+    }
+
+    public void OnGameOver()
+    {
         gameUI.SetActive(false);
         GameOverUI.SetActive(true);
         Time.timeScale = 0f;
         PauseMenu.GameIsPaused = true;
         gameOverMenu.OnMenuShow();
-
-        Destroy(gameObject);
     }
 
     public void AddToScore(int score)

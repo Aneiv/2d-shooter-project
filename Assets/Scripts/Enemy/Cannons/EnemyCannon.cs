@@ -5,12 +5,14 @@ public class EnemyCannon : Enemy
     private SpacecraftCarrierEnemy spacecraftCarrierEnemy;
     public ParticleSystem firePart;
     public ParticleSystem smokePart;
+    public GameObject fireParticleContainer;
     public float fireSmokePartScale;
 
     protected override void Start()
     {
         base.Start();
         spacecraftCarrierEnemy = FindFirstObjectByType<SpacecraftCarrierEnemy>();
+        fireParticleContainer = GameObject.Find("FireParticles");
     }
 
     public override void Die(GameObject attacker)
@@ -26,8 +28,8 @@ public class EnemyCannon : Enemy
             var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
             var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
 
-            fireInstance.transform.SetParent(spacecraftCarrierEnemy.transform, true);
-            smokeInstance.transform.SetParent(spacecraftCarrierEnemy.transform, true);
+            fireInstance.transform.SetParent(fireParticleContainer.transform, true);
+            smokeInstance.transform.SetParent(fireParticleContainer.transform, true);
 
             var mainFire = fireInstance.main;
             mainFire.startSizeMultiplier = fireSmokePartScale;

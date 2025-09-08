@@ -142,8 +142,9 @@ MonoBehaviour:
   rootEnemy: {fileID: 1579194641973370226}
   explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
-  particleScale: 1
+  particleScale: 0.5
   waveManager: {fileID: 0}
   firePart: {fileID: 4634140138894600049, guid: 65ea650935a4eab4fae26bfd638534cc, type: 3}
   smokePart: {fileID: 7803332637225220306, guid: d0fb9799876a4024f9a02f215c23796d, type: 3}
-  fireSmokePartScale: 3
+  fireParticleContainer: {fileID: 0}
+  fireSmokePartScale: 2

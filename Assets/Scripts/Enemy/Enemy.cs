@@ -1,4 +1,5 @@
 using DG.Tweening;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -32,6 +33,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
     protected Material mainMaterial;
     protected SpriteRenderer mainSprite;
     public SpriteRenderer[] addSprites;
+    public GameObject fireAndSmokeParticles;
     public ParticleSystem[] engineParticles;
     public float flashDuration = 0.1f;
 
@@ -170,11 +172,12 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
                 if (flashMaterial != null && !enemyKilled)
                     {
                         sprite.material = flashMaterial;
-                        foreach(var particle in engineParticles)
+                        foreach (var particle in engineParticles)
                         {
-                            if(particle != null)
+                            if (particle != null)
                                 particle.gameObject.SetActive(false);
                         }
+                        if (fireAndSmokeParticles != null) fireAndSmokeParticles.SetActive(false);
                     } 
                 });
             })
@@ -193,6 +196,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
                                 if (particle != null)
                                     particle.gameObject.SetActive(true);
                             }
+                            if (fireAndSmokeParticles != null) fireAndSmokeParticles.SetActive(true);
                         }
                     });
             });
@@ -213,6 +217,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
                         if (particle != null)
                             particle.gameObject.SetActive(false);
                     }
+                    if (fireAndSmokeParticles != null) fireAndSmokeParticles.SetActive(false);
                 }
             })
             .OnComplete(() =>
@@ -229,6 +234,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
                                 if (particle != null)
                                     particle.gameObject.SetActive(true);
                             }
+                            if(fireAndSmokeParticles!=null) fireAndSmokeParticles.SetActive(true);
                         }
                     });
             });

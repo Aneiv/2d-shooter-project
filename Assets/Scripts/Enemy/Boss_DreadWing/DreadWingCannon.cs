@@ -22,34 +22,6 @@ public class DreadWingCannon : EnemyCannonShoot
         reloadTimer = reloadDelay;
     }
 
-    private void FixedUpdate()
-    {
-        /*        if (!waiting)
-                {
-                    reloadTimer -= Time.deltaTime;
-
-                    // aim
-                    targetPosition = targetPlayer.position;
-                    //destination
-                    Vector2 toTarget = targetPosition - rb.position;
-
-                    direction = toTarget.normalized;
-                    //rotation
-                    float rotateAmount = Vector3.Cross(direction, transform.up).z;
-
-                    rb.rotation -= rotateAmount * rotationSpeed * Time.deltaTime;
-
-                    // shoot
-                    if (reloadTimer <= 0f)
-                    {
-                        waiting = true;
-                        reloadTimer = Random.Range(minReloadDelay, max1Delay);
-
-                        StartCoroutine(SpawnBulletCoroutine());
-                    }
-                }*/
-    }
-
     IEnumerator SpawnBulletCoroutine(float intialDelay, float bulletSpawnDelay, int numberOfBulletInBurst)
     {        
         yield return new WaitForSeconds(intialDelay);
@@ -86,7 +58,7 @@ public class DreadWingCannon : EnemyCannonShoot
         if (!mainEnemy.IsAlive()) return;
 
         GameObject lineObj = new GameObject("BulletTrajectoryLine");
-        lineObj.transform.parent = bulletsContainer.transform;
+        lineObj.transform.parent = this.transform;
         LineRenderer lr = lineObj.AddComponent<LineRenderer>();
         lr.positionCount = 2;
         lr.startWidth = 0.01f;

@@ -51,7 +51,7 @@ public class SniperCannon : EnemyCannonShoot
     private IEnumerator AimAndShootAtPlayerCoroutine()
     {
         aimingTimer = lockAimTime;
-
+        if (targetPlayer == null) yield return null;
         while (aimingTimer > 0f)
         {
             targetPosition = targetPlayer.position;

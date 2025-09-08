@@ -104,6 +104,7 @@ public class RocketBulletMovement : MonoBehaviour
     {
         if (reachedTarget) return;
         if (target == null) return;
+        if (rb == null) return;
         //flag to check if bullet is in bounce state
         bouncingUp = true;
 

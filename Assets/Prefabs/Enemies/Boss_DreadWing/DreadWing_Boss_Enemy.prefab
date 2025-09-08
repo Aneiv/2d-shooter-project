@@ -1314,6 +1314,37 @@ MonoBehaviour:
   lider: {fileID: 8257950127259420511}
   xOffset: 0
   yOffset: 0
+--- !u!1 &8290421419885812271
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 784508897260137045}
+  m_Layer: 0
+  m_Name: FireParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &784508897260137045
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8290421419885812271}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8257950127259420511}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8487197374460727763
 GameObject:
   m_ObjectHideFlags: 0
@@ -1414,6 +1445,7 @@ Transform:
   m_Children:
   - {fileID: 3051395539345792081}
   - {fileID: 7634986171976971744}
+  - {fileID: 784508897260137045}
   m_Father: {fileID: 3894590240267951211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3443108281356346842
@@ -1621,6 +1653,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 8290421419885812271}
   engineParticles: []
   flashDuration: 0.1
   rootEnemy: {fileID: 5416460489378605842}
@@ -2457,6 +2490,7 @@ MonoBehaviour:
   healthBar: {fileID: 4158818124804186259}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 0}
   engineParticles: []
   flashDuration: 0.1
   rootEnemy: {fileID: 5387401346464585584}
@@ -2466,6 +2500,7 @@ MonoBehaviour:
   waveManager: {fileID: 0}
   firePart: {fileID: 4634140138894600049, guid: 65ea650935a4eab4fae26bfd638534cc, type: 3}
   smokePart: {fileID: 7803332637225220306, guid: d0fb9799876a4024f9a02f215c23796d, type: 3}
+  fireParticleContainer: {fileID: 0}
   fireSmokePartScale: 3
 --- !u!1001 &2987454994399108648
 PrefabInstance:

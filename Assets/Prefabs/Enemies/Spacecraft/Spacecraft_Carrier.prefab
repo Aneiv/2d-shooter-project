@@ -93,6 +93,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 863385323742698132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &862794268052416313
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1453265618211534062}
+  m_Layer: 0
+  m_Name: FireParticles
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1453265618211534062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 862794268052416313}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5761238281828919201}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &928562139588765756
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +715,7 @@ Transform:
   - {fileID: 5269418741964538274}
   - {fileID: 863385323742698132}
   - {fileID: 2836387976639909498}
+  - {fileID: 1453265618211534062}
   m_Father: {fileID: 7915092132844463873}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &582527346123514767
@@ -862,6 +894,7 @@ MonoBehaviour:
   healthBar: {fileID: 4385201000227122457}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 862794268052416313}
   engineParticles:
   - {fileID: 3783075441742226055}
   - {fileID: 2008643216130227425}

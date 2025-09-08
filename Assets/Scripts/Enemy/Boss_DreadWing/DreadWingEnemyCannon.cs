@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DreadWingEnemyCannon : Enemy
@@ -7,6 +8,7 @@ public class DreadWingEnemyCannon : Enemy
 
     public ParticleSystem firePart;
     public ParticleSystem smokePart;
+    public GameObject fireParticleContainer;
     public float fireSmokePartScale;
     protected override void Start()
     {
@@ -14,6 +16,7 @@ public class DreadWingEnemyCannon : Enemy
 
         isVulnerable = false;
         dreadWingEnemy = FindFirstObjectByType<DreadWingEnemy>();
+        fireParticleContainer = GameObject.Find("FireParticles");
     }
 
     public override void Die(GameObject attacker)
@@ -30,8 +33,8 @@ public class DreadWingEnemyCannon : Enemy
             var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
             var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
 
-            fireInstance.transform.SetParent(dreadWingEnemy.transform, true);
-            smokeInstance.transform.SetParent(dreadWingEnemy.transform, true);
+            fireInstance.transform.SetParent(fireParticleContainer.transform, true);
+            smokeInstance.transform.SetParent(fireParticleContainer.transform, true);
 
             var mainFire = fireInstance.main;
             mainFire.startSizeMultiplier = fireSmokePartScale;

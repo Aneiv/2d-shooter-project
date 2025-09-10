@@ -49,7 +49,6 @@ public class WaveSpawner : MonoBehaviour
     private GameObject[] currentChosenPrefabs;
     private List<Action> standardSpawnPatterns;
     private int waveCounter = 0;
-
     void Start()
     {
         //Calculation of screen size
@@ -61,9 +60,9 @@ public class WaveSpawner : MonoBehaviour
             //list of functions for spawn enemies
             spawnPatterns = new List<Action>
             {
-                UpDownSpawn,        //animationDurations[0]
-                SpiralMovement,     //animationDurations[1] ...
-                SpawnMiniBoss,
+                //UpDownSpawn,        //animationDurations[0]
+                //SpiralMovement,     //animationDurations[1] ...
+                //SpawnMiniBoss,
                 SpawnBoss
                 //more to be made
             };
@@ -395,7 +394,6 @@ public class WaveSpawner : MonoBehaviour
 
     public void SpawnBoss()
     {
-
         shipCount = 1;
         float startX = 0f;
         float endYPosition = 3f;

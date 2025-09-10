@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using Unity.VisualScripting;
+using UnityEngine.InputSystem;
 
 public class DreadWingEnemy : Enemy
 {
@@ -35,7 +36,8 @@ public class DreadWingEnemy : Enemy
     //private bool arrived = false;
     private DreadWingShoot DreadWingShoot;
     private DreadWingSpawner DreadWingSpawner;
-
+    private DragWithInputSystem inputSystem;
+    public Transform clampPosition;
     [Header("Explosions")]
     public GameObject[] deathExplosionsObj;
     public float miniExplosionDelay = 0.3f;
@@ -48,6 +50,8 @@ public class DreadWingEnemy : Enemy
     protected override void Start()
     {
         base.Start();
+        //find input system to change clamp
+        inputSystem = FindAnyObjectByType<DragWithInputSystem>();        
         isVulnerable = false;
         wingCannonCounter = cannonsObjsLeftWing.Length + cannonsObjsRightWing.Length;
         allCannonsCounter = wingCannonCounter + cannonsRocketLaunchers.Length + cannonsSniperCannon.Length;
@@ -268,17 +272,9 @@ public class DreadWingEnemy : Enemy
                 followSprite.StartFollow();
             }
         }
-        //arrived = true;
+        //clamp screen
+        inputSystem.maxY = clampPosition.position.y;
         SpawnAttack();
-        //AttackCenter();
-        /*        if (SpacecraftCarrierSpawner != null)
-                {
-                    SpacecraftCarrierSpawner.StartSpawningEnemies();
-                }
-                if (SpacecraftCarrierShoot != null)
-                {
-                    SpacecraftCarrierShoot.OnArrival();
-                }*/
     }
 
     public override void TakeDamage(int damage, GameObject attacker)
@@ -302,6 +298,9 @@ public class DreadWingEnemy : Enemy
 
     public override void Die(GameObject attacker)
     {
+        //reset screen clamp
+        inputSystem.ResetScreenClamp();
+
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {

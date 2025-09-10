@@ -8,22 +8,23 @@ public class DragWithInputSystem : MonoBehaviour
     private Camera cam;
     private bool isDragging = false;
     private Vector3 offset;
-    private float minX, minY, maxX, maxY; //screen boundaries
-
+    [HideInInspector]
+    public float minX, minY, maxX, maxY; //screen boundaries
+    private Vector3 bottomLeft;
+    private Vector3 topRight;
     private void Start()
     {
         //left bottom (0, 0)
-        Vector3 bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
+        bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
 
         //upper top
-        Vector3 topRight = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, cam.nearClipPlane));
+        topRight = cam.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, cam.nearClipPlane));
 
-        //screen boundaries
+        //screen boundaries set
         minX = bottomLeft.x;
         maxX = topRight.x;
         minY = bottomLeft.y;
         maxY = topRight.y;
-
     }
     void Awake()
     {
@@ -94,5 +95,13 @@ public class DragWithInputSystem : MonoBehaviour
     private void OnPressCanceled(InputAction.CallbackContext context)
     {
         isDragging = false;
+    }
+    public void ResetScreenClamp()
+    {
+        //screen boundaries
+        minX = bottomLeft.x;
+        maxX = topRight.x;
+        minY = bottomLeft.y;
+        maxY = topRight.y;
     }
 }

@@ -465,6 +465,37 @@ Transform:
   - {fileID: 1891850734449313168}
   m_Father: {fileID: 8871269634777155105}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3675599158611737585
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3566256516811533568}
+  m_Layer: 0
+  m_Name: ScreenClampPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3566256516811533568
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3675599158611737585}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -1, w: 0}
+  m_LocalPosition: {x: -0.16680014, y: 12.406602, z: 0}
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3894590240267951211}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3987138529807647904
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,6 +784,7 @@ Transform:
   - {fileID: 6287948568032688856}
   - {fileID: 6902932223683380378}
   - {fileID: 1605019753934404823}
+  - {fileID: 3566256516811533568}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
 --- !u!1 &5602668795157500298
@@ -1706,6 +1738,7 @@ MonoBehaviour:
     - {fileID: 3277197628243410468}
     - {fileID: 1574292635544217933}
   nextAttackMaxTimeDelay: 4.5
+  clampPosition: {fileID: 3566256516811533568}
   deathExplosionsObj:
   - {fileID: 7766548981251318190}
   - {fileID: 1135865436502455328}

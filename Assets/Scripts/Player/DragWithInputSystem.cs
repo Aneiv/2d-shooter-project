@@ -1,8 +1,9 @@
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class DragWithInputSystem : MonoBehaviour
+public class DragWithInputSystem : Mirror.NetworkBehaviour
 {
     private GameControls controls;
     private Camera cam;
@@ -12,8 +13,11 @@ public class DragWithInputSystem : MonoBehaviour
     public float minX, minY, maxX, maxY; //screen boundaries
     private Vector3 bottomLeft;
     private Vector3 topRight;
+    private GameDefaultSettings settings;
     private void Start()
     {
+        settings = FindAnyObjectByType<GameDefaultSettings>();
+
         //left bottom (0, 0)
         bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
 
@@ -49,6 +53,21 @@ public class DragWithInputSystem : MonoBehaviour
     }
 
     void Update()
+    {
+        // Singleplayer - movement enable
+/*        if (settings.isSinglePlayerMode != true)
+        {
+            HandleControls();
+        }*/
+
+        // Multiplayer - only owner of player instance can move their ship
+        if (isLocalPlayer)
+        {
+            HandleControls();
+        }
+
+    }
+    private void HandleControls()
     {
         if (!PauseMenu.GameIsPaused)
         {

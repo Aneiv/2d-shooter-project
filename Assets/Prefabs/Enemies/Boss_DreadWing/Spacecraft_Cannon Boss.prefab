@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5308521260581060957, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.12202
+      value: -4.6717944
       objectReference: {fileID: 0}
     - target: {fileID: 5308521260581060957, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.53804
+      value: -2.6754012
       objectReference: {fileID: 0}
     - target: {fileID: 5308521260581060957, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
       propertyPath: m_LocalPosition.z
@@ -72,9 +72,18 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8353848596279622596, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+      propertyPath: _assetId
+      value: 2977358255
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808564668289998669, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+      propertyPath: _assetId
+      value: 2977358255
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 756177558256618027, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
     - {fileID: 2934357355467403126, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+    - {fileID: 0}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -130,6 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 30
   collisionDamage: 20
   scoreReward: 10
@@ -137,6 +150,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 0}
   engineParticles: []
   flashDuration: 0.1
   rootEnemy: {fileID: 1579194641973370226}

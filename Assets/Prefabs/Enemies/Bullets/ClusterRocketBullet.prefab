@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 993593543338808733}
   - component: {fileID: 8947805456929545234}
   - component: {fileID: 1278277942221868179}
+  - component: {fileID: 1629997116170633039}
   m_Layer: 0
   m_Name: ClusterRocketBullet
   m_TagString: EnemyBullet
@@ -171,6 +172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
+  flashAnimationDuration: 0.1
 --- !u!114 &8947805456929545234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -209,8 +211,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53abdbae0bc56d1449f02fe4b8766171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  invincibilityTime: 1
+  mainSprite: {fileID: 0}
   shooter: {fileID: 0}
   damage: 30
+--- !u!114 &1629997116170633039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243084912126169848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3359717238
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1001 &5106601511515387643
 PrefabInstance:
   m_ObjectHideFlags: 0

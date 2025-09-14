@@ -1,9 +1,10 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using UnityEngine;
 
 public class EnemyShootBullet : EnemyShoot
 {
-    protected float bulletSpawnDelay;
+    [SyncVar] protected float bulletSpawnDelay;
     [Header("Spawn Delay")]
     public float checkInterval = 0.5f;    // checking chance delay
     public float minSpawnDelay;
@@ -12,12 +13,12 @@ public class EnemyShootBullet : EnemyShoot
     [Header("Spawn Chance")]
     public float minSpawnChance;
     public float maxSpawnChance;
-    private float bulletSpawnChance; //spawn chance - calculated in Start()
+    [SyncVar] private float bulletSpawnChance; //spawn chance - calculated in Start()
 
     [Header("Burst")]
     public int minNumberOfBulletInBurst = 2;
     public int maxNumberOfBulletInBurst = 5;
-    private int numberOfBulletInBurst;
+    [SyncVar] private int numberOfBulletInBurst;
 
     [Header("Bullet")]
     public GameObject enemyBullet;
@@ -35,6 +36,7 @@ public class EnemyShootBullet : EnemyShoot
         numberOfBulletInBurst = Random.Range(minNumberOfBulletInBurst, maxNumberOfBulletInBurst);
     }
 
+    [Server]
     void FixedUpdate()
     {
         if (!waiting)
@@ -53,6 +55,7 @@ public class EnemyShootBullet : EnemyShoot
 
     }
 
+    [Server]
     IEnumerator SpawnBulletCoroutine()
     {
         waiting = true;
@@ -64,18 +67,27 @@ public class EnemyShootBullet : EnemyShoot
         }
         waiting = false;
     }
+
+    [Server]
     virtual protected void SpawnBullet()
     {
         float angleInDegrees = transform.eulerAngles.z + 90f;
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
-        GameObject Bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
-        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        GameObject bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
+        bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
-        Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+        bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
+        Mirror.NetworkServer.Spawn(bullet);
+        RpcSetBulletVelocity(bullet, direction);
+    }
+
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }

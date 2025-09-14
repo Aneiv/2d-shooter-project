@@ -1,8 +1,9 @@
 using Unity.VisualScripting;
 using System.Collections;
 using UnityEngine;
+using Mirror;
 
-public class PlayerShoot : MonoBehaviour
+public class PlayerShoot : Mirror.NetworkBehaviour
 {
     public GameObject PlayerBulletBig;
     public GameObject PlayerBulletSmall;
@@ -58,6 +59,7 @@ public class PlayerShoot : MonoBehaviour
 
         isWaitingForShot = false;
     }
+
     void SpawnBullet()
     {
         float angleInDegrees = thisPlayerTransform.eulerAngles.z + 90f;
@@ -67,14 +69,16 @@ public class PlayerShoot : MonoBehaviour
         Transform firePointBig = shootLeft ? firePoint_LBig: firePoint_RBig;
         shootLeft = !shootLeft;
 
-        GameObject BulletBig = Instantiate(PlayerBulletBig, firePointBig.position, firePointBig.rotation);
-        BulletBig.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        GameObject bulletBig = Instantiate(PlayerBulletBig, firePointBig.position, firePointBig.rotation);
+        bulletBig.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        Mirror.NetworkServer.Spawn(bulletBig);
+        RpcSetBulletVelocity(bulletBig, direction);
         bulletCounter++;
         
         // set owner of bullet
-        BulletBig.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+        bulletBig.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rb_Big = BulletBig.GetComponent<Rigidbody2D>();
+        Rigidbody2D rb_Big = bulletBig.GetComponent<Rigidbody2D>();
         rb_Big.linearVelocity = direction.normalized * bulletSpeed;
 
         if(bulletCounter== smallBulletCooldown)
@@ -85,12 +89,22 @@ public class PlayerShoot : MonoBehaviour
             BulletSmall_Left.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
             Rigidbody2D rb_Small_Left = BulletSmall_Left.GetComponent<Rigidbody2D>();
             rb_Small_Left.linearVelocity = direction.normalized * bulletSpeed;
+            Mirror.NetworkServer.Spawn(BulletSmall_Left);            
+            RpcSetBulletVelocity(BulletSmall_Left, direction);
 
             GameObject BulletSmall_Right = Instantiate(PlayerBulletSmall, firePoint_RSmall.position, firePoint_RSmall.rotation);
             BulletSmall_Right.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
             BulletSmall_Right.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
             Rigidbody2D rb_Small_Right = BulletSmall_Right.GetComponent<Rigidbody2D>();
             rb_Small_Right.linearVelocity = direction.normalized * bulletSpeed;
+            Mirror.NetworkServer.Spawn(BulletSmall_Right);
+            RpcSetBulletVelocity(BulletSmall_Right, direction);
         }
+    }
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }

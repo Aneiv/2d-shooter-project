@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5108947297612229978}
   - component: {fileID: 8439047910115932162}
   - component: {fileID: 9126954962244745456}
+  - component: {fileID: 48010475520120074}
   m_Layer: 0
   m_Name: Boss_DreadWing_CannonBullet
   m_TagString: EnemyBullet
@@ -34,7 +35,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &4229283096120600266
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -168,3 +169,20 @@ MonoBehaviour:
   shooter: {fileID: 0}
   damage: 10
   SparksParticles: {fileID: 8996758778029759422, guid: 8c146d17aee90c64b996ef87a3732d74, type: 3}
+--- !u!114 &48010475520120074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6486411366471510010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3828305852
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0

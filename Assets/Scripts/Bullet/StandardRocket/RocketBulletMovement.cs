@@ -1,7 +1,8 @@
+using Mirror;
 using TMPro;
 using UnityEngine;
 
-public class RocketBulletMovement : MonoBehaviour
+public class RocketBulletMovement : Mirror.NetworkBehaviour
 {
     [HideInInspector] public Transform target;
     public float speed = 5f;
@@ -31,7 +32,7 @@ public class RocketBulletMovement : MonoBehaviour
         Vector3 screenCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
         screenCenterYPos = screenCenter.y;
     }
-
+    [Server]
     protected virtual void FixedUpdate()
     {
         if (reachedTarget) return;
@@ -75,6 +76,7 @@ public class RocketBulletMovement : MonoBehaviour
         rb.linearVelocity = transform.up * speed;
     }
 
+    [Server]
     protected virtual void Explode()
     {
         reachedTarget = true;
@@ -92,6 +94,12 @@ public class RocketBulletMovement : MonoBehaviour
 
         //later sound, etc
         ExplodeParticles();//particle explosion
+        //Destroy(gameObject); //destroy rocket
+        RpcBulletDestroyed();
+    }
+    [ClientRpc]
+    void RpcBulletDestroyed()
+    {
         Destroy(gameObject); //destroy rocket
     }
     public void ExplodeParticles()
@@ -100,6 +108,7 @@ public class RocketBulletMovement : MonoBehaviour
         ep.Play();
         Destroy(ep.gameObject, ep.main.duration + ep.main.startLifetime.constantMax);
     }
+    [Server]
     public void Bounce(Transform playerBulletTransform)
     {
         if (reachedTarget) return;

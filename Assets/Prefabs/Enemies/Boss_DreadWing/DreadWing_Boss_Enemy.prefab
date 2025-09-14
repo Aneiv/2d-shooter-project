@@ -759,6 +759,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3894590240267951211}
+  - component: {fileID: 3157150156959616611}
+  - component: {fileID: 405295564588201815}
   m_Layer: 0
   m_Name: DreadWing_Boss_Enemy
   m_TagString: Enemy
@@ -787,6 +789,58 @@ Transform:
   - {fileID: 3566256516811533568}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!114 &3157150156959616611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416460489378605842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1300880810
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &405295564588201815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5416460489378605842}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0.05
+  target: {fileID: 3894590240267951211}
+  updateMethod: 0
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 1
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &5602668795157500298
 GameObject:
   m_ObjectHideFlags: 0
@@ -1678,6 +1732,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e65865f2e29f340a237ce1c3f409ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 900
   collisionDamage: 20
   scoreReward: 3000
@@ -1864,6 +1922,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6287948568032688856}
     m_Modifications:
+    - target: {fileID: 583008831163145387, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 861112361818328199, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2043,6 +2105,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4225063245594037821}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -2153,6 +2219,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4225063245594037821}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -2263,6 +2333,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4225063245594037821}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -2373,6 +2447,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9061134335828364977}
     m_Modifications:
+    - target: {fileID: 982190568015783592, guid: 8a309eec3cdb80844bf0ad4ecb43a47a, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 2162478404769875996, guid: 8a309eec3cdb80844bf0ad4ecb43a47a, type: 3}
       propertyPath: m_LocalScale.x
       value: 16.53
@@ -2516,6 +2594,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 50
   collisionDamage: 20
   scoreReward: 10
@@ -2543,6 +2625,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588405404552654482}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -2653,6 +2739,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4225063245594037821}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -2916,6 +3006,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588405404552654482}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -3026,6 +3120,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588405404552654482}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -3136,6 +3234,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588405404552654482}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -3246,6 +3348,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4225063245594037821}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -3356,6 +3462,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588405404552654482}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -3466,6 +3576,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1588405404552654482}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 
@@ -3576,6 +3690,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6287948568032688856}
     m_Modifications:
+    - target: {fileID: 583008831163145387, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 861112361818328199, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3771,6 +3889,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4225063245594037821}
     m_Modifications:
+    - target: {fileID: 1012198143624926222, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 1577979535213831826, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: healthBar
       value: 

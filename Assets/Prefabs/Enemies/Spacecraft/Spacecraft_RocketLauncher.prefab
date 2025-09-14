@@ -229,6 +229,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce23f4e66c4f33043a74eb8e7ea0c5e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 50
   collisionDamage: 20
   scoreReward: 10
@@ -236,6 +240,7 @@ MonoBehaviour:
   healthBar: {fileID: 4875935760810650248}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 0}
   engineParticles: []
   flashDuration: 0.1
   rootEnemy: {fileID: 5535533522722055866}
@@ -245,6 +250,7 @@ MonoBehaviour:
   waveManager: {fileID: 0}
   firePart: {fileID: 4634140138894600049, guid: 65ea650935a4eab4fae26bfd638534cc, type: 3}
   smokePart: {fileID: 7803332637225220306, guid: d0fb9799876a4024f9a02f215c23796d, type: 3}
+  fireParticleContainer: {fileID: 0}
   fireSmokePartScale: 3
 --- !u!1 &5535533522722055866
 GameObject:

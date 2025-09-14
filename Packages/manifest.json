@@ -17,6 +17,7 @@
     "com.unity.inputsystem": "1.14.0",
     "com.unity.multiplayer.center": "1.0.0",
     "com.unity.netcode.gameobjects": "2.5.0",
+    "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.performance.profile-analyzer": "1.2.3",
     "com.unity.postprocessing": "3.4.0",
     "com.unity.render-pipelines.universal": "17.1.0",

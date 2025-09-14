@@ -1,16 +1,17 @@
 using DG.Tweening;
+using Mirror;
 using TMPro;
 using UnityEngine;
 
-public class Player : MonoBehaviour, IHealth
+public class Player : Mirror.NetworkBehaviour, IHealth
 {
     public int maxHp = 80;
-    public int currentScore = 0;
-    private int currentHp;
-    private int currentNumberOfCoins = 0;
+    [SyncVar] public int currentScore = 0;
+    [SyncVar] private int currentHp;
+    [SyncVar] private int currentNumberOfCoins = 0;
     private Animator playerAnimator;
     private GameOverMenu gameOverMenu;
-
+    public GameObject mainCanva;
     public GameObject GameOverUI;
     public GameObject gameUI;
     public HealthBar healthBar;
@@ -18,15 +19,24 @@ public class Player : MonoBehaviour, IHealth
     public TMP_Text totalCoinsTextUI;
     public TMP_Text totalCoinsTextPause;
     public GameObject coinUI;
-    public GameObject canvas;
-    
+
     void Start()
     {
+        //object assign
+        mainCanva = GameObject.Find("Canvas");
+        GameOverUI = mainCanva.transform.Find("GameOverMenu").gameObject;
+        gameUI = mainCanva.transform.Find("UI").gameObject;
+        healthBar = mainCanva.transform.Find("UI/Player_Health_Bar").GetComponent<HealthBar>();
+        totalScoreText = mainCanva.transform.Find("UI/Score/ScoreText").GetComponent<TMP_Text>();
+        totalCoinsTextUI = mainCanva.transform.Find("UI/Coins/CoinsText").GetComponent<TMP_Text>();
+        totalCoinsTextPause = mainCanva.transform.Find("PauseMenu/Coins/CoinsText").GetComponent<TMP_Text>();
+        coinUI = mainCanva.transform.Find("UI/Coins").gameObject;
+
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
         playerAnimator = GetComponent<Animator>();
         totalScoreText.text = currentScore.ToString();
-        gameOverMenu = canvas.GetComponent<GameOverMenu>();
+        gameOverMenu = mainCanva.GetComponent<GameOverMenu>();
     }
     public void TakeDamage(int damage)
     {
@@ -43,7 +53,6 @@ public class Player : MonoBehaviour, IHealth
             Die();
         }
     }
-
     public void Die()
     {
         OnGameOver();
@@ -59,14 +68,12 @@ public class Player : MonoBehaviour, IHealth
         PauseMenu.GameIsPaused = true;
         gameOverMenu.OnMenuShow();
     }
-
     public void AddToScore(int score)
     {
         DisplayNumberAnimation(totalScoreText, currentScore, currentScore + score, 0.6f);
         currentScore += score;
         totalScoreText.text = currentScore.ToString(); //update score value
     }
-
     public void AddToCoins(int coinsNumber)
     {
         CoinTextUI coinTextUI = coinUI.GetComponent<CoinTextUI>();

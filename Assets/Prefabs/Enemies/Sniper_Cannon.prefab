@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 6242623287843435029}
   m_Layer: 0
   m_Name: Sniper_Cannon
-  m_TagString: Untagged
+  m_TagString: EnemyCannon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

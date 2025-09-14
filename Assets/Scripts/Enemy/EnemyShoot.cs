@@ -1,7 +1,8 @@
+using Mirror;
 using System.Collections;
 using UnityEngine;
 
-public class EnemyShoot : MonoBehaviour, IEnemy
+public class EnemyShoot : Mirror.NetworkBehaviour, IEnemy
 {
     protected bool waiting = true;
     protected float timer = 0f;

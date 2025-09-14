@@ -1,3 +1,4 @@
+using Mirror;
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -52,9 +53,11 @@ public class RocketBulletCollision : MonoBehaviour
         yield return new WaitForSeconds(invincibilityTime);
         isVulnerable = true;
     }
+    [Server]
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var sturdyBullet = GetComponent<SturdyBullet>();
+        NetworkIdentity attackerNetId = this.GetComponent<NetworkIdentity>();
         if (isVulnerable)
         {
             if (collision.CompareTag("Player"))
@@ -76,7 +79,7 @@ public class RocketBulletCollision : MonoBehaviour
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage, gameObject);
+                    enemy.TakeDamage(damage, attackerNetId);
                     //Destroy(gameObject);
                     sturdyBullet.Die();
                 }

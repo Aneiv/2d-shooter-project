@@ -276,8 +276,8 @@ public class DreadWingEnemy : Enemy
         inputSystem.maxY = clampPosition.position.y;
         SpawnAttack();
     }
-
-    public override void TakeDamage(int damage, GameObject attacker)
+    //Dreadwing to rewrite
+/*    public override void TakeDamage(int damage, GameObject attacker)
     {
         if (isVulnerable)
         {
@@ -294,7 +294,7 @@ public class DreadWingEnemy : Enemy
                 Die(attacker);
             }
         }
-    }
+    }*/
 
     public override void Die(GameObject attacker)
     {

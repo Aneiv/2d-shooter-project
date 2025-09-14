@@ -1,4 +1,5 @@
 ﻿
+using Mirror;
 using UnityEngine;
 
 public class DoubleBarrelEnemy : EnemyShootBullet
@@ -11,6 +12,7 @@ public class DoubleBarrelEnemy : EnemyShootBullet
         base.Start();
     }
 
+    [Server]
     protected override void SpawnBullet()
     {
         float angleInDegrees = transform.eulerAngles.z + 90f;
@@ -20,12 +22,19 @@ public class DoubleBarrelEnemy : EnemyShootBullet
         Transform currentFirePoint = shootLeft ? firePoint : firePoint2;
         shootLeft = !shootLeft;
 
-        GameObject Bullet = Instantiate(enemyBullet, currentFirePoint.position, currentFirePoint.rotation);
-        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        GameObject bullet = Instantiate(enemyBullet, currentFirePoint.position, currentFirePoint.rotation);
+        bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
-        Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+        bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
+        Mirror.NetworkServer.Spawn(bullet);
+        RpcSetBulletVelocity(bullet, direction);
+        
+    }
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }

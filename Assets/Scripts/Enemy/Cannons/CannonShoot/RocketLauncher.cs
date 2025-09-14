@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using UnityEngine;
 
 public class RocketLauncher : EnemyCannonShoot
@@ -67,7 +68,7 @@ public class RocketLauncher : EnemyCannonShoot
         firePoint.rotation = Quaternion.Euler(0, 0, targetAngle);
     }
 
-
+    [Server]
     void SpawnRocket()
     {
         float angleInDegrees = firePoint.eulerAngles.z;
@@ -80,6 +81,7 @@ public class RocketLauncher : EnemyCannonShoot
 
         var rocket = Bullet.GetComponent<LightRocketBulletMovement>();
         rocket.target = targetPlayer; //give player position to bullet when spawned
+        Mirror.NetworkServer.Spawn(Bullet);
     }
 }
 

@@ -1,13 +1,35 @@
+using Mirror;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    public void PlaySingle()
+    public Mirror.NetworkManager manager;
+    //self-host
+    public void PlaySingleplayer()
     {
-        SceneManager.LoadScene("MainGameScene");
-    }
+        manager.StartHost();
+        manager.maxConnections = 0;
 
+        var settings = GameDefaultSettings.Instance;
+        settings.isSinglePlayerMode = true;
+        if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
+        {
+            manager.ServerChangeScene("MainGameScene");
+        }
+
+    }
+    public void PlayMultiplayer()
+    {
+        var settings = GameDefaultSettings.Instance;
+        settings.isSinglePlayerMode = false;
+        if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
+        {
+            manager.ServerChangeScene("MainGameScene");
+        }
+
+    }
     public void QuitGame()
     {
         Application.Quit();

@@ -154,13 +154,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rocket Launcher Boss
       objectReference: {fileID: 0}
+    - target: {fileID: 4577450167710487679, guid: 0d568999c4037df4397d70bd2a01dee0, type: 3}
+      propertyPath: m_TagString
+      value: EnemyCannon
+      objectReference: {fileID: 0}
     - target: {fileID: 5001444786090443793, guid: 0d568999c4037df4397d70bd2a01dee0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.5707
+      value: -6.2169313
       objectReference: {fileID: 0}
     - target: {fileID: 5001444786090443793, guid: 0d568999c4037df4397d70bd2a01dee0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.98571
+      value: -2.7811213
       objectReference: {fileID: 0}
     - target: {fileID: 5001444786090443793, guid: 0d568999c4037df4397d70bd2a01dee0, type: 3}
       propertyPath: m_LocalPosition.z
@@ -396,6 +400,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 170
   collisionDamage: 20
   scoreReward: 10
@@ -403,6 +411,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   flashMaterial: {fileID: 0}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 0}
   engineParticles: []
   flashDuration: 0.1
   rootEnemy: {fileID: 0}
@@ -412,4 +421,5 @@ MonoBehaviour:
   waveManager: {fileID: 0}
   firePart: {fileID: 4634140138894600049, guid: 65ea650935a4eab4fae26bfd638534cc, type: 3}
   smokePart: {fileID: 7803332637225220306, guid: d0fb9799876a4024f9a02f215c23796d, type: 3}
+  fireParticleContainer: {fileID: 0}
   fireSmokePartScale: 3

@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 7157561037332017152, guid: 28dc0aa995c2b2149bc1ff625c514670, type: 3}
+    - target: {fileID: 4241567776705974903, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
+      propertyPath: _assetId
+      value: 2690875258
+      objectReference: {fileID: 0}
     - target: {fileID: 6486411366471510010, guid: 1559648635792f24c866fad7e9bafb05, type: 3}
       propertyPath: m_Name
       value: Player_Bullet_Big_1

@@ -1,3 +1,4 @@
+using Mirror;
 using UnityEngine;
 
 public class BulletCollisionDetection : MonoBehaviour
@@ -15,15 +16,21 @@ public class BulletCollisionDetection : MonoBehaviour
     public ParticleSystem SparksParticles;
     private ParticleSystem currentSparksParticles;
 
+    private NetworkIdentity attackerNetId;
+    private GameObject attackerObj;
     // runs before Start()
     public void Init(GameObject shooter)
     {
         // get shooter (owner) damage
         this.shooter = shooter;
         shooterTag = shooter.tag;
+
+        attackerNetId = this.GetComponent<NetworkIdentity>();
+        attackerObj = attackerNetId != null ? attackerNetId.gameObject : null;
     }
     void Start()
     {
+
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
 
@@ -33,7 +40,6 @@ public class BulletCollisionDetection : MonoBehaviour
         downYClamp = bottomLeft.y - clampSize;
         upYClamp = topRight.y + clampSize;
     }
-
     void FixedUpdate()
     {
         pos = transform.position;
@@ -43,20 +49,33 @@ public class BulletCollisionDetection : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    [Server]
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //enemy bullet collided with player
         if (collision.CompareTag("Player") && shooterTag != "Player") // prevents self-shot
         {
-            Player player = collision.gameObject.GetComponent<Player>();
-            if (player != null)
+            Player player;
+            if (collision.gameObject.TryGetComponent<Player>(out player))
             {
                 //Debug.Log("LOG Bullet hit player");
                 Destroy(gameObject);
                 player.TakeDamage(damage);
-                
+
             }
         }
+        //prevent self-shoot by both players
+        else if (collision.CompareTag("Player") && shooterTag == "PlayerBullet")
+        {
+            return;
+        }
+        //prevent self-shoot by enemies
+        else if ((collision.CompareTag("Enemy") || (collision.CompareTag("EnemyCannon"))) &&
+            (shooterTag == "Enemy" || shooterTag == "EnemyCannon"))
+        {
+            return;
+        }
+        //Player bullet hit enemy or enemyCannon
         else if ((collision.CompareTag("Enemy") || (collision.CompareTag("EnemyCannon"))) &&
             (shooterTag != "Enemy" && shooterTag != "EnemyCannon"))
         {
@@ -73,12 +92,12 @@ public class BulletCollisionDetection : MonoBehaviour
                     Destroy(currentSparksParticles.gameObject, 0.5f);
                     //Debug.Log("LOG Bullet hit Basic_Enemy");
                     Destroy(gameObject);
-                    enemy.TakeDamage(damage, shooter);
+                    enemy.TakeDamage(damage, attackerNetId);
                 }
                 else
                 {
                     // triger InVulnerableHitAnim (blue flash)
-                    enemy.TakeDamage(0, shooter);
+                    enemy.TakeDamage(0, attackerNetId);
                 }
             }
         }

@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
 public class TripleBarrelEnemy : EnemyShootBullet
 {
     public Transform firePoint2;
     public Transform firePoint3;
-
+    [Server]
     protected override void SpawnBullet()
     {
         Transform[] firePoints =
@@ -18,13 +18,19 @@ public class TripleBarrelEnemy : EnemyShootBullet
             float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
             Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
-            GameObject Bullet = Instantiate(enemyBullet, currentFirePoint.position, currentFirePoint.rotation);
-            Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+            GameObject bullet = Instantiate(enemyBullet, currentFirePoint.position, currentFirePoint.rotation);
+            bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
             // set owner of bullet
-            Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+            bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-            Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
-            rb.linearVelocity = direction.normalized * bulletSpeed;
+            Mirror.NetworkServer.Spawn(bullet);
+            RpcSetBulletVelocity(bullet, direction);
         }
+    }
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }

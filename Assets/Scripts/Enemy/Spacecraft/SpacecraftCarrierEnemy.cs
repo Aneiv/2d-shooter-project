@@ -61,8 +61,7 @@ public class SpacecraftCarrierEnemy : Enemy
             SpacecraftCarrierShoot.OnArrival();
         }
     }
-
-    public override void TakeDamage(int damage, GameObject attacker)
+/*    public override void TakeDamage(int damage, GameObject attacker)
     {
         if (isVulnerable)
         {
@@ -80,7 +79,7 @@ public class SpacecraftCarrierEnemy : Enemy
             }
         }
     }
-
+*/
     public override void Die(GameObject attacker)
     {
         //Debug.Log("KILLED ENEMY");

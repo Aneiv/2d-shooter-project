@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4269838205310820026}
   - component: {fileID: 6032031443378388234}
   - component: {fileID: 8078470835293243942}
+  - component: {fileID: 2256953045150824314}
   m_Layer: 0
   m_Name: RocketBullet_1
   m_TagString: EnemyBullet
@@ -171,7 +172,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 50
-  isVulnerable: 0
   flashAnimationDuration: 0.1
 --- !u!114 &4269838205310820026
 MonoBehaviour:
@@ -228,6 +228,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &2256953045150824314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6707335622748340237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3134026877
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1001 &4513541245631506124
 PrefabInstance:
   m_ObjectHideFlags: 0

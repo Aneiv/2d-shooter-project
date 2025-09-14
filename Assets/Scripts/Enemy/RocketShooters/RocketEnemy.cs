@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using Mirror;
 using UnityEngine;
 public class RocketEnemy : EnemyShootBullet
 {
@@ -16,7 +16,7 @@ public class RocketEnemy : EnemyShootBullet
             targetPlayer = player.transform;
         }
     }
-
+    [Server]
     protected override void SpawnBullet()
     {
         float angleInDegrees = transform.eulerAngles.z + 90f;
@@ -27,13 +27,14 @@ public class RocketEnemy : EnemyShootBullet
         bulletPosition.y = firePoint.position.y; //firePoint.bounds.size.y / 2;
         bulletPosition.x = firePoint.position.x;
 
-        GameObject Bullet = Instantiate(enemyBullet, bulletPosition, firePoint.rotation);
-        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        GameObject bullet = Instantiate(enemyBullet, bulletPosition, firePoint.rotation);
+        bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
-        Bullet.GetComponent<RocketBulletCollision>().Init(this.gameObject);
+        bullet.GetComponent<RocketBulletCollision>().Init(this.gameObject);
 
-        var rocket = Bullet.GetComponent<RocketBulletMovement>();
+        var rocket = bullet.GetComponent<RocketBulletMovement>();
         rocket.target = targetPlayer; //give player position to bullet when spawned
+        Mirror.NetworkServer.Spawn(bullet);
     }
 }
 

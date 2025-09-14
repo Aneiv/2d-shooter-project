@@ -1,14 +1,13 @@
 using DG.Tweening;
-using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
+public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
 {
-    [Header("Health stuff")]
+    [Header("Health stuff")]    
     public int maxHp = 50;
     public int collisionDamage = 20;
-    protected int currentHp;
+    [SyncVar(hook = nameof(OnHealthChanged))] protected int currentHp;
     protected bool isVulnerable = false;
     public bool IsVulnerable
     {
@@ -61,8 +60,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
         enemyShoot = GetComponent<EnemyShoot>();
         mainMaterial = mainSprite.material;
     }
-
-    virtual public void TakeDamage(int damage, GameObject attacker)
+    virtual public void TakeDamage(int damage, Mirror.NetworkIdentity attackerNetId)
     {
         if (isVulnerable)
         {
@@ -70,13 +68,13 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             if (currentHp - damage > 0)
             {
                 currentHp -= damage;
-                healthBar.SetHealth(currentHp);
+/*                healthBar.SetHealth(currentHp);
 
                 HitFlashAnim(mainSprite);
                 foreach (var sprite in addSprites)
                 {
                     HitFlashAnim(sprite);
-                }
+                }*/
 
                 // flash on ParticleSystem
                 //var childParticles = GetComponentsInChildren<ParticleSystem>();
@@ -91,7 +89,7 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             }
             else
             {
-                Die(attacker);
+                RpcDie(attackerNetId);
             }
         }
         else
@@ -103,6 +101,43 @@ public class Enemy : MonoBehaviour, IHealthEnemy, IEnemy
             }
         }
     }
+    void OnHealthChanged(int oldHealth, int newHealth)
+    {
+        if (newHealth <= 0)
+        {
+                Die();
+
+        }
+        else
+        {
+            healthBar.SetHealth(currentHp);
+
+            HitFlashAnim(mainSprite);
+            foreach (var sprite in addSprites)
+            {
+                HitFlashAnim(sprite);
+            }
+        }
+
+                // flash on ParticleSystem
+                //var childParticles = GetComponentsInChildren<ParticleSystem>();
+                //foreach (var child in childParticles)
+                //{
+                //    var sprite = child.GetComponent<Renderer>();
+                //    if (sprite != null)
+                //    {
+                //        HitFlashAnim(sprite);
+                //    }
+                //}
+    }
+
+    [ClientRpc]
+    void RpcDie(Mirror.NetworkIdentity attackerNetId)
+    {
+        GameObject attackerObj = attackerNetId != null ? attackerNetId.gameObject : null;
+        Die(attackerObj);
+    }
+
     virtual public void Die(GameObject attacker = null)
     {
         //Debug.Log("KILLED ENEMY");

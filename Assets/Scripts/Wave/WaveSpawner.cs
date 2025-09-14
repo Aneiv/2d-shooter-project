@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using System.Collections;
+using Mirror;
 
-public class WaveSpawner : MonoBehaviour
+public class WaveSpawner : Mirror.NetworkBehaviour
 {
     public GameObject[] enemyTestPrefabs;     // Enemy Ship prefab
     public GameObject minibossPrefab; // Mini boss prefab
     public GameObject bossPrefab;
     private float moveBegingYPosition = 8f;   // first Y position
     public float nextWaveTimeDelay; //delay before creating next wave
-
     private SpriteRenderer shipSpriteRenderer; //to get sizes of ships (in use of creating rows)
     private int shipCount;         // ship amount
     private int shipRows;        //rows amount
@@ -26,8 +26,8 @@ public class WaveSpawner : MonoBehaviour
     public int shipPerRowMaxAmount;
     public GameObject enemiesContainer;
     //Screen size
-    private Vector3 bottomLeft;
-    private Vector3 topRight;
+    [SyncVar] private Vector3 bottomLeft;
+    [SyncVar] private Vector3 topRight;
 
     //spawn patterns
     private List<Action> spawnPatterns;
@@ -72,7 +72,7 @@ public class WaveSpawner : MonoBehaviour
             standardSpawnPatterns = new List<Action>
             {
                 UpDownSpawn,
-                SpiralMovement
+                //SpiralMovement
             };
             PrepareWaves();
         }
@@ -304,7 +304,7 @@ public class WaveSpawner : MonoBehaviour
 
         return startX;
     }
-
+    [Server]
     public void UpDownSpawn()
     {
         var (enemyPrefabs, numberOfEnemies) = GetEnemyPrefabs();
@@ -329,6 +329,7 @@ public class WaveSpawner : MonoBehaviour
                 ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+                Mirror.NetworkServer.Spawn(ship);
 
                 //idle animation play at random delay for every ship
                 var shipAnim = ship.GetComponent<Animator>();
@@ -336,21 +337,29 @@ public class WaveSpawner : MonoBehaviour
                 float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
                 shipAnimator.Play("Idle", 0, randomOffset);//layer 0
 
-
-                ship.transform.DOMoveY(4f - i * rowHeight, animationDurations[0])
-                    .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
-                    .SetDelay(i * 0.3f) //delay between spawning rows of ships
-                    .OnComplete(() =>
-                    {
-                        Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
-                        if (enemyInstance != null) 
-                        {
-                            enemyInstance.OnArrival();
-                        }
-                    });
+                int rowIndex = i;
+                RpcUpDownSpawnAnimation(rowIndex, animationDurations[0], ship);
             }
         }
         WaveSpawned();
+    }
+    [ClientRpc]
+    void RpcUpDownSpawnAnimation(int rowIndex, float animationDuration, GameObject ship)
+    {
+        float targetY = 4f - rowIndex * rowHeight;
+        float delay = rowIndex * 0.3f;
+
+        ship.transform.DOMoveY(targetY, animationDurations[0])
+            .SetEase(Ease.OutQuad)
+            .SetDelay(delay)
+            .OnComplete(() =>
+            {
+                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                if (enemyInstance != null)
+                {
+                    enemyInstance.OnArrival();
+                }
+            });
     }
 
     public void SpawnMiniBoss()
@@ -368,6 +377,7 @@ public class WaveSpawner : MonoBehaviour
 
         //create ship instance and set position
         GameObject ship = Instantiate(minibossPrefab, spawnPos, Quaternion.identity);
+        Mirror.NetworkServer.Spawn(ship);
         ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
         //rotate ship to correct value
         ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
@@ -407,6 +417,7 @@ public class WaveSpawner : MonoBehaviour
 
         //create ship instance and set position
         GameObject ship = Instantiate(bossPrefab, spawnPos, Quaternion.identity);
+        Mirror.NetworkServer.Spawn(ship);
         ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
         //rotate ship to correct value
         ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
@@ -475,6 +486,7 @@ public class WaveSpawner : MonoBehaviour
                 GameObject enemyPrefab = enemyPrefabs[enemyPrefabIndex];
                 enemyPrefabIndex++;
                 GameObject ship = Instantiate(enemyPrefab, start, Quaternion.identity);
+                Mirror.NetworkServer.Spawn(ship);
                 ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
                 //rotate ship to correct value
                 ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);

@@ -202,12 +202,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20b7bc3f4c87c540a4878c322c3c81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 50
+  collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
   healthBar: {fileID: 2109721598917302659}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 0}
   engineParticles:
   - {fileID: 1817664266269510675}
   flashDuration: 0.1
@@ -228,6 +234,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67c6e77f97e79d4a9b886ed51f562e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   checkInterval: 0.5
   minSpawnDelay: 0.5
   maxSpawnDelay: 2
@@ -247,6 +257,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3462073977129897391}
+  - component: {fileID: 2008421544763753005}
+  - component: {fileID: 8646592161230469251}
   m_Layer: 0
   m_Name: Basic_Enemy
   m_TagString: Enemy
@@ -270,6 +282,58 @@ Transform:
   - {fileID: 4935836637643920760}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!114 &2008421544763753005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2365903002932943826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.05
+  target: {fileID: 3462073977129897391}
+  updateMethod: 0
+  syncPosition: 1
+  syncRotation: 0
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
+--- !u!114 &8646592161230469251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2365903002932943826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 1412538771
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &6987929272695981238
 GameObject:
   m_ObjectHideFlags: 0

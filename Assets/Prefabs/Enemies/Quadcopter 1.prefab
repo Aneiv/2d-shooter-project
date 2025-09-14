@@ -204,6 +204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20b7bc3f4c87c540a4878c322c3c81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   maxHp: 70
   collisionDamage: 30
   scoreReward: 30
@@ -211,6 +215,7 @@ MonoBehaviour:
   healthBar: {fileID: 4160406656784625920}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
+  fireAndSmokeParticles: {fileID: 0}
   engineParticles:
   - {fileID: 7634083607507667990}
   - {fileID: 8322440448467797252}
@@ -234,6 +239,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a4eafe6334fa2c4a8d3013fd1026a50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   checkInterval: 0.5
   minSpawnDelay: 0.5
   maxSpawnDelay: 0.5
@@ -19680,6 +19689,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 898934848012580906}
+  - component: {fileID: 4414733359793649011}
+  - component: {fileID: 4972108378650898661}
   m_Layer: 0
   m_Name: Quadcopter 1
   m_TagString: Enemy
@@ -19703,6 +19714,58 @@ Transform:
   - {fileID: 2314917166869431267}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 180}
+--- !u!114 &4414733359793649011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7653356360152750695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 3302380423
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
+--- !u!114 &4972108378650898661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7653356360152750695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.05
+  target: {fileID: 898934848012580906}
+  updateMethod: 0
+  syncPosition: 1
+  syncRotation: 0
+  syncScale: 0
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  onlySyncOnChangeCorrectionMultiplier: 2
+  rotationSensitivity: 0.01
+  positionPrecision: 0.01
+  scalePrecision: 0.01
 --- !u!1 &7756491279639496805
 GameObject:
   m_ObjectHideFlags: 0

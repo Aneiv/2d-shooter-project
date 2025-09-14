@@ -159,8 +159,8 @@ MonoBehaviour:
   normalizeMode: 1
   editorPreviewLOD: 0
   noiseScale: 64.1
-  octaves: 3
-  persistance: 0.312
+  octaves: 7
+  persistance: 0.55
   lacunarity: 1.8
   seed: 1
   offset: {x: 0, y: 0}
@@ -173,37 +173,31 @@ MonoBehaviour:
     m_RotationOrder: 4
   mapChunkResolution: 512
   autoUpdate: 1
-  regions:
-  - name: Water1
+  terrainRegions:
+  - name: Water
     height: 0.3
-    colour: {r: 0, g: 0.2, b: 0.4, a: 0}
-  - name: Water2
-    height: 0.4
-    colour: {r: 0.2, g: 0.4, b: 0.8, a: 0}
-  - name: Sand1
-    height: 0.45
-    colour: {r: 0.95686275, g: 0.8862745, b: 0.7019608, a: 0}
-  - name: Grass1
-    height: 0.6
-    colour: {r: 0.18632075, g: 0.745283, b: 0.21062346, a: 0}
-  - name: Grass2
+    colorStart: {r: 0.09019608, g: 0.5568628, b: 0.76470596, a: 0}
+    colorEnd: {r: 0.16078432, g: 0.9686275, b: 0.9960785, a: 0}
+  - name: Sand
+    height: 0.35
+    colorStart: {r: 0.754717, g: 0.7283084, b: 0.5731577, a: 0}
+    colorEnd: {r: 0.89019614, g: 0.8588236, b: 0.6745098, a: 0}
+  - name: Grass
     height: 0.65
-    colour: {r: 0.23891956, g: 0.5566038, b: 0.2517553, a: 0}
+    colorStart: {r: 0.45882356, g: 0.93725497, b: 0.48627454, a: 0}
+    colorEnd: {r: 0.08235294, g: 0.7058824, b: 0.54509807, a: 0}
   - name: Mountains1
     height: 0.75
-    colour: {r: 0.54509807, g: 0.46666667, b: 0.39607844, a: 0}
+    colorStart: {r: 0.08235294, g: 0.7058824, b: 0.54509807, a: 0}
+    colorEnd: {r: 0.08235295, g: 0.7058824, b: 0.29778445, a: 0}
   - name: Mountains2
     height: 0.8
-    colour: {r: 0.4716981, g: 0.42134303, b: 0.3760235, a: 0}
-  - name: Mountains3
-    height: 0.9
-    colour: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 0}
-  - name: Mountains4
-    height: 0.95
-    colour: {r: 0.7830189, g: 0.7830189, b: 0.7830189, a: 0}
-  - name: Mountains5
+    colorStart: {r: 0.5660378, g: 0.5660378, b: 0.5660378, a: 0}
+    colorEnd: {r: 0.6981132, g: 0.6981132, b: 0.6981132, a: 0}
+  - name: Snow
     height: 1
-    colour: {r: 1, g: 1, b: 1, a: 0}
+    colorStart: {r: 0.7843138, g: 0.7843138, b: 0.7843138, a: 0}
+    colorEnd: {r: 1, g: 1, b: 1, a: 0}
 --- !u!114 &8440916275001649087
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,15 +228,32 @@ MonoBehaviour:
   viewDistanceChunksX: 0
   viewDistanceChunksY: 1
   objectsSpawner:
-  - obejectPrefab: {fileID: 6498806104019520751, guid: e642f08507178c54cb2032c6fd0adb9b, type: 3}
-    objectSpawnChance: 0.005
+  - objectPrefab: {fileID: 6498806104019520751, guid: e642f08507178c54cb2032c6fd0adb9b, type: 3}
+    objectSpawnChance: 0.1
     colours:
-    - {r: 1, g: 1, b: 1, a: 0}
-  - obejectPrefab: {fileID: 2554775441609789230, guid: 39d33636c9871564e94914cb14c88312, type: 3}
-    objectSpawnChance: 0.05
+    - {r: 0.5647059, g: 0.5647059, b: 0.5647059, a: 0}
+    - {r: 0.69803923, g: 0.69803923, b: 0.69803923, a: 0}
+    - {r: 0.87843144, g: 0.87843144, b: 0.86274517, a: 0}
+  - objectPrefab: {fileID: 3564562848689499080, guid: 70be676efd87e1b44b04743cd54f82d1, type: 3}
+    objectSpawnChance: 0.3
     colours:
-    - {r: 0.18823531, g: 0.74509805, b: 0.21176472, a: 0}
-    - {r: 0.2392157, g: 0.5568628, b: 0.2509804, a: 0}
+    - {r: 0.08235294, g: 0.7058824, b: 0.54509807, a: 0}
+    - {r: 0.08235294, g: 0.7058824, b: 0.29803923, a: 0}
+  - objectPrefab: {fileID: 4549876964301141524, guid: 24210166ede93cf408543ae5ea2d7778, type: 3}
+    objectSpawnChance: 0.3
+    colours:
+    - {r: 0.054901965, g: 0.5176471, b: 0.3921569, a: 0}
+    - {r: 0.23529413, g: 0.6156863, b: 0.36078432, a: 0}
+  - objectPrefab: {fileID: 5621616408318161110, guid: 81d902d342b9547448989982391d18a5, type: 3}
+    objectSpawnChance: 0.3
+    colours:
+    - {r: 0.36078432, g: 0.82745105, b: 0.454902, a: 0}
+    - {r: 0.29803923, g: 0.8313726, b: 0.49411768, a: 0}
+  - objectPrefab: {fileID: 2603595334928548503, guid: 1039b9c55a342ed4db8c787dfd508982, type: 3}
+    objectSpawnChance: 0.3
+    colours:
+    - {r: 0.8078432, g: 0.78823537, b: 0.6156863, a: 0}
+    - {r: 0.74509805, g: 0.72156864, b: 0.5686275, a: 0}
 --- !u!1 &2254108343549268942
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,6 +263,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 813114359886772592}
+  - component: {fileID: 4069425400597447883}
   m_Layer: 0
   m_Name: MapGeneratorManager
   m_TagString: Untagged
@@ -276,3 +288,20 @@ Transform:
   - {fileID: 5140192419207572175}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4069425400597447883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2254108343549268942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 153182030
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0

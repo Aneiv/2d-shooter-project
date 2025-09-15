@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 
 public class LanLobbyManager : MonoBehaviour
 {
-    public Mirror.NetworkManager manager;
+    public MyNetworkManager manager;
     public static LanLobbyManager Instance { get; private set; }
 
     public TMP_InputField ipInput;       //host ip input
@@ -29,6 +29,10 @@ public class LanLobbyManager : MonoBehaviour
     public void JoinGame()
     {
         manager.networkAddress = ipInput.text;
+        if (string.IsNullOrWhiteSpace(ipInput.text))
+        {
+            return;
+        }
         backlogText.text = "Connecting...";
         manager.StartClient();
         StartCoroutine(CheckConnection());
@@ -81,7 +85,7 @@ public class LanLobbyManager : MonoBehaviour
         //wait for ui to load
         yield return new WaitUntil(() => GameObject.Find("Canvas/LobbyMenu") != null);
         Instance.RefreshReferences();
-        Instance.ResetNetworkSettings();
+        ResetNetworkSettings();
     }
     private void RefreshReferences()
     {
@@ -90,7 +94,7 @@ public class LanLobbyManager : MonoBehaviour
         backlogText = GameObject.Find("Canvas/LobbyMenu/BacklogText/Text")?.GetComponent<TextMeshProUGUI>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (manager == null || backlogText == null) return;
 

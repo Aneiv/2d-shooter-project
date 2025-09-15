@@ -6,6 +6,11 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public Mirror.NetworkManager manager;
+
+    private void Start()
+    {
+        manager = FindFirstObjectByType<Mirror.NetworkManager>();
+    }
     //self-host
     public void PlaySingleplayer()
     {

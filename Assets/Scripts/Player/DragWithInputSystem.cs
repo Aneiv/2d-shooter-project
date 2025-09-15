@@ -1,3 +1,4 @@
+using Mirror;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,11 +9,11 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
     private GameControls controls;
     private Camera cam;
     private bool isDragging = false;
-    private Vector3 offset;
+    [SyncVar] private Vector3 offset;
     [HideInInspector]
-    public float minX, minY, maxX, maxY; //screen boundaries
-    private Vector3 bottomLeft;
-    private Vector3 topRight;
+    [SyncVar] public float minX, minY, maxX, maxY; //screen boundaries
+    [SyncVar] private Vector3 bottomLeft;
+    [SyncVar] private Vector3 topRight;
     private GameDefaultSettings settings;
     private void Start()
     {

@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class RocketBulletMovement : Mirror.NetworkBehaviour
 {
-    [HideInInspector] public Transform target;
+    [HideInInspector] [SyncVar] public Transform target;
     public float speed = 5f;
     public float rotateSpeed = 200f;
 
     protected Rigidbody2D rb;
-    protected Vector2 targetPosition;      //player position
-    protected bool reachedTarget = false;
+    [SyncVar] protected Vector2 targetPosition;      //player position
+    [SyncVar] protected bool reachedTarget = false;
     public ParticleSystem burstParticle; //burst particle system
     public float explodeRadius; //objects in that area get damage from explosion
     //public float playerDamageZone; //radius of circle that designate bullet explosion
 
-    protected Vector2 direction;
-    private bool bouncingUp = false;
+    [SyncVar] protected Vector2 direction;
+    [SyncVar] private bool bouncingUp = false;
 
-    float screenCenterYPos;
+    [SyncVar] float screenCenterYPos;
     protected virtual void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,7 +32,6 @@ public class RocketBulletMovement : Mirror.NetworkBehaviour
         Vector3 screenCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
         screenCenterYPos = screenCenter.y;
     }
-    [Server]
     protected virtual void FixedUpdate()
     {
         if (reachedTarget) return;
@@ -91,15 +90,13 @@ public class RocketBulletMovement : Mirror.NetworkBehaviour
                 //Debug.Log("LOG Rocket Bullet Exploded near player damaging them");
             }
         }
-
-        //later sound, etc
-        ExplodeParticles();//particle explosion
         //Destroy(gameObject); //destroy rocket
         RpcBulletDestroyed();
     }
     [ClientRpc]
     void RpcBulletDestroyed()
     {
+        ExplodeParticles();//particle explosion
         Destroy(gameObject); //destroy rocket
     }
     public void ExplodeParticles()
@@ -135,8 +132,18 @@ public class RocketBulletMovement : Mirror.NetworkBehaviour
         rb.linearVelocity = bounceDir * speed;
 
         reachedTarget = false;
+        RpcSyncBounce(rb.position, rb.rotation, rb.linearVelocity);
     }
 
+    [ClientRpc]
+    void RpcSyncBounce(Vector2 position, float rotation, Vector2 velocity)
+    {
+        if (isServer) return;
+
+        rb.position = position;
+        rb.rotation = rotation;
+        rb.linearVelocity = velocity;
+    }
 
     //show radius of exposion when selected on edit mode
     protected void OnDrawGizmosSelected()

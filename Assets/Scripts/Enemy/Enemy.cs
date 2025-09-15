@@ -89,7 +89,7 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
             }
             else
             {
-                RpcDie(attackerNetId);
+                RpcDie();
             }
         }
         else
@@ -132,12 +132,13 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
     }
 
     [ClientRpc]
-    void RpcDie(Mirror.NetworkIdentity attackerNetId)
+    void RpcDie()
     {
-        GameObject attackerObj = attackerNetId != null ? attackerNetId.gameObject : null;
-        Die(attackerObj);
+        ExplosionParticles();
+        Mirror.NetworkServer.Destroy(rootEnemy);
     }
 
+    [Server]
     virtual public void Die(GameObject attacker = null)
     {
         //Debug.Log("KILLED ENEMY");
@@ -159,7 +160,7 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
                 }
             }
 
-            ExplosionParticles();
+
 
             var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
             destroyTrigger.EnemyKilled();
@@ -171,10 +172,12 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
                 DOTween.Kill(sprite);
             }
             DOTween.Kill(gameObject);
-            Destroy(rootEnemy);
+            //Destroy(rootEnemy);
+
+            RpcDie();
         }
     }
-
+    [Server]
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && isVulnerable)

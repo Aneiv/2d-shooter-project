@@ -11,10 +11,11 @@ using UnityEngine.SceneManagement;
 public class LanLobbyManager : MonoBehaviour
 {
     public Mirror.NetworkManager manager;
-    public static LanLobbyManager Instance;
+    public static LanLobbyManager Instance { get; private set; }
+
     public TMP_InputField ipInput;       //host ip input
-    public TextMeshProUGUI hostIpText;          
-    public TextMeshProUGUI backlogText;         
+    public TextMeshProUGUI hostIpText;
+    public TextMeshProUGUI backlogText;
     private bool tryingToConnect = true;
     //HOST
     public void StartHost()
@@ -28,34 +29,67 @@ public class LanLobbyManager : MonoBehaviour
     public void JoinGame()
     {
         manager.networkAddress = ipInput.text;
-        backlogText.text = "Connecting...";        
+        backlogText.text = "Connecting...";
         manager.StartClient();
         StartCoroutine(CheckConnection());
     }
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-        else
+        //singleton
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
+            return;
         }
-    }
 
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.buildIndex == 0)//main menu scene index
-        {   
-            //refresh references on scene change
-            ipInput = GameObject.Find("Canvas/LobbyMenu/HostIp/IPinput")?.GetComponent<TMP_InputField>();
-            hostIpText = GameObject.Find("Canvas/LobbyMenu/MyIPText/IPText")?.GetComponent<TextMeshProUGUI>();
-            backlogText = GameObject.Find("Canvas/LobbyMenu/BacklogText/Text")?.GetComponent<TextMeshProUGUI>();
+        if (scene.buildIndex == 0) // main menu scene index
+        {
+            StartCoroutine(RefreshWhenReady());
         }
     }
+    public void ResetNetworkSettings()
+    {
+        if (manager != null)
+        {
+            // Stop current host or client if active
+            if (Mirror.NetworkServer.active || Mirror.NetworkClient.isConnected || Mirror.NetworkClient.isConnecting)
+            {
+                manager.StopHost();   
+                manager.StopClient(); 
+            }
+
+            // Reset networkAddress and ports
+            manager.networkAddress = "localhost";
+            manager.GetComponent<TelepathyTransport>().port = 7777; //TelepathyTransport
+        }
+
+        // Reset lokalnych zmiennych UI
+        ipInput.text = "";
+        backlogText.text = "";
+        tryingToConnect = true;
+    }
+
+    private IEnumerator RefreshWhenReady()
+    {
+        //wait for ui to load
+        yield return new WaitUntil(() => GameObject.Find("Canvas/LobbyMenu") != null);
+        Instance.RefreshReferences();
+        Instance.ResetNetworkSettings();
+    }
+    private void RefreshReferences()
+    {
+        ipInput = GameObject.Find("Canvas/LobbyMenu/HostIp/IPinput")?.GetComponent<TMP_InputField>();
+        hostIpText = GameObject.Find("Canvas/LobbyMenu/MyIPText/IPText")?.GetComponent<TextMeshProUGUI>();
+        backlogText = GameObject.Find("Canvas/LobbyMenu/BacklogText/Text")?.GetComponent<TextMeshProUGUI>();
+    }
+
     void Update()
     {
         if (manager == null || backlogText == null) return;
@@ -81,7 +115,7 @@ public class LanLobbyManager : MonoBehaviour
             backlogText.text = "Not connected";
         }
     }
-private IEnumerator CheckConnection()
+    private IEnumerator CheckConnection()
     {
         float timeout = 5f; //time for timeout
         float timer = 0f;
@@ -112,8 +146,8 @@ private IEnumerator CheckConnection()
             tryingToConnect = false;
         }
     }
-//get local host IP
-string GetLocalIPAddress()
+    //get local host IP
+    string GetLocalIPAddress()
     {
         string localIP = "Can't find IP address";
         try

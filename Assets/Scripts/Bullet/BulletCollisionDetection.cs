@@ -46,7 +46,8 @@ public class BulletCollisionDetection : MonoBehaviour
         if (pos.x < leftXClamp || pos.x > rightXClamp || pos.y < downYClamp || pos.y > upYClamp)
         {
             //Debug.Log("LOG Bullet hit screen bounds");
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            Mirror.NetworkServer.Destroy(gameObject);
         }
     }
     [Server]
@@ -59,7 +60,8 @@ public class BulletCollisionDetection : MonoBehaviour
             if (collision.gameObject.TryGetComponent<Player>(out player))
             {
                 //Debug.Log("LOG Bullet hit player");
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                Mirror.NetworkServer.Destroy(gameObject);
                 player.TakeDamage(damage);
 
             }
@@ -91,7 +93,8 @@ public class BulletCollisionDetection : MonoBehaviour
 
                     Destroy(currentSparksParticles.gameObject, 0.5f);
                     //Debug.Log("LOG Bullet hit Basic_Enemy");
-                    Destroy(gameObject);
+                    //Destroy(gameObject);
+                    Mirror.NetworkServer.Destroy(gameObject);
                     enemy.TakeDamage(damage, attackerNetId);
                 }
                 else

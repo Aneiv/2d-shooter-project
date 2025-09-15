@@ -35,6 +35,14 @@ public class RocketEnemy : EnemyShootBullet
         var rocket = bullet.GetComponent<RocketBulletMovement>();
         rocket.target = targetPlayer; //give player position to bullet when spawned
         Mirror.NetworkServer.Spawn(bullet);
+        RpcSetBulletVelocity(bullet, direction);
+    }
+
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }
 

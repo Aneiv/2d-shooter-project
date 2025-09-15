@@ -6,9 +6,9 @@ using UnityEngine;
 public class Player : Mirror.NetworkBehaviour, IHealth
 {
     public int maxHp = 80;
-    [SyncVar] public int currentScore = 0;
+    [SyncVar(hook = nameof(OnScoreChanged))] public int currentScore = 0;
     [SyncVar] private int currentHp;
-    [SyncVar] private int currentNumberOfCoins = 0;
+    [SyncVar(hook = nameof(OnCoinsChanged))] private int currentNumberOfCoins = 0;
     private Animator playerAnimator;
     private GameOverMenu gameOverMenu;
     public GameObject mainCanva;
@@ -38,26 +38,62 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         totalScoreText.text = currentScore.ToString();
         gameOverMenu = mainCanva.GetComponent<GameOverMenu>();
     }
+    [Server]
     public void TakeDamage(int damage)
     {
         //Debug.Log("Player took: " + damage.ToString() + " dmg");
         if (currentHp - damage > 0)
         {
             currentHp -= damage;
-            healthBar.SetHealth(currentHp);
-            //Damage received animation
-            playerAnimator.SetTrigger("DamageReceived");
+            
         }
         else
         {
             Die();
         }
+        TakeDamageRpc();
     }
+
     public void Die()
     {
         OnGameOver();
-
+        DieRpc();
+    }
+    [ClientRpc]
+    private void DieRpc()
+    {
         Destroy(gameObject);
+    }
+
+
+    [ClientRpc]
+    private void TakeDamageRpc()
+    {
+        if (isLocalPlayer) healthBar.SetHealth(currentHp);
+        //Damage received animation
+        playerAnimator.SetTrigger("DamageReceived");
+    }
+
+    [Server]
+    public void AddScore(int amount)
+    {
+        currentScore += amount;
+    }
+    private void OnScoreChanged(int oldScore, int newScore)
+    {
+        if (isLocalPlayer)
+            currentScore = newScore;
+    }
+
+    [Server]
+    public void AddCoins(int amount)
+    {
+        currentNumberOfCoins += amount;
+    }
+    private void OnCoinsChanged(int oldCoins, int newCoins)
+    {
+        if (isLocalPlayer)
+            currentNumberOfCoins = newCoins;
     }
 
     public void OnGameOver()

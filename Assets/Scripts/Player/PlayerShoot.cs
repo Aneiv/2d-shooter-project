@@ -53,15 +53,16 @@ public class PlayerShoot : Mirror.NetworkBehaviour
     IEnumerator SpawnBulletCoroutine()
     {
         isWaitingForShot = true;
+        yield return new WaitForSeconds(bulletSpawnDelay);
 
-        yield return new WaitForSeconds(bulletSpawnDelay); //delay
         SpawnBullet();
 
         isWaitingForShot = false;
     }
-
     void SpawnBullet()
     {
+        if (!isServer) return; //only host/server
+
         float angleInDegrees = thisPlayerTransform.eulerAngles.z + 90f;
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));

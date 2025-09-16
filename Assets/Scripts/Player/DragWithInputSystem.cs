@@ -18,7 +18,11 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
     private void Start()
     {
         settings = FindAnyObjectByType<GameDefaultSettings>();
-
+        SetScreenClamp();
+    }
+    [Server]
+    void SetScreenClamp()
+    {
         //left bottom (0, 0)
         bottomLeft = cam.ScreenToWorldPoint(new Vector3(0, 0, cam.nearClipPlane));
 
@@ -31,6 +35,7 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
         minY = bottomLeft.y;
         maxY = topRight.y;
     }
+
     void Awake()
     {
         controls = new GameControls();

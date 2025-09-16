@@ -1,11 +1,13 @@
 using DG.Tweening;
 using Mirror;
+using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
 
 public class Player : Mirror.NetworkBehaviour, IHealth
 {
     public int maxHp = 80;
+    [SyncVar] public string playerName;
     [SyncVar(hook = nameof(OnScoreChanged))] public int currentScore = 0;
     [SyncVar] private int currentHp;
     [SyncVar(hook = nameof(OnCoinsChanged))] private int currentNumberOfCoins = 0;
@@ -38,6 +40,19 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         totalScoreText.text = currentScore.ToString();
         gameOverMenu = mainCanva.GetComponent<GameOverMenu>();
     }
+    
+    public override void OnStartLocalPlayer()
+    {
+        //get player name from LanLobbyManager
+        string chosenName = LanLobbyManager.Instance.GetPlayerNameInput();
+        CmdSetPlayerName(chosenName); //send request to server to change username for player instance
+    }
+    [Command]
+    private void CmdSetPlayerName(string newName)
+    {
+        playerName = newName;
+    }
+
     [Server]
     public void TakeDamage(int damage)
     {

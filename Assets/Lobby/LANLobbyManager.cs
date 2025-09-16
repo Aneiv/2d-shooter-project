@@ -14,6 +14,7 @@ public class LanLobbyManager : MonoBehaviour
     public static LanLobbyManager Instance { get; private set; }
 
     public TMP_InputField ipInput;       //host ip input
+    public TMP_InputField playerNameInput;
     public TextMeshProUGUI hostIpText;
     public TextMeshProUGUI backlogText;
     private bool tryingToConnect = true;
@@ -22,7 +23,7 @@ public class LanLobbyManager : MonoBehaviour
     {
         manager.StartHost();
         string localIP = GetLocalIPAddress();
-        hostIpText.text = "Your IP: " + localIP;
+        hostIpText.text = localIP;
     }
 
     //CLIENT
@@ -90,6 +91,7 @@ public class LanLobbyManager : MonoBehaviour
     private void RefreshReferences()
     {
         ipInput = GameObject.Find("Canvas/LobbyMenu/HostIp/IPinput")?.GetComponent<TMP_InputField>();
+        playerNameInput = GameObject.Find("Canvas/LobbyMenu/Username/NameInput")?.GetComponent<TMP_InputField>();
         hostIpText = GameObject.Find("Canvas/LobbyMenu/MyIPText/IPText")?.GetComponent<TextMeshProUGUI>();
         backlogText = GameObject.Find("Canvas/LobbyMenu/BacklogText/Text")?.GetComponent<TextMeshProUGUI>();
     }
@@ -165,6 +167,15 @@ public class LanLobbyManager : MonoBehaviour
         }
         catch { }
         return localIP;
+    }
+
+    public string GetPlayerNameInput()
+    {
+        //default namne
+        if (string.IsNullOrWhiteSpace(playerNameInput.text))
+            return "Player" + Random.Range(1000, 9999);
+
+        return playerNameInput.text;
     }
 
 }

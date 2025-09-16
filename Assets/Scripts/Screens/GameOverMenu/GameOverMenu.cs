@@ -1,9 +1,10 @@
 using DG.Tweening;
+using Mirror;
 using TMPro;
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
 
-public class GameOverMenu : MonoBehaviour
+public class GameOverMenu : Mirror.NetworkBehaviour
 {
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI highscoreText;
@@ -16,6 +17,7 @@ public class GameOverMenu : MonoBehaviour
     void Start()
     {
         highscore = PlayerPrefs.GetInt("highscore", 0);
+        player = Mirror.NetworkClient.localPlayer.gameObject;
     }
 
     public void OnMenuShow()

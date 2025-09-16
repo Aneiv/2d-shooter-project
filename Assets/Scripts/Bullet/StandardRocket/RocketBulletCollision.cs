@@ -79,7 +79,7 @@ public class RocketBulletCollision : MonoBehaviour
                 Enemy enemy = collision.gameObject.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    enemy.TakeDamage(damage, attackerNetId);
+                    enemy.TakeDamage(damage, shooter);
                     //Destroy(gameObject);
                     sturdyBullet.Die();
                 }

@@ -8,7 +8,7 @@ using UnityEngine;
 
 public interface IHealthEnemy
 {
-    void TakeDamage(int damage, Mirror.NetworkIdentity attackerNetId);
+    void TakeDamage(int damage, GameObject attacker);
     void Die(GameObject attacker);
     bool IsVulnerable { get; set; }
 

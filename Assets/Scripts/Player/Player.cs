@@ -3,14 +3,15 @@ using Mirror;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Player : Mirror.NetworkBehaviour, IHealth
 {
     public int maxHp = 80;
     [SyncVar] public string playerName;
     [SyncVar(hook = nameof(OnScoreChanged))] public int currentScore = 0;
-    [SyncVar] private int currentHp;
-    [SyncVar(hook = nameof(OnCoinsChanged))] private int currentNumberOfCoins = 0;
+    [SyncVar] public int currentHp;
+    [SyncVar(hook = nameof(OnCoinsChanged))] public int currentNumberOfCoins = 0;
     private Animator playerAnimator;
     private GameOverMenu gameOverMenu;
     public GameObject mainCanva;
@@ -28,11 +29,11 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         mainCanva = GameObject.Find("Canvas");
         GameOverUI = mainCanva.transform.Find("GameOverMenu").gameObject;
         gameUI = mainCanva.transform.Find("UI").gameObject;
-        healthBar = mainCanva.transform.Find("UI/Player_Health_Bar").GetComponent<HealthBar>();
-        totalScoreText = mainCanva.transform.Find("UI/Score/ScoreText").GetComponent<TMP_Text>();
-        totalCoinsTextUI = mainCanva.transform.Find("UI/Coins/CoinsText").GetComponent<TMP_Text>();
+        healthBar = mainCanva.transform.Find("UI/TopRightElements/Player_Health_Bar").GetComponent<HealthBar>();
+        totalScoreText = mainCanva.transform.Find("UI/TopRightElements/Score/ScoreText").GetComponent<TMP_Text>();
+        totalCoinsTextUI = mainCanva.transform.Find("UI/TopRightElements/Coins/CoinsText").GetComponent<TMP_Text>();
         totalCoinsTextPause = mainCanva.transform.Find("PauseMenu/Coins/CoinsText").GetComponent<TMP_Text>();
-        coinUI = mainCanva.transform.Find("UI/Coins").gameObject;
+        coinUI = mainCanva.transform.Find("UI/TopRightElements/Coins").gameObject;
 
         currentHp = maxHp;
         healthBar.SetMaxHealth(maxHp);
@@ -40,12 +41,13 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         totalScoreText.text = currentScore.ToString();
         gameOverMenu = mainCanva.GetComponent<GameOverMenu>();
     }
-    
+
     public override void OnStartLocalPlayer()
     {
         //get player name from LanLobbyManager
         string chosenName = LanLobbyManager.Instance.GetPlayerNameInput();
         CmdSetPlayerName(chosenName); //send request to server to change username for player instance
+
     }
     [Command]
     private void CmdSetPlayerName(string newName)
@@ -60,7 +62,7 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         if (currentHp - damage > 0)
         {
             currentHp -= damage;
-            
+
         }
         else
         {
@@ -80,37 +82,43 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         Destroy(gameObject);
     }
 
-
     [ClientRpc]
     private void TakeDamageRpc()
     {
-        if (isLocalPlayer) healthBar.SetHealth(currentHp);
         //Damage received animation
         playerAnimator.SetTrigger("DamageReceived");
+
+        //run only on correct player instance
+        if (isLocalPlayer)
+        {
+            healthBar.SetHealth(currentHp);
+        }
     }
 
-    [Server]
-    public void AddScore(int amount)
-    {
-        currentScore += amount;
-    }
     private void OnScoreChanged(int oldScore, int newScore)
     {
         if (isLocalPlayer)
-            currentScore = newScore;
+        {
+            DisplayNumberAnimation(totalScoreText, oldScore, newScore, 0.6f);
+            totalScoreText.text = newScore.ToString(); //update score value
+        }
     }
 
-    [Server]
-    public void AddCoins(int amount)
-    {
-        currentNumberOfCoins += amount;
-    }
     private void OnCoinsChanged(int oldCoins, int newCoins)
     {
         if (isLocalPlayer)
-            currentNumberOfCoins = newCoins;
+        {
+            CoinTextUI coinTextUI = coinUI.GetComponent<CoinTextUI>();
+            if (coinTextUI != null)
+            {
+                coinTextUI.showCoins();
+                DisplayNumberAnimation(totalCoinsTextUI, oldCoins, newCoins, 0.2f);
+            }
+            totalCoinsTextUI.text = newCoins.ToString();//update score value
+            totalCoinsTextPause.text = newCoins.ToString();//update score value
+        }
     }
-
+    //to rewrite
     public void OnGameOver()
     {
         gameUI.SetActive(false);
@@ -119,23 +127,16 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         PauseMenu.GameIsPaused = true;
         gameOverMenu.OnMenuShow();
     }
+    [Server]
     public void AddToScore(int score)
     {
-        DisplayNumberAnimation(totalScoreText, currentScore, currentScore + score, 0.6f);
         currentScore += score;
-        totalScoreText.text = currentScore.ToString(); //update score value
     }
+
+    [Server]
     public void AddToCoins(int coinsNumber)
     {
-        CoinTextUI coinTextUI = coinUI.GetComponent<CoinTextUI>();
-        if (coinTextUI != null)
-        {
-            coinTextUI.showCoins();
-            DisplayNumberAnimation(totalCoinsTextUI, currentNumberOfCoins, currentNumberOfCoins + coinsNumber, 0.2f);
-        }
         currentNumberOfCoins += coinsNumber;
-        totalCoinsTextUI.text = currentNumberOfCoins.ToString();//update score value
-        totalCoinsTextPause.text = currentNumberOfCoins.ToString();//update score value
     }
 
     private void DisplayNumberAnimation(TMP_Text numberText, int currentScore, int targetScore, float animationPace)

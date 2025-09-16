@@ -15,18 +15,12 @@ public class BulletCollisionDetection : MonoBehaviour
 
     public ParticleSystem SparksParticles;
     private ParticleSystem currentSparksParticles;
-
-    private NetworkIdentity attackerNetId;
-    private GameObject attackerObj;
     // runs before Start()
     public void Init(GameObject shooter)
     {
         // get shooter (owner) damage
         this.shooter = shooter;
         shooterTag = shooter.tag;
-
-        attackerNetId = this.GetComponent<NetworkIdentity>();
-        attackerObj = attackerNetId != null ? attackerNetId.gameObject : null;
     }
     void Start()
     {
@@ -95,12 +89,12 @@ public class BulletCollisionDetection : MonoBehaviour
                     //Debug.Log("LOG Bullet hit Basic_Enemy");
                     //Destroy(gameObject);
                     Mirror.NetworkServer.Destroy(gameObject);
-                    enemy.TakeDamage(damage, attackerNetId);
+                    enemy.TakeDamage(damage, shooter);
                 }
                 else
                 {
                     // triger InVulnerableHitAnim (blue flash)
-                    enemy.TakeDamage(0, attackerNetId);
+                    enemy.TakeDamage(0, shooter);
                 }
             }
         }

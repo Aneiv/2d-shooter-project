@@ -1,14 +1,12 @@
+using Mirror;
 using UnityEngine;
 using static EndlessTerrain;
 
-public class Coin : MonoBehaviour
+public class Coin : Mirror.NetworkBehaviour
 {
     public int quantity = 5;
-    void Start()
-    {
 
-    }
-
+    [Server]
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))

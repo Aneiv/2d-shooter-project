@@ -196,8 +196,8 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         List<GameObject> chosenPrefabs = new List<GameObject>();
         int enemiesCount = 0;
 
-        Debug.Log($"Wave {waveIndex}, budget: {budget}");
-        Debug.Log($"Prob: easy: {setOfProbDiffClassPerWave[0, waveIndex]}, medium: {setOfProbDiffClassPerWave[1, waveIndex]}, hard: {setOfProbDiffClassPerWave[2, waveIndex]}");
+        //Debug.Log($"Wave {waveIndex}, budget: {budget}");
+        //Debug.Log($"Prob: easy: {setOfProbDiffClassPerWave[0, waveIndex]}, medium: {setOfProbDiffClassPerWave[1, waveIndex]}, hard: {setOfProbDiffClassPerWave[2, waveIndex]}");
 
         while (budget > 0 && enemiesCount < limitOfEnemiesPerWave)
         {

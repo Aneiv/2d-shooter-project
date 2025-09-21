@@ -1,8 +1,10 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Windows;
 
+[Obsolete("Use CanvasReference instead.")]
 public class LobbyUI : MonoBehaviour
 {
     void Start()
@@ -11,8 +13,8 @@ public class LobbyUI : MonoBehaviour
     }
     private void RefreshReferences()
     {
-        var hostButton = GameObject.Find("Canvas/LobbyMenu/HostButton")?.GetComponent<Button>();
-        var joinButton = GameObject.Find("Canvas/LobbyMenu/JoinButton")?.GetComponent<Button>();
+        var hostButton = GameObject.Find("Canvas/HostMenu/HostButton")?.GetComponent<Button>();
+        var joinButton = GameObject.Find("Canvas/ClientMenu/JoinButton")?.GetComponent<Button>();
         var lobbyManager = FindFirstObjectByType<LanLobbyManager>();
         if (hostButton != null)
         {

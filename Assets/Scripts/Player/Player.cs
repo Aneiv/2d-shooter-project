@@ -45,8 +45,9 @@ public class Player : Mirror.NetworkBehaviour, IHealth
     public override void OnStartLocalPlayer()
     {
         //get player name from LanLobbyManager
-        string chosenName = LanLobbyManager.Instance.GetPlayerNameInput();
+        string chosenName = LanLobbyManager.Instance.GetPlayerName();
         CmdSetPlayerName(chosenName); //send request to server to change username for player instance
+        Debug.Log("Playing as: " + chosenName);
 
     }
     [Command]

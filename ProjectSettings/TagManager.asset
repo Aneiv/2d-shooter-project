@@ -10,6 +10,10 @@ TagManager:
   - EnemyCannon
   - EnemiesContainer
   - BossHealthBar
+  - MainMenu
+  - HostMenu
+  - ClientMenu
+  - LobbyMenu
   layers:
   - Default
   - TransparentFX

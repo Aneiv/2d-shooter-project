@@ -1,11 +1,10 @@
-using UnityEngine;
-using UnityEngine.UI;
 using Mirror;
+using Mirror.Discovery;
+using System.Collections;
 using System.Net;
 using System.Net.Sockets;
-using Unity.Netcode;
 using TMPro;
-using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LanLobbyManager : MonoBehaviour
@@ -14,9 +13,11 @@ public class LanLobbyManager : MonoBehaviour
     public static LanLobbyManager Instance { get; private set; }
 
     public TMP_InputField ipInput;       //host ip input
-    public TMP_InputField playerNameInput;
+    public TMP_InputField clientNameInput;
+    public TMP_InputField hostNameInput;
     public TextMeshProUGUI hostIpText;
-    public TextMeshProUGUI backlogText;
+    public TextMeshProUGUI backlogTextHost;
+    public TextMeshProUGUI backlogTextClient;
     private bool tryingToConnect = true;
     //HOST
     public void StartHost()
@@ -24,6 +25,11 @@ public class LanLobbyManager : MonoBehaviour
         manager.StartHost();
         string localIP = GetLocalIPAddress();
         hostIpText.text = localIP;
+
+        // share serwer info 
+        var discovery = FindFirstObjectByType<CustomNetworkDiscovery>();
+        discovery.AdvertiseServer();
+
     }
 
     //CLIENT
@@ -34,7 +40,7 @@ public class LanLobbyManager : MonoBehaviour
         {
             return;
         }
-        backlogText.text = "Connecting...";
+        SetBacklogText("all", "Connecting...");
         manager.StartClient();
         StartCoroutine(CheckConnection());
     }
@@ -56,7 +62,7 @@ public class LanLobbyManager : MonoBehaviour
     {
         if (scene.buildIndex == 0) // main menu scene index
         {
-            StartCoroutine(RefreshWhenReady());
+            ResetNetworkSettings();
         }
     }
     public void ResetNetworkSettings()
@@ -77,48 +83,45 @@ public class LanLobbyManager : MonoBehaviour
 
         // Reset lokalnych zmiennych UI
         ipInput.text = "";
-        backlogText.text = "";
+        hostIpText.text = "";
+        SetBacklogText("all", "");
         tryingToConnect = true;
     }
 
-    private IEnumerator RefreshWhenReady()
+    public void SetUIReferences(CanvasReferences ui)
     {
-        //wait for ui to load
-        yield return new WaitUntil(() => GameObject.Find("Canvas/LobbyMenu") != null);
-        Instance.RefreshReferences();
-        ResetNetworkSettings();
+        ipInput = ui.ipInput;
+        clientNameInput = ui.clientNameInput;
+        hostNameInput = ui.hostNameInput;
+        hostIpText = ui.hostIpText;
+        backlogTextHost = ui.backlogTextHost;
+        backlogTextClient = ui.backlogTextClient;
     }
-    private void RefreshReferences()
-    {
-        ipInput = GameObject.Find("Canvas/LobbyMenu/HostIp/IPinput")?.GetComponent<TMP_InputField>();
-        playerNameInput = GameObject.Find("Canvas/LobbyMenu/Username/NameInput")?.GetComponent<TMP_InputField>();
-        hostIpText = GameObject.Find("Canvas/LobbyMenu/MyIPText/IPText")?.GetComponent<TextMeshProUGUI>();
-        backlogText = GameObject.Find("Canvas/LobbyMenu/BacklogText/Text")?.GetComponent<TextMeshProUGUI>();
-    }
+
 
     void FixedUpdate()
     {
-        if (manager == null || backlogText == null) return;
+        if (manager == null || backlogTextHost == null || backlogTextClient == null) return;
 
         if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
         {
-            backlogText.text = "Running as Host (Server + Client)";
+            SetBacklogText("host", "Running as Host (Server + Client)");
         }
         else if (Mirror.NetworkServer.active && !Mirror.NetworkClient.isConnected)
         {
-            backlogText.text = "Running as Dedicated Server";
+            SetBacklogText("host", "Running as Dedicated Server");
         }
         else if (Mirror.NetworkClient.isConnected && !Mirror.NetworkServer.active)
         {
-            backlogText.text = "Connected as Client";
+            SetBacklogText("client", "Connected as Client");
         }
         else if (Mirror.NetworkClient.isConnecting)
         {
-            backlogText.text = "Connecting to server...";
+            SetBacklogText("all", "Connecting to server...");
         }
         else
         {
-            backlogText.text = "Not connected";
+            SetBacklogText("all", "Not connected");
         }
     }
     private IEnumerator CheckConnection()
@@ -130,14 +133,14 @@ public class LanLobbyManager : MonoBehaviour
         {
             if (Mirror.NetworkClient.isConnected)
             {
-                backlogText.text = "Connected succesfully!";
+                SetBacklogText("all", "Connected succesfully!");
                 tryingToConnect = false;
                 yield break;
             }
 
             if (!Mirror.NetworkClient.isConnecting && !Mirror.NetworkClient.isConnected)
             {
-                backlogText.text = "Couldn't connect!";
+                SetBacklogText("all", "Couldn't connect!");
                 tryingToConnect = false;
                 yield break;
             }
@@ -148,7 +151,7 @@ public class LanLobbyManager : MonoBehaviour
 
         if (tryingToConnect)
         {
-            backlogText.text = "Couldn't connect (timeout)!";
+            SetBacklogText("all", "Couldn't connect (timeout)!");
             tryingToConnect = false;
         }
     }
@@ -169,13 +172,42 @@ public class LanLobbyManager : MonoBehaviour
         return localIP;
     }
 
-    public string GetPlayerNameInput()
+    public string GetPlayerName()
     {
-        //default namne
-        if (string.IsNullOrWhiteSpace(playerNameInput.text))
-            return "Player" + Random.Range(1000, 9999);
+        if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected) // running as host
+        {
+            return GetPlayerNameFromInput(hostNameInput);
+        }
+        else if (Mirror.NetworkClient.isConnected && !Mirror.NetworkServer.active) // running as client
+        {
+            return GetPlayerNameFromInput(clientNameInput);
+        }
 
-        return playerNameInput.text;
+        return "???";
     }
 
+    private string GetPlayerNameFromInput(TMP_InputField inputField)
+    {
+        //default name
+        if (string.IsNullOrWhiteSpace(inputField.text))
+            return "Player" + Random.Range(1000, 9999);
+
+        return inputField.text;
+    }
+
+    private void SetBacklogText(string type, string text)
+    {
+        if(type == "host")
+        {
+            backlogTextHost.text = text;
+        }else if(type == "client")
+        {
+            backlogTextClient.text = text;
+        }
+        else
+        {
+            backlogTextHost.text = text;
+            backlogTextClient.text = text;
+        }
+    }
 }

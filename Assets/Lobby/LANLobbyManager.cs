@@ -156,7 +156,7 @@ public class LanLobbyManager : MonoBehaviour
         }
     }
     //get local host IP
-    string GetLocalIPAddress()
+    public string GetLocalIPAddress()
     {
         string localIP = "Can't find IP address";
         try

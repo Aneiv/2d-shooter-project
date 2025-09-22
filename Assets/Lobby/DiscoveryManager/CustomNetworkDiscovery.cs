@@ -12,11 +12,10 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
 
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint)
     {
-        // tu tworzysz odpowiedź serwera z własnymi danymi
         return new DiscoveryResponse
         {
             serverId = ServerId,
-            ip = endpoint.Address.ToString(),
+            ip = LanLobbyManager.Instance.GetLocalIPAddress(),
             serverName = LanLobbyManager.Instance.GetPlayerName(),
             maxPlayers = 2,
             currentPlayers = NetworkServer.connections.Count

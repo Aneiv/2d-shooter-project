@@ -271,7 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4016462549
+  GlobalObjectIdHash: 2645765188
   InScenePlacedSourceGlobalObjectIdHash: 2645765188
   DeferredDespawnTick: 0
   Ownership: 1
@@ -296,7 +296,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c47157ce42fdd940abeafd2c963601f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -343,7 +342,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9cf96e5eebf46647b4f971f95c1a8a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -464,12 +462,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d35e0b8e7ddd0745a3a9e498651b6ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
   maxHp: 200
+  playerName: 
   currentScore: 0
+  currentHp: 0
+  currentNumberOfCoins: 0
   mainCanva: {fileID: 0}
   GameOverUI: {fileID: 0}
   gameUI: {fileID: 0}
@@ -507,12 +507,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
   target: {fileID: 361797508338985370}
-  updateMethod: 0
   syncPosition: 1
   syncRotation: 0
   syncScale: 0
@@ -527,6 +525,7 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   onlySyncOnChangeCorrectionMultiplier: 2
+  useFixedUpdate: 0
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01

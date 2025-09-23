@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using Mirror;
+using System.Collections;
 public class EnemyCannon : Enemy
 {
     private SpacecraftCarrierEnemy spacecraftCarrierEnemy;
@@ -8,6 +10,8 @@ public class EnemyCannon : Enemy
     public GameObject fireParticleContainer;
     public float fireSmokePartScale;
 
+
+
     protected override void Start()
     {
         base.Start();
@@ -15,50 +19,70 @@ public class EnemyCannon : Enemy
         fireParticleContainer = GameObject.Find("FireParticles");
     }
 
+    [ClientRpc]
+    void RpcDie()
+    {
+        // fire and smoke particles
+        var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
+        var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+
+        fireInstance.transform.SetParent(fireParticleContainer.transform, true);
+        smokeInstance.transform.SetParent(fireParticleContainer.transform, true);
+
+        var mainFire = fireInstance.main;
+        mainFire.startSizeMultiplier = fireSmokePartScale;
+        var mainSmoke = smokeInstance.main;
+        mainSmoke.startSizeMultiplier = fireSmokePartScale * 2;
+
+        fireInstance.Play();
+        smokeInstance.Play();
+
+        // explosion
+        ExplosionParticles();
+    }
+
+    [TargetRpc]
+    void TargetScoreAnim(NetworkConnection target)
+    {
+        GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+        ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+        if (srAnim != null)
+        {
+            srAnim.SetScore(scoreReward);
+        }
+    }
+
+    [Server]
+    IEnumerator DieWithDelayCoroutine()
+    {
+        yield return null;
+        DOTween.Kill(mainSprite);
+        DOTween.Kill(gameObject);
+        Mirror.NetworkServer.Destroy(rootEnemy);
+    }
+
+    [Server]
     public override void Die(GameObject attacker)
     {
         //Debug.Log("KILLED ENEMY");
         if (!enemyKilled)
         {
+            enemyKilled = true;
+
             if (spacecraftCarrierEnemy != null) {
                 spacecraftCarrierEnemy.DestroyCannon();
             }
-
-            // fire and smoke particles
-            var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
-            var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
-
-            fireInstance.transform.SetParent(fireParticleContainer.transform, true);
-            smokeInstance.transform.SetParent(fireParticleContainer.transform, true);
-
-            var mainFire = fireInstance.main;
-            mainFire.startSizeMultiplier = fireSmokePartScale;
-            var mainSmoke = smokeInstance.main;
-            mainSmoke.startSizeMultiplier = fireSmokePartScale * 2;
-
-            fireInstance.Play();
-            smokeInstance.Play();
-
             // score reward
             Player player = attacker.GetComponent<Player>();
             if (player != null)
             {
                 player.AddToScore(scoreReward);
-            }
-            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
-            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
-            if (srAnim != null)
-            {
-                srAnim.SetScore(scoreReward);
+                TargetScoreAnim(player.connectionToClient);
             }
 
-            ExplosionParticles();
+            RpcDie();
 
-            enemyKilled = true;
-
-            DOTween.Kill(mainSprite);
-            DOTween.Kill(gameObject);
-            Destroy(rootEnemy);
+            StartCoroutine(DieWithDelayCoroutine());
         }
     }
     protected override void OnCollisionWithPlayer(GameObject playerObj) {}

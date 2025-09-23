@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Mirror;
 
 public class BasicCannon : EnemyCannonShoot
 {
@@ -21,6 +22,7 @@ public class BasicCannon : EnemyCannonShoot
         reloadTimer = reloadDelay;
     }
 
+    [Server]
     private void FixedUpdate()
     {
         if (!waiting)
@@ -49,6 +51,7 @@ public class BasicCannon : EnemyCannonShoot
         }
     }
 
+    [Server]
     IEnumerator SpawnBulletCoroutine()
     {
         for (int i = 0; i < numberOfBulletInBurst; i++)
@@ -59,20 +62,29 @@ public class BasicCannon : EnemyCannonShoot
         waiting = false;
     }
 
+    [Server]
     void SpawnBullet()
     {
         float angleInDegrees = transform.eulerAngles.z + 90f;
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
-        GameObject Bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
+        GameObject bullet = Instantiate(enemyBullet, firePoint.position, firePoint.rotation);
 
-        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
-        Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+        bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rbBullet = Bullet.GetComponent<Rigidbody2D>();
-        rbBullet.linearVelocity = direction.normalized * bulletSpeed;
+        Mirror.NetworkServer.Spawn(bullet);
+        RpcSetBulletVelocity(bullet, direction);
+    }
+
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }
+
 

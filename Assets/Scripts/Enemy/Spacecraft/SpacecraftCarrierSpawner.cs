@@ -55,7 +55,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
 
     public void StartSpawningEnemies()
     {
-        StartCoroutine(CheckForAliveEnemiesCoroutine());
+        //StartCoroutine(CheckForAliveEnemiesCoroutine());
     }
 
     IEnumerator CheckForAliveEnemiesCoroutine()

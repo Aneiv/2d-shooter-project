@@ -1,28 +1,33 @@
 using System.Collections;
 using UnityEngine;
+using Mirror;
+using System.Collections.Generic;
 
 public class SpacecraftCarrierShoot : EnemyShoot
 {
     private SpacecraftCarrierEnemy SpacecraftCarrierEnemy;
     public GameObject[] firePoints;
     public GameObject enemyBullet;
-    private Transform targetPlayer;
+    private List<Transform> targetPlayers = new List<Transform>();
     private Coroutine SpawnBulletsRef;
 
-    float screenCenterYPos;
+    [SyncVar] float screenCenterYPos;
 
     public float bulletSpawnDelay = 0.5f;
     public float dectectionTime = 3f;
     public float bulletSpeed;
 
+    [Server]
     public override void Start()
     {
         base.Start();
         SpacecraftCarrierEnemy = GetComponent<SpacecraftCarrierEnemy>();
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length > 0)
         {
-            targetPlayer = player.transform;
+            foreach (GameObject p in players) {
+                targetPlayers.Add(p.transform);
+            }
         }
 
         Vector3 screenCenter = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
@@ -31,26 +36,33 @@ public class SpacecraftCarrierShoot : EnemyShoot
         timer = dectectionTime;
     }
 
+    [Server]
     private void FixedUpdate()
     {
         if (!waiting && SpacecraftCarrierEnemy.IsAlive()) {
-            // detection of player
-            if(targetPlayer.position.y >= screenCenterYPos && SpawnBulletsRef == null) 
+            // detection of players
+            foreach (Transform targetPlayer in targetPlayers)
             {
-                timer -= Time.deltaTime;
+                if (targetPlayer == null) continue;
 
-                if(timer <= 0)
+                if (targetPlayer.position.y >= screenCenterYPos && SpawnBulletsRef == null)
                 {
-                    SpawnBulletsRef = StartCoroutine(SpawnBulletsCoroutine());
+                    timer -= Time.deltaTime;
+
+                    if (timer <= 0)
+                    {
+                        SpawnBulletsRef = StartCoroutine(SpawnBulletsCoroutine());
+                    }
                 }
-            }
-            else
-            {
-                timer = dectectionTime;
+                else
+                {
+                    timer = dectectionTime;
+                }
             }
         }
     }
 
+    [Server]
     private IEnumerator SpawnBulletsCoroutine()
     {
         waiting = true;
@@ -65,6 +77,7 @@ public class SpacecraftCarrierShoot : EnemyShoot
         SpawnBulletsRef = null;
     }
 
+    [Server]
     private void SpawnBullet(Vector2 firePointPos, float angle)
     {
         float angleInDegrees = angle + 90f;
@@ -77,7 +90,14 @@ public class SpacecraftCarrierShoot : EnemyShoot
         // set owner of bullet
         Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rb = Bullet.GetComponent<Rigidbody2D>();
+        Mirror.NetworkServer.Spawn(Bullet);
+        RpcSetBulletVelocity(Bullet, direction);
+    }
+
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
         rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }

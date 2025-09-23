@@ -1447,7 +1447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14367fc2a6258f469a376f87911a9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -1466,7 +1465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0a9d8b5914e09458649a6588475f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -1813,7 +1811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35daffa85264b74eb313581454d3108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -1833,7 +1830,7 @@ MonoBehaviour:
   shipPerRowMinAmount: 1
   shipPerRowMaxAmount: 5
   enemiesContainer: {fileID: 2040361464}
-  testMode: 0
+  testMode: 1
   enemyDifficultyClasses:
   - name: easy
     cost: 1
@@ -1885,7 +1882,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2919de1aa667a6649b8d873d4ea028ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -5793,7 +5789,7 @@ Transform:
   m_GameObject: {fileID: 2040361464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.2308, y: 0.68376, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

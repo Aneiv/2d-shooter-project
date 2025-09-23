@@ -818,12 +818,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 1
   syncMode: 0
   syncInterval: 0.05
   target: {fileID: 3894590240267951211}
-  updateMethod: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 1
@@ -838,6 +836,7 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   onlySyncOnChangeCorrectionMultiplier: 2
+  useFixedUpdate: 0
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01
@@ -1732,7 +1731,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31e65865f2e29f340a237ce1c3f409ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -1822,6 +1820,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3e170926e13ec428e0fd21ed46d861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   firePoints:
   - {fileID: 6911113824925298584}
   - {fileID: 1966755722263079171}
@@ -2117,6 +2118,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R3
       objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -2185,6 +2194,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2230,6 +2247,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2299,6 +2324,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2344,6 +2377,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2412,6 +2453,14 @@ PrefabInstance:
     - target: {fileID: 8329835343431133496, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2594,7 +2643,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -2636,6 +2684,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2705,6 +2761,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2750,6 +2814,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -2818,6 +2890,14 @@ PrefabInstance:
     - target: {fileID: 8329835343431133496, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3018,6 +3098,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L1
       objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3086,6 +3174,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3131,6 +3227,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3200,6 +3304,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3245,6 +3357,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3314,6 +3434,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3359,6 +3487,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3428,6 +3564,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3473,6 +3617,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3542,6 +3694,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3587,6 +3747,14 @@ PrefabInstance:
     - target: {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_L5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3655,6 +3823,14 @@ PrefabInstance:
     - target: {fileID: 8329835343431133496, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3901,6 +4077,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss_R2
       objectReference: {fileID: 0}
+    - target: {fileID: 2911752802725249920, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 5036204278026117050, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
     - target: {fileID: 5657206721827547342, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -3968,6 +4152,14 @@ PrefabInstance:
     - target: {fileID: 8329835343431133496, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8901411228379040580, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
+      objectReference: {fileID: 0}
+    - target: {fileID: 9193063564597860872, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
+      propertyPath: _assetId
+      value: 1300880810
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

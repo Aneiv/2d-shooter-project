@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyShoot : Mirror.NetworkBehaviour, IEnemy
 {
-    protected bool waiting = true;
-    protected float timer = 0f;
+    [SyncVar] protected bool waiting = true;
+    [SyncVar] protected float timer = 0f;
     protected GameObject bulletsContainer;
 
     virtual public void Start()

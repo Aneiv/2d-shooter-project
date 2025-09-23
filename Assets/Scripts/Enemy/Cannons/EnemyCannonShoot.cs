@@ -1,7 +1,8 @@
 ﻿
 using UnityEngine;
+using Mirror;
 
-public class EnemyCannonShoot : MonoBehaviour, IShootReady
+public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
 {
     [Header("FirePoint")]
     public Transform firePoint;
@@ -10,13 +11,15 @@ public class EnemyCannonShoot : MonoBehaviour, IShootReady
     protected GameObject bulletsContainer;
 
     [Header("Reloading")]
-    protected bool waiting = true;
+    [SyncVar] protected bool waiting = true;
     public float minReloadDelay;
     public float maxReloadDelay;
-    protected float reloadDelay;
-    protected float reloadTimer = 0f;
+    [SyncVar] protected float reloadDelay;
+    [SyncVar] protected float reloadTimer = 0f;
 
     protected Enemy mainEnemy;
+
+    [Server]
     public void ReadyToShoot()
     {
         waiting = false;
@@ -27,6 +30,7 @@ public class EnemyCannonShoot : MonoBehaviour, IShootReady
         }
     }
 
+    [Server]
     virtual public void Start()
     {
         rb = GetComponent<Rigidbody2D>();

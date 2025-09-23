@@ -62,8 +62,8 @@ public class WaveSpawner : Mirror.NetworkBehaviour
             {
                 //UpDownSpawn,        //animationDurations[0]
                 //SpiralMovement,     //animationDurations[1] ...
-                //SpawnMiniBoss,
-                SpawnBoss
+                SpawnMiniBoss,
+                //SpawnBoss
                 //more to be made
             };
         }
@@ -362,11 +362,12 @@ public class WaveSpawner : Mirror.NetworkBehaviour
             });
     }
 
+    [Server]
     public void SpawnMiniBoss()
     {
         shipCount = 1;
         float startX = 0f;
-        float endYPosition = 3f;
+
         enemiesAmount = shipCount;
 
         //get SpriteRenderer of that ship
@@ -376,30 +377,44 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         Vector3 spawnPos = new Vector3(startX, moveBegingYPosition, 0f);
 
         //create ship instance and set position
-        GameObject ship = Instantiate(minibossPrefab, spawnPos, Quaternion.identity);
+        GameObject ship = Instantiate(minibossPrefab, spawnPos, Quaternion.Euler(0f, 0f, 180f));
         Mirror.NetworkServer.Spawn(ship);
         ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
-        //rotate ship to correct value
-        ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
 
         //idle animation play at random delay for every ship
         var shipAnim = ship.GetComponent<Animator>();
         var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
         float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
         shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+        RpcAnimMiniBoss(ship);
+        StartCoroutine(TriggerArrivalWithDelay(ship, animationDurations[0] + 0.3f));
+        WaveSpawned();
+    }
+
+    [ClientRpc]
+    void RpcAnimMiniBoss(GameObject ship)
+    {
+        float endYPosition = 3f;
 
         ship.transform.DOMoveY(endYPosition, animationDurations[0])
             .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
-            .SetDelay(0.3f) //delay between spawning rows of ships
-            .OnComplete(() =>
+            .SetDelay(0.3f); //delay between spawning rows of ships
+    }
+
+    [Server]
+    IEnumerator TriggerArrivalWithDelay(GameObject ship, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (ship != null)
+        {
+            var enemy = ship.GetComponentInChildren<Enemy>();
+            if (enemy != null)
             {
-                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
-                if (enemyInstance != null)
-                {
-                    enemyInstance.OnArrival();
-                }
-            });
-        WaveSpawned();
+                enemy.OnArrival();
+            }
+        }
+
     }
 
     public void SpawnBoss()

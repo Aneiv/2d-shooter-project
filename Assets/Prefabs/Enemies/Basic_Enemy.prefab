@@ -202,7 +202,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c20b7bc3f4c87c540a4878c322c3c81d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -234,7 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67c6e77f97e79d4a9b886ed51f562e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -294,12 +292,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ff3ba0becae47b8b9381191598957c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.05
   target: {fileID: 3462073977129897391}
-  updateMethod: 0
   syncPosition: 1
   syncRotation: 0
   syncScale: 0
@@ -314,6 +310,7 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   onlySyncOnChangeCorrectionMultiplier: 2
+  useFixedUpdate: 0
   rotationSensitivity: 0.01
   positionPrecision: 0.01
   scalePrecision: 0.01

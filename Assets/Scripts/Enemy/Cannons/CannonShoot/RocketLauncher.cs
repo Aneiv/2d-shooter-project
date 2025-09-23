@@ -16,6 +16,7 @@ public class RocketLauncher : EnemyCannonShoot
     public float rotationAngleOfReloading = -90f;
     public float rotationAngleOfReadyToShot = 60f;
 
+    [Server]
     private void FixedUpdate()
     {
         if (!waiting)

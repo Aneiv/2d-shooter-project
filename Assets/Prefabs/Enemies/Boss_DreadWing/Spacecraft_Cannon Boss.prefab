@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 654718580704208759, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+      propertyPath: _assetId
+      value: 2977358255
+      objectReference: {fileID: 0}
     - target: {fileID: 3788923130665433477, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
       propertyPath: m_Name
       value: Spacecraft_Cannon Boss
@@ -59,6 +63,18 @@ PrefabInstance:
     - target: {fileID: 5973776103555452367, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6554623060365012915, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+      propertyPath: _assetId
+      value: 2977358255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6839501297325326079, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+      propertyPath: _assetId
+      value: 2977358255
+      objectReference: {fileID: 0}
+    - target: {fileID: 7249293123964877645, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+      propertyPath: _assetId
+      value: 2977358255
       objectReference: {fileID: 0}
     - target: {fileID: 7443960713890252958, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
       propertyPath: m_SortingOrder
@@ -121,6 +137,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9773308d3b858d84fb2a35541c35ecf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   firePoint: {fileID: 2204611923955279316}
   minReloadDelay: 2
   maxReloadDelay: 4
@@ -139,7 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0

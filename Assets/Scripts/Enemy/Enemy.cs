@@ -48,6 +48,8 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
     public GameObject waveManager;
     protected EnemyShoot enemyShoot;
 
+    [SyncVar(hook = nameof(OnRotationChanged))] private Quaternion syncRotation;
+
     protected virtual void Start()
     {
         isVulnerable = false;
@@ -60,6 +62,19 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         mainSprite = GetComponent<SpriteRenderer>();
         enemyShoot = GetComponent<EnemyShoot>();
         mainMaterial = mainSprite.material;
+    }
+
+    protected void FixedUpdate()
+    {
+        if (isServer)
+        {
+            syncRotation = transform.rotation;
+        }
+    }
+
+    void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
+    {
+        transform.rotation = newRotation;
     }
 
     [Server]
@@ -91,7 +106,7 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         }
     }
     [ClientRpc]
-    private void InvulnerableHitRpc()
+    protected void InvulnerableHitRpc()
     {
         InVulnerableHitAnim(mainSprite);
         foreach (var sprite in addSprites)

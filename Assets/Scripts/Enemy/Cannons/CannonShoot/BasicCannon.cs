@@ -46,6 +46,7 @@ public class BasicCannon : EnemyCannonShoot
                 waiting = true;
                 reloadTimer = Random.Range(minReloadDelay, maxReloadDelay);
 
+                GetRandomPlayerTarget();
                 StartCoroutine(SpawnBulletCoroutine());
             }
         }

@@ -1,14 +1,16 @@
 ﻿
+using Mirror;
 using UnityEngine;
 
 public class SniperEnemy : EnemyShoot
 {
     public float maxRandomShootingDelay = 2f;
-    private float finalShootingDelay;
+    [SyncVar] private float finalShootingDelay;
 
     [SerializeField]
     private GameObject cannon;
 
+    [Server]
     public override void Start()
     {
         base.Start();
@@ -16,6 +18,7 @@ public class SniperEnemy : EnemyShoot
         timer = finalShootingDelay;
     }
 
+    [Server]
     void FixedUpdate()
     {
         if (!waiting)

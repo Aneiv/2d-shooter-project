@@ -26,6 +26,7 @@ public class RocketLauncher : EnemyCannonShoot
             {
                 reloadTimer = reloadDelay;
 
+                GetRandomPlayerTarget();
                 StartCoroutine(SpawnRocketsCoroutine());
             }
         }

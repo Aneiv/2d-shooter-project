@@ -1,24 +1,48 @@
 ﻿using Mirror;
+using System.Collections.Generic;
 using UnityEngine;
 public class RocketEnemy : EnemyShootBullet
 {
     private Vector2 bulletPosition;
     //target player location
-    private Transform targetPlayer;
+    protected List<Transform> targetPlayers = new List<Transform>();
+    [SyncVar] protected Transform targetPlayer;
 
     override public void Start()
     {
         base.Start();
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length > 0)
         {
-            targetPlayer = player.transform;
+            foreach (GameObject p in players)
+            {
+                if (p != null)
+                    targetPlayers.Add(p.transform);
+            }
+        }
+        GetRandomPlayerTarget();
+    }
+
+    [Server]
+    public void GetRandomPlayerTarget()
+    {
+        if (targetPlayers.Count > 0)
+        {
+            int index = Random.Range(0, targetPlayers.Count);
+            targetPlayer = targetPlayers[index];
+        }
+        else
+        {
+            targetPlayer = null;
         }
     }
+
     [Server]
     protected override void SpawnBullet()
     {
+        GetRandomPlayerTarget();
+
         float angleInDegrees = transform.eulerAngles.z + 90f;
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));

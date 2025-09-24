@@ -1,12 +1,14 @@
 ﻿
 using UnityEngine;
 using Mirror;
+using System.Collections.Generic;
 
 public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
 {
     [Header("FirePoint")]
     public Transform firePoint;
-    protected Transform targetPlayer;
+    protected List<Transform> targetPlayers = new List<Transform>();
+    [SyncVar] protected Transform targetPlayer;
     protected Rigidbody2D rb;
     protected GameObject bulletsContainer;
 
@@ -36,11 +38,16 @@ public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
         rb = GetComponent<Rigidbody2D>();
         bulletsContainer = GameObject.Find("BulletsContainer");
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length > 0)
         {
-            targetPlayer = player.transform;
+            foreach (GameObject p in players)
+            {
+                if (p != null)
+                    targetPlayers.Add(p.transform);
+            }
         }
+        GetRandomPlayerTarget();
 
         Enemy mainCannon = GetComponent<Enemy>();
         if (mainCannon != null) {
@@ -48,6 +55,20 @@ public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
         }
 
         reloadDelay = Random.Range(minReloadDelay, maxReloadDelay);
+    }
+
+    [Server]
+    public void GetRandomPlayerTarget()
+    {
+        if (targetPlayers.Count > 0)
+        {
+            int index = Random.Range(0, targetPlayers.Count);
+            targetPlayer = targetPlayers[index];
+        }
+        else
+        {
+            targetPlayer = null;
+        }
     }
 }
 

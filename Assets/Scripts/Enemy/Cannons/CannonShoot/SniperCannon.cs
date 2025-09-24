@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using UnityEngine;
 
 public class SniperCannon : EnemyCannonShoot
@@ -21,8 +22,8 @@ public class SniperCannon : EnemyCannonShoot
     public float lockAimTime = 2f;
     public float aimingLaserBlinkDuration = 0.2f;
     public int numberOfBlinks = 3;
-    private float aimingTimer = 0f;
-    private Vector2 targetPosition;
+    [SyncVar] private float aimingTimer = 0f;
+    [SyncVar] private Vector2 targetPosition;
 
     public override void Start()
     {
@@ -43,6 +44,7 @@ public class SniperCannon : EnemyCannonShoot
                 aimingRay.enabled = true;
                 hurtfulRay.enabled = false;
 
+                GetRandomPlayerTarget();
                 aimAndShootCoroutine = StartCoroutine(AimAndShootAtPlayerCoroutine());
             }
         }

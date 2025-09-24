@@ -17,6 +17,8 @@ public class SpacecraftCarrierShoot : EnemyShoot
     public float dectectionTime = 3f;
     public float bulletSpeed;
 
+    private bool anyPlayerDetected = false;
+
     [Server]
     public override void Start()
     {
@@ -26,7 +28,8 @@ public class SpacecraftCarrierShoot : EnemyShoot
         if (players.Length > 0)
         {
             foreach (GameObject p in players) {
-                targetPlayers.Add(p.transform);
+                if(p != null)
+                    targetPlayers.Add(p.transform);
             }
         }
 
@@ -39,26 +42,41 @@ public class SpacecraftCarrierShoot : EnemyShoot
     [Server]
     private void FixedUpdate()
     {
-        if (!waiting && SpacecraftCarrierEnemy.IsAlive()) {
-            // detection of players
-            foreach (Transform targetPlayer in targetPlayers)
+        if (waiting || !SpacecraftCarrierEnemy.IsAlive()) return;
+
+        anyPlayerDetected = false;
+
+        // detection of players
+        foreach (Transform targetPlayer in targetPlayers)
+        {
+            if (targetPlayer == null) continue;
+
+            if (targetPlayer.position.y >= screenCenterYPos)
             {
-                if (targetPlayer == null) continue;
+                anyPlayerDetected = true;
+                break;
+            }
+        }
+        SetTimer();
+    }
 
-                if (targetPlayer.position.y >= screenCenterYPos && SpawnBulletsRef == null)
-                {
-                    timer -= Time.deltaTime;
+    private void SetTimer()
+    {
+        if (anyPlayerDetected)
+        {
+            if (SpawnBulletsRef == null)
+            {
+                timer -= Time.fixedDeltaTime;
 
-                    if (timer <= 0)
-                    {
-                        SpawnBulletsRef = StartCoroutine(SpawnBulletsCoroutine());
-                    }
-                }
-                else
+                if (timer <= 0f)
                 {
-                    timer = dectectionTime;
+                    SpawnBulletsRef = StartCoroutine(SpawnBulletsCoroutine());
                 }
             }
+        }
+        else
+        {
+            timer = dectectionTime;
         }
     }
 

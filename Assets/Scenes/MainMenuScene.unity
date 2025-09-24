@@ -8656,6 +8656,9 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
+  playerSprites:
+  - {fileID: 21300000, guid: f6b1f0fb2d4321748add76de4c361c3f, type: 3}
+  - {fileID: 21300000, guid: b1df82402aa44b94ea9fa9ffc334ceb0, type: 3}
 --- !u!1 &1649100409
 GameObject:
   m_ObjectHideFlags: 0

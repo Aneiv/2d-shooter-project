@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MyNetworkManager : Mirror.NetworkManager
 {
+    private int nextPlayerIndex = 0;
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
@@ -21,12 +22,20 @@ public class MyNetworkManager : Mirror.NetworkManager
                 );
                 //create player instance
                 GameObject player = Instantiate(playerPrefab, spawnPosition, Quaternion.identity);
+
+                // set sprite
+                if (player.TryGetComponent<PlayerSprite>(out var playerSprite)) {
+                    int index = nextPlayerIndex % 2;
+                    playerSprite.SetSpriteIndex(index);
+                }
+
                 if (!Mirror.NetworkClient.ready)
                 {
                     Mirror.NetworkClient.Ready();
                 }
 
                 Mirror.NetworkServer.AddPlayerForConnection(conn, player);
+                nextPlayerIndex++;
             }
         }
     }

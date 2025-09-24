@@ -21,6 +21,20 @@ public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
 
     protected Enemy mainEnemy;
 
+    // sync rotation
+    [SyncVar(hook = nameof(OnRotationChanged))] private Quaternion syncRotation;
+    protected virtual void FixedUpdate()
+    {
+        if (isServer)
+        {
+            syncRotation = transform.rotation;
+        }
+    }
+    void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
+    {
+        transform.rotation = newRotation;
+    }
+
     [Server]
     public void ReadyToShoot()
     {

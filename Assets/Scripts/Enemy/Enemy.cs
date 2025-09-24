@@ -48,8 +48,6 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
     public GameObject waveManager;
     protected EnemyShoot enemyShoot;
 
-    [SyncVar(hook = nameof(OnRotationChanged))] private Quaternion syncRotation;
-
     protected virtual void Start()
     {
         isVulnerable = false;
@@ -64,13 +62,7 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         mainMaterial = mainSprite.material;
     }
 
-    protected void FixedUpdate()
-    {
-        if (isServer)
-        {
-            syncRotation = transform.rotation;
-        }
-    }
+
 
     void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
     {

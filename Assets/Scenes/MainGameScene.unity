@@ -1815,6 +1815,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   enemyTestPrefabs:
+  - {fileID: 2102054461218818203, guid: e9b149e7f475d1147886a6bd14f687c0, type: 3}
   - {fileID: 8215846245311387850, guid: 051ef888e9b42284d9631330bfe5d009, type: 3}
   minibossPrefab: {fileID: 928562139588765756, guid: 29b089893d5e44041966d3d3e77f5a45, type: 3}
   bossPrefab: {fileID: 5416460489378605842, guid: 115cbed435fa7524ea1754fb6e41a5d2, type: 3}
@@ -1829,7 +1830,7 @@ MonoBehaviour:
   shipPerRowMinAmount: 1
   shipPerRowMaxAmount: 5
   enemiesContainer: {fileID: 2040361464}
-  testMode: 1
+  testMode: 0
   enemyDifficultyClasses:
   - name: easy
     cost: 1

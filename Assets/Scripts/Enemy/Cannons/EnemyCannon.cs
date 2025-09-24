@@ -10,8 +10,6 @@ public class EnemyCannon : Enemy
     public GameObject fireParticleContainer;
     public float fireSmokePartScale;
 
-
-
     protected override void Start()
     {
         base.Start();

@@ -465,7 +465,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHp: 20000
+  maxHp: 200
   playerName: 
   currentScore: 0
   currentHp: 0

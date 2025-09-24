@@ -23,8 +23,9 @@ public class BasicCannon : EnemyCannonShoot
     }
 
     [Server]
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
+        base.FixedUpdate();
         if (!waiting)
         {
             reloadTimer -= Time.deltaTime;

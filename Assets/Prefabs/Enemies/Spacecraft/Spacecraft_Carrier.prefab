@@ -1005,7 +1005,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHp: 50
+  maxHp: 500
   collisionDamage: 20
   scoreReward: 1000
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
@@ -1039,10 +1039,10 @@ MonoBehaviour:
   - {fileID: 5797412915693183470}
   cannonPrefab: {fileID: 3788923130665433477, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
   rocketLauncherPoss:
-  - {fileID: 8917660048105942462}
-  - {fileID: 3787552097309946848}
   - {fileID: 3713826635923240612}
   - {fileID: 6036959348423582341}
+  - {fileID: 8917660048105942462}
+  - {fileID: 3787552097309946848}
   rocketLauncherPrefab: {fileID: 5535533522722055866, guid: 48f5a14ee0a240a459ddb31f09c3ffa2, type: 3}
   cannonContainers:
   - {fileID: 8359231306345432151}
@@ -1059,6 +1059,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df685f0e54f715b42be7b34344504c70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   enemiesPrefabs:
   - {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
   - {fileID: 4316515314491063179, guid: 3a10adef972b62946bc9c13dd792c8ac, type: 3}

@@ -53,29 +53,49 @@ public class SpacecraftCarrierEnemy : Enemy
         cannonsObjs.Clear();
 
         SpawnSpecificCannons(cannonPoss, cannonPrefab);
-        SpawnSpecificCannons(rocketLauncherPoss, rocketLauncherPrefab);
+        SpawnSpecificCannons(rocketLauncherPoss, rocketLauncherPrefab, "rocketLauncher");
 
         cannonCounter = cannonsObjs.Count;
     }
 
     [Server]
-    void SpawnSpecificCannons(GameObject[] positions, GameObject cannonPrefab)
+    void SpawnSpecificCannons(GameObject[] positions, GameObject cannonPrefab, string? type = null)
     {
+        int i = 0;
         foreach (GameObject pos in positions)
         {
             GameObject cannon = Instantiate(cannonPrefab, pos.transform.position, Quaternion.Euler(0f, 0f, 180f));
+            if(type == "rocketLauncher")
+            {
+                var rocketLauncher = cannon.GetComponentInChildren<RocketLauncher>();
+                if (rocketLauncher != null && i >= 2)
+                {
+                    rocketLauncher.rotationAngleOfReadyToShot = 240f;
+                }
+            }
             Mirror.NetworkServer.Spawn(cannon);
             cannonsObjs.Add(cannon);
             RpcParentCannon(cannon);
+
+            i++;
         }
     }
 
     [ClientRpc]
     void RpcParentCannon(GameObject cannon)
     {
-        cannon.transform.SetParent(cannonContainers[0].transform, true);
-        cannon.transform.localScale = Vector3.one;
-        cannon.transform.localRotation = Quaternion.identity;
+        if (cannon == null) return;
+
+        if (cannonContainers != null && cannonContainers.Length > 0 && cannonContainers[0] != null)
+        {
+            cannon.transform.SetParent(cannonContainers[0].transform, true);
+            cannon.transform.localScale = Vector3.one;
+            cannon.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.LogWarning("cannonContainers[0] is missing! Cannon not parented.");
+        }
     }
 
 

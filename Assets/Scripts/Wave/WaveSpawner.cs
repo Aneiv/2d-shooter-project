@@ -382,10 +382,13 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
 
         //idle animation play at random delay for every ship
-        var shipAnim = ship.GetComponent<Animator>();
         var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-        float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
-        shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+        if(shipAnimator != null)
+        {
+            float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+            shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+        }
+
         RpcAnimMiniBoss(ship);
         StartCoroutine(TriggerArrivalWithDelay(ship, animationDurations[0] + 0.3f));
         WaveSpawned();
@@ -414,7 +417,6 @@ public class WaveSpawner : Mirror.NetworkBehaviour
                 enemy.OnArrival();
             }
         }
-
     }
 
     public void SpawnBoss()

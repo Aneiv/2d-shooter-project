@@ -22,9 +22,12 @@ public class EnemyCannon : Enemy
     [ClientRpc]
     void RpcDie()
     {
+        if (fireParticleContainer == null) return;
+
         // fire and smoke particles
         var fireInstance = Instantiate(firePart, transform.position, Quaternion.identity);
         var smokeInstance = Instantiate(smokePart, transform.position, Quaternion.Euler(-90f, 0f, 0f));
+
 
         fireInstance.transform.SetParent(fireParticleContainer.transform, true);
         smokeInstance.transform.SetParent(fireParticleContainer.transform, true);
@@ -73,12 +76,15 @@ public class EnemyCannon : Enemy
                 spacecraftCarrierEnemy.DestroyCannon();
             }
             // score reward
-            Player player = attacker.GetComponent<Player>();
-            if (player != null)
+            if(attacker != null)
             {
-                player.AddToScore(scoreReward);
-                TargetScoreAnim(player.connectionToClient);
+                if (attacker.TryGetComponent<Player>(out var player))
+                {
+                    player.AddToScore(scoreReward);
+                    TargetScoreAnim(player.connectionToClient);
+                }
             }
+
 
             RpcDie();
 

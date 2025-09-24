@@ -1,14 +1,12 @@
 using DG.Tweening;
-using DG.Tweening.Core.Easing;
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class SpacecraftCarrierSpawner : MonoBehaviour
+public class SpacecraftCarrierSpawner : Mirror.NetworkBehaviour
 {
     public GameObject[] enemiesPrefabs;
 
@@ -20,7 +18,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
 
     public float spawnDelay = 0.5f;
     public float checkForAliveEnemiesDelay = 5f;
-    private int enemiesCount;
+    [SyncVar] private int enemiesCount;
     private float targetAngleDeg = 180f; //final destined rotation angle
     private GameObject enemiesContainer;
     public float animationDuration;
@@ -31,18 +29,18 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
 
     private Coroutine EnemyChangePossitions;
     private Coroutine InRestMovement;
-    private bool IsInCircleMovement = false;
-    private bool IsInChangePositionMovement = false;
+    [SyncVar] private bool IsInCircleMovement = false;
+    [SyncVar] private bool IsInChangePositionMovement = false;
 
-    private GameObject[] enemiesInstances;
+    [SyncVar] private GameObject[] enemiesInstances;
     private int[] currentEnemyPossIndexes;
-    private EnemyPositionStatus enemyPositionStatus;
+    [SyncVar] private EnemyPositionStatus enemyPositionStatus;
 
-    private float inPossitionDuration;
+    [SyncVar] private float inPossitionDuration;
     public float minInPossDuration = 5f;
     public float maxInPossDuration = 10f;
 
-    private int[] inCircleMovementStepsPerShip;
+    [SyncVar] private int[] inCircleMovementStepsPerShip;
     public int minInCircleMovSteps = 3;
     public int maxInCircleMovSteps = 8;
 
@@ -53,11 +51,13 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         SpacecraftCarrierEnemy = GetComponent<SpacecraftCarrierEnemy>();
     }
 
+    [Server]
     public void StartSpawningEnemies()
     {
-        //StartCoroutine(CheckForAliveEnemiesCoroutine());
+        StartCoroutine(CheckForAliveEnemiesCoroutine());
     }
 
+    [Server]
     IEnumerator CheckForAliveEnemiesCoroutine()
     {
         while (SpacecraftCarrierEnemy.IsAlive() && SpawnMovement == null)
@@ -74,6 +74,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         }
     }
 
+    [Server]
     void EnemiesWereSpawned()
     {
         SpawnMovement = null;
@@ -88,12 +89,14 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         
     }
 
+    [Server]
     IEnumerator CallEnemiesWereSpawnedWithDelay()
     {
         yield return new WaitForSeconds(0.5f);
         EnemiesWereSpawned();
     }
 
+    [Server]
     IEnumerator SpawnEnemiesCoroutine()
     {
         Vector2 spawnPoint = spawnPointObj.transform.position;
@@ -111,19 +114,20 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             {
                 CancelSpawnEnemies();
             }
-
+            // mid point
             Vector2 midPoint = goLeft ? midPointLeftObj.transform.position : midPointRightObj.transform.position;
             goLeft = !goLeft;
             Vector2 midPoint2 = endPoint + new Vector2(0f, 0.2f);
 
             // spawn enemy
             int enemyIndex = UnityEngine.Random.Range(0, enemiesPrefabs.Length);
-            GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], spawnPoint, Quaternion.identity);
+            GameObject ship = Instantiate(enemiesPrefabs[enemyIndex], spawnPoint, Quaternion.Euler(0f, 0f, 180f));
             enemiesInstances[shipIndex] = ship;
 
-            ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
-            //rotate ship to correct value
-            ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
+            //make enemy child of 'EnemiesContainer'
+            ship.transform.parent = enemiesContainer.transform;
+            // server spawn
+            Mirror.NetworkServer.Spawn(ship);
 
             if (waveManager.gameObject.TryGetComponent<NextWaveTrigger>(out var newWaveTrigger))
             {
@@ -138,44 +142,55 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             shipAnimator.Update(0);
 
             //movement animation start
-            DOVirtual.Float(0f, 1f, animationDuration, (t) =>
-            {
-                //position on Bezier curve
-                Vector2 pos = BezierCurve.Cubic(spawnPoint, midPoint,midPoint2, endPoint, t);
-                ship.transform.position = pos;
+            SpawnEnemiesAnim(ship, shipIndex, spawnPoint, midPoint, midPoint2, endPoint);
 
-                if (t >= 0.998f)
-                {
-                    ship.transform.position = endPoint;
-                    ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
-                    return;
-                }
-                
-                Vector2 futurePos = BezierCurve.Cubic(spawnPoint, midPoint,midPoint2, endPoint, Mathf.Min(t + 0.01f, 1f));
-                Vector2 dir = (futurePos - pos).normalized;
-                float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
-                ship.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // -90f offset
-            })
-            .SetEase(Ease.InOutSine)
-            .OnComplete(() =>
-            {
-                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
-                if (enemyInstance != null)
-                {
-                    enemyInstance.OnArrival();
-                }
-                if(shipIndex == enemiesCount) // last enemy on possition
-                {
-                    StartCoroutine(CallEnemiesWereSpawnedWithDelay());
-                }
-            });
             yield return new WaitForSeconds(spawnDelay);
 
             shipIndex++;
         }
     }
 
+    [Server]
+    void SpawnEnemiesAnim(GameObject ship,int shipIndex ,Vector2 spawnPoint, Vector2 midPoint, Vector2 midPoint2, Vector2 endPoint)
+    {
+        DOVirtual.Float(0f, 1f, animationDuration, (t) =>
+        {
+            //position on Bezier curve
+            Vector2 pos = BezierCurve.Cubic(spawnPoint, midPoint, midPoint2, endPoint, t);
+            ship.transform.position = pos;
+
+            if (t >= 0.998f)
+            {
+                ship.transform.position = endPoint;
+                ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
+                return;
+            }
+
+            Vector2 futurePos = BezierCurve.Cubic(spawnPoint, midPoint, midPoint2, endPoint, Mathf.Min(t + 0.01f, 1f));
+            Vector2 dir = (futurePos - pos).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+            ship.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // -90f offset
+        })
+            .SetEase(Ease.InOutSine)
+            .OnComplete(() =>{
+                if (ship == null) return;
+                bool isLast = shipIndex == enemiesCount - 1;
+
+                Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
+                if (enemyInstance != null)
+                {
+                    enemyInstance.OnArrival();
+                }
+                if (isLast)  // last enemy on possition
+                {
+                    StartCoroutine(CallEnemiesWereSpawnedWithDelay());
+                }
+            });
+    }
+
+    [Server]
     public IEnumerator EnemyChangePossitionsCoroutine()
     {
         while (SpacecraftCarrierEnemy.IsAlive())
@@ -239,7 +254,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
         }
     }
-    
+
     void ForEveryShipDOTween(Action<GameObject, int> DOTweenMethod)
     {
         for (int shipIndex = 0; shipIndex < enemiesInstances.Length; shipIndex++)
@@ -252,6 +267,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         }
     }
 
+    [Server]
     void GetRandomNumberOfInCircleSteps()
     {
         inCircleMovementStepsPerShip = new int[positionsObj.Length];
@@ -262,10 +278,12 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         }
     }
 
+    [Server]
     void InCircleMovementDOTween(GameObject ship, int shipIndex)
     {
         int numberOfPossitions = positionsObj.Length;
         int currentIndex = currentEnemyPossIndexes[shipIndex];
+        int futureIndex = (currentIndex + 1) % numberOfPossitions;
 
         // sinusoidal movement
         float waveAmplitude = 0.02f;
@@ -309,14 +327,14 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         {
             if (ship == null) return;
 
-            currentEnemyPossIndexes[shipIndex] = (currentIndex + 1) % numberOfPossitions;
+            currentEnemyPossIndexes[shipIndex] = futureIndex;
 
-            if (inCircleMovementStepsPerShip[shipIndex] > 0)
+            if (inCircleMovementStepsPerShip[shipIndex] > 0) // go in circle (there are more steps to go)
             {
                 inCircleMovementStepsPerShip[shipIndex]--;
                 InCircleMovementDOTween(ship, shipIndex);
             }
-            else
+            else // change possition
             {
                 enemyPositionStatus = EnemyPositionStatus.IN_POSITION;
                 IsInCircleMovement = false;
@@ -324,6 +342,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         });
     }
 
+    [Server]
     void GoToPositionDOTween(GameObject ship, int shipIndex)
     {
         int currentIndex = currentEnemyPossIndexes[shipIndex];
@@ -364,6 +383,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         .OnComplete(() =>
         {
             if (ship == null) return;
+
             IsInChangePositionMovement = false;
 
             if (enemyPositionStatus == EnemyPositionStatus.TO_DEFENCE)
@@ -377,6 +397,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         });
     }
 
+    [Server]
     IEnumerator InRestMovementCoroutine()
     {
 
@@ -396,6 +417,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         InRestMovement = null;
     }
 
+    [Server]
     List<Vector2> GetRandomUniquePositions()
     {
         int posLength = UnityEngine.Random.Range(positionsObj.Length / 2, positionsObj.Length);
@@ -426,6 +448,7 @@ public class SpacecraftCarrierSpawner : MonoBehaviour
         return result;
     }
 
+    [Server]
     void CancelSpawnEnemies()
     {
         if (SpawnMovement != null)

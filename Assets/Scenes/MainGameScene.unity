@@ -1830,7 +1830,7 @@ MonoBehaviour:
   shipPerRowMinAmount: 1
   shipPerRowMaxAmount: 5
   enemiesContainer: {fileID: 2040361464}
-  testMode: 1
+  testMode: 0
   enemyDifficultyClasses:
   - name: easy
     cost: 1

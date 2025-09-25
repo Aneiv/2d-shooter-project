@@ -87,5 +87,5 @@ public class EnemyCannon : Enemy
         }
     }
     protected override void OnCollisionWithPlayer(GameObject playerObj) {}
-    protected virtual void NotifyParentAboutDeath() { }
+    protected virtual void NotifyParentAboutDeath() {}
 }

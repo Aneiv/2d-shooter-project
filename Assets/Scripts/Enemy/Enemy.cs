@@ -82,7 +82,10 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         if (newHealth <= 0) return;
         else
         {
-            healthBar.SetHealth(currentHp);
+            if (healthBar != null) {
+                healthBar.SetHealth(currentHp);
+            }
+
             HitFlashAnim(mainSprite);
             foreach (var sprite in addSprites)
             {

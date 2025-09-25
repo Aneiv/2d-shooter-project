@@ -8632,7 +8632,7 @@ MonoBehaviour:
   - {fileID: 5400717303423712143, guid: d1f1dae6837fbaf4c8b729614022620d, type: 3}
   - {fileID: 2365903002932943826, guid: bc45e1f8cd0132949b13054af19ee590, type: 3}
   - {fileID: 4316515314491063179, guid: 3a10adef972b62946bc9c13dd792c8ac, type: 3}
-  - {fileID: 7533115655605972119, guid: aaa1ebff602e3dc4d8d7df9947034b5a, type: 3}
+  - {fileID: 6213732488510896599, guid: a16ed94f224417448abc28817ebcb29e, type: 3}
   - {fileID: 2102054461218818203, guid: e9b149e7f475d1147886a6bd14f687c0, type: 3}
   - {fileID: 7653356360152750695, guid: 757e0d1be72a7ea4d9ba93bc6f039f73, type: 3}
   - {fileID: 8169252472499318893, guid: 35cc083ba05d1534e9e547ce1d474e99, type: 3}
@@ -8641,6 +8641,9 @@ MonoBehaviour:
   - {fileID: 5416460489378605842, guid: 115cbed435fa7524ea1754fb6e41a5d2, type: 3}
   - {fileID: 3788923130665433477, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
   - {fileID: 5535533522722055866, guid: 48f5a14ee0a240a459ddb31f09c3ffa2, type: 3}
+  - {fileID: 354427790806366166, guid: 97d5858ddb7463c45987fc6779e81f08, type: 3}
+  - {fileID: 6484016873133361731, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
+  - {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
   exceptionsDisconnect: 1
   snapshotSettings:
     bufferTimeMultiplier: 2
@@ -8656,9 +8659,6 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  playerSprites:
-  - {fileID: 21300000, guid: f6b1f0fb2d4321748add76de4c361c3f, type: 3}
-  - {fileID: 21300000, guid: b1df82402aa44b94ea9fa9ffc334ceb0, type: 3}
 --- !u!1 &1649100409
 GameObject:
   m_ObjectHideFlags: 0

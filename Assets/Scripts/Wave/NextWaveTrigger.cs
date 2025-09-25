@@ -35,14 +35,21 @@ public class NextWaveTrigger : Mirror.NetworkBehaviour
     [Server]
     private void LoadNextWave()
     {
-        if (bossHealthBar != null) {
-            bossHealthBar.Hide();
-        }
+        RpcHideBossHealthBar();
 
         var waveSpawner = gameObject.GetComponent<WaveSpawner>();
         ClearRemainingBullets();
         waveSpawner.SpawnWave();
     }
+    [ClientRpc]
+    private void RpcHideBossHealthBar()
+    {
+        if (bossHealthBar != null)
+        {
+            bossHealthBar.Hide();
+        }
+    }
+
     [Server]
     public void SetRemainingEnemies(int enemies)
     {

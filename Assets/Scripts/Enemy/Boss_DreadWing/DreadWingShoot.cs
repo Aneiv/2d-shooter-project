@@ -1,4 +1,5 @@
 ﻿
+using Mirror;
 using NUnit.Framework;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +19,14 @@ public class DreadWingShoot : EnemyShoot
     private DreadWingEnemy DreadWingEnemy;
     public int numberOfChosenFP;
 
+    [Server]
     public override void Start()
     {
         base.Start();
         DreadWingEnemy = GetComponent<DreadWingEnemy>();
     }
+
+    [Server]
     public void StartShootingFromBelowDeck()
     {
         if (DreadWingEnemy.IsAlive())
@@ -30,6 +34,8 @@ public class DreadWingShoot : EnemyShoot
             StartCoroutine(ShootFromBelowDeckCoroutine());
         }
     }
+
+    [Server]
     IEnumerator ShootFromBelowDeckCoroutine()
     {
         
@@ -51,6 +57,7 @@ public class DreadWingShoot : EnemyShoot
         StartShootingFromBelowDeck(); // loop
     }
 
+    [Server]
     List<Transform> ChooseFirePoints()
     {
         int firePointsLength = firePoints.Length;
@@ -72,6 +79,7 @@ public class DreadWingShoot : EnemyShoot
         return chosenFirePoints;
     }
 
+    [Server]
     void SpawnBullet(Transform firePoint)
     {
         float angleInDegrees = firePoint.eulerAngles.z + 90f;
@@ -79,14 +87,21 @@ public class DreadWingShoot : EnemyShoot
         Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
 
         Quaternion bulletRotation = Quaternion.Euler(0f, 0f, angleInDegrees);
-        GameObject Bullet = Instantiate(enemyBullet, firePoint.position, bulletRotation);
+        GameObject bullet = Instantiate(enemyBullet, firePoint.position, bulletRotation);
 
-        Bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
+        bullet.transform.parent = bulletsContainer.transform; //make bullet child of 'BulletContainer'
         // set owner of bullet
-        Bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
+        bullet.GetComponent<BulletCollisionDetection>().Init(this.gameObject);
 
-        Rigidbody2D rbBullet = Bullet.GetComponent<Rigidbody2D>();
-        rbBullet.linearVelocity = direction.normalized * bulletSpeed;
+        Mirror.NetworkServer.Spawn(bullet);
+        RpcSetBulletVelocity(bullet, direction);
+    }
+
+    [ClientRpc]
+    void RpcSetBulletVelocity(GameObject bullet, Vector2 direction)
+    {
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction.normalized * bulletSpeed;
     }
 }
 

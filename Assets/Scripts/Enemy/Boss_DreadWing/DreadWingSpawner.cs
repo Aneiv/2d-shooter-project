@@ -1,10 +1,9 @@
 using DG.Tweening;
-using DG.Tweening.Core.Easing;
 using System.Collections;
-using System.Net;
 using UnityEngine;
+using Mirror;
 
-public class DreadWingSpawner : MonoBehaviour
+public class DreadWingSpawner : Mirror.NetworkBehaviour
 {
     [Header("Third Phase")]
     private DreadWingEnemy DreadWingEnemy;
@@ -16,7 +15,7 @@ public class DreadWingSpawner : MonoBehaviour
 
     public float minSpawnDelay;
     public float maxSpawnDelay;
-    private float spawnDelay;
+    [SyncVar] private float spawnDelay;
 
     private const float spawnYPos = 8f;   // first Y position
     private const float destYPos = 3f;
@@ -24,8 +23,9 @@ public class DreadWingSpawner : MonoBehaviour
     private const float minXPos = 1.5f;
     private const float maxXPos = 2.5f;
 
-    private bool spawnFromLeft = false;
+    [SyncVar] private bool spawnFromLeft = false;
 
+    [Server]
     void Start()
     {
         enemiesContainer = GameObject.FindGameObjectWithTag("EnemiesContainer");
@@ -33,7 +33,7 @@ public class DreadWingSpawner : MonoBehaviour
         DreadWingEnemy = GetComponent<DreadWingEnemy>();
     }
 
-
+    [Server]
     public void StartSpawningEnemies()
     {
         if (DreadWingEnemy.IsAlive())
@@ -43,6 +43,7 @@ public class DreadWingSpawner : MonoBehaviour
         }
     }
 
+    [Server]
     IEnumerator SpawnEnemiesCoroutine()
     {
         float spawnXPos = Random.Range(minXPos, maxXPos);
@@ -62,9 +63,10 @@ public class DreadWingSpawner : MonoBehaviour
             4f
         );
 
-        GameObject enemy = Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
+        GameObject enemy = Instantiate(enemyPrefab, spawnPoint, Quaternion.Euler(0f, 0f, 180f));
         enemy.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
-        enemy.transform.rotation = Quaternion.Euler(0f, 0f, 180f);//rotate ship to correct value
+        // server spawn
+        Mirror.NetworkServer.Spawn(enemy);
 
         if (waveManager.gameObject.TryGetComponent<NextWaveTrigger>(out var newWaveTrigger))
         {

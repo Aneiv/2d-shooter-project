@@ -1,15 +1,19 @@
 ﻿
+using Mirror;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class KamikazeEnemy : EnemyShoot
 {
-    private Transform targetPlayer;
     private Enemy enemyScript;
-    private Vector2 targetPosition;      //player position
     private Rigidbody2D rb;
 
-    private Vector2 direction;
+    protected List<Transform> targetPlayers = new List<Transform>();
+    [SyncVar] private Transform targetPlayer;
+    [SyncVar] private Vector2 targetPosition;      //player position
+
+    [SyncVar] private Vector2 direction;
     private float targetAngle;
 
     public float speed = 5f;
@@ -21,16 +25,22 @@ public class KamikazeEnemy : EnemyShoot
     private float leftXClamp, rightXClamp, downYClamp;
     private float clampSize = 0.5f;
 
+    [Server]
     public override void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         enemyScript = GetComponent<Enemy>();
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        if (players.Length > 0)
         {
-            targetPlayer = player.transform;
+            foreach (GameObject p in players)
+            {
+                if (p != null)
+                    targetPlayers.Add(p.transform);
+            }
         }
+        GetRandomPlayerTarget();
 
         // borders
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
@@ -42,6 +52,21 @@ public class KamikazeEnemy : EnemyShoot
         downYClamp = bottomLeft.y - clampSize;
     }
 
+    [Server]
+    public void GetRandomPlayerTarget()
+    {
+        if (targetPlayers.Count > 0)
+        {
+            int index = Random.Range(0, targetPlayers.Count);
+            targetPlayer = targetPlayers[index];
+        }
+        else
+        {
+            targetPlayer = null;
+        }
+    }
+
+    [Server]
     private void FixedUpdate()
     {
         if (!waiting && targetPlayer != null)

@@ -1,90 +1,77 @@
-using DG.Tweening.Core.Easing;
 using DG.Tweening;
-using UnityEngine;
-using NUnit.Framework;
-using System.Collections.Generic;
+using Mirror;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Reflection;
-using Unity.VisualScripting;
-using UnityEngine.InputSystem;
+using UnityEngine;
 
 public class DreadWingEnemy : Enemy
 {
-    //public GameObject[] deathExplosionsObj;
-    //public float miniExplosionDelay = 0.2f;
-    //public ParticleSystem hugeExplosionPart;
-    //public ParticleSystem hugeFragPart;
+    //private bool arrived = false;
 
     [Header("Cannons")]
-    private int wingCannonCounter;
-    private int allCannonsCounter;
-    public GameObject[] cannonsObjsLeftWing;
-    public GameObject[] cannonsObjsRightWing;
-    public GameObject[] cannonsRocketLaunchers;
-    public GameObject[] cannonsSniperCannon;
-    public GameObject[] cannonContainers;
-    public List<AttackPattern> attackPatternsTransforms = new List<AttackPattern>();
-    private Animator animator;
-    private List<Action> attackPatterns;
-    public float nextAttackMaxTimeDelay; //max delay before next attack (range[3,max])
-    private float delay;
-    private bool customDelay = true;
+    [SyncVar] private int wingCannonCounter;
+    [SyncVar] private int allCannonsCounter;
 
-    private bool secondPhaseActivated = false;
-    private bool thirdPhaseActivated = false;
-    //private bool arrived = false;
-    private DreadWingShoot DreadWingShoot;
-    private DreadWingSpawner DreadWingSpawner;
-    private DragWithInputSystem inputSystem;
-    public Transform clampPosition;
+    // cannon possitions
+    public GameObject[] cannonsPossLeftWing;
+    public GameObject[] cannonsPossRightWing;
+    public GameObject[] cannonsPossRocketLaunchers;
+    public GameObject[] cannonsPossSniperCannon;
+
+    // cannon instances
+    private List<GameObject> cannonsObjsLeftWing = new List<GameObject>();
+    private List<GameObject> cannonsObjsRightWing = new List<GameObject>();
+    private List<GameObject> cannonsObjsRocketLaunchers = new List<GameObject>();
+    private List<GameObject> cannonsObjsSniperCannon = new List<GameObject>();
+
+    public GameObject[] cannonContainers;
+
+    [Header("Cannons prefabs")]
+    [SerializeField] private GameObject wingCannon;
+    [SerializeField] private GameObject rocketLauncher;
+    [SerializeField] private GameObject sniperCannon;
+
+    [Header("Attack Patterns")]
+    public List<AttackPattern> attackPatternsTransforms = new List<AttackPattern>();
+    private List<Action> attackPatterns;
+    [SyncVar] public float nextAttackMaxTimeDelay; //max delay before next attack (range[3,max])
+    [SyncVar] private float delay;
+    [SyncVar] private bool customDelay = true;
+    [SyncVar] private bool secondPhaseActivated = false;
+    [SyncVar] private bool thirdPhaseActivated = false;
+
     [Header("Explosions")]
     public GameObject[] deathExplosionsObj;
-    public float miniExplosionDelay = 0.3f;
+
     public ParticleSystem hugeExplosionTextPart;
     public ParticleSystem hugeFragPart;
+    public float miniExplosionDelay = 0.3f;
 
     public ParticleSystem firePart;
     public float fireSmokePartScale;
 
+    [Header("Additional")]
+    private Animator animator;
+    private DreadWingShoot DreadWingShoot;
+    private DreadWingSpawner DreadWingSpawner;
+    private DragWithInputSystem inputSystem;
+
+    public Transform clampPosition;
+
+    // sync rotation
+    [SyncVar(hook = nameof(OnRotationChanged))] private Quaternion syncRotation;
+
+    [Server]
     protected override void Start()
     {
         base.Start();
         //find input system to change clamp
-        inputSystem = FindAnyObjectByType<DragWithInputSystem>();        
-        isVulnerable = false;
-        wingCannonCounter = cannonsObjsLeftWing.Length + cannonsObjsRightWing.Length;
-        allCannonsCounter = wingCannonCounter + cannonsRocketLaunchers.Length + cannonsSniperCannon.Length;
+        inputSystem = FindAnyObjectByType<DragWithInputSystem>();
 
-        //add HP for wing and other cannon types
-        GameObject[][] allCannonsArrays = new GameObject[][]
-        {
-            cannonsObjsLeftWing,
-            cannonsObjsRightWing,
-            cannonsRocketLaunchers,
-            cannonsSniperCannon
-        };
-
-        foreach (var cannonArray in allCannonsArrays)
-        {
-            if (cannonArray == null) continue;
-
-            foreach (var cannonObj in cannonArray)
-            {
-                if (cannonObj == null) continue;
-
-                Enemy cannon = cannonObj.GetComponent<Enemy>();
-                if (cannon != null)
-                {
-                    maxHp += cannon.maxHp;
-                }
-                else
-                {
-                    Debug.LogWarning($"Obj {cannonObj.name} doesnt have class Enemy!");
-                }
-            }
-        }
-        currentHp = maxHp;
+        SpawnCannons();
+        CountHPAndCannons();
 
         animator = GetComponent<Animator>();
 
@@ -97,6 +84,17 @@ public class DreadWingEnemy : Enemy
         DreadWingShoot = GetComponent<DreadWingShoot>();
         DreadWingSpawner = GetComponent<DreadWingSpawner>();
 
+        RpcSetUpBossHPBar();
+    }
+
+    void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
+    {
+        transform.rotation = newRotation;
+    }
+
+    [ClientRpc]
+    void RpcSetUpBossHPBar()
+    {
         // boss hp bar UI
         GameObject bossBarObj = GameObject.FindGameObjectWithTag("BossHealthBar");
         if (bossBarObj != null)
@@ -110,11 +108,146 @@ public class DreadWingEnemy : Enemy
             }
         }
     }
+
+    [Server]
+    void SpawnCannons()
+    {
+        SpawnSpecificCannons(cannonsPossLeftWing, wingCannon, "wingLeft");
+        SpawnSpecificCannons(cannonsPossRightWing, wingCannon, "wingRight");
+        SpawnSpecificCannons(cannonsPossRocketLaunchers, rocketLauncher, "rocketLauncher");
+        SpawnSpecificCannons(cannonsPossSniperCannon, sniperCannon, "sniper");
+    }
+
+    [Server]
+    void SpawnSpecificCannons(GameObject[] positions, GameObject prefab, string type = null)
+    {
+        int i = 0;
+        foreach (GameObject pos in positions)
+        {
+            if (pos == null) continue;
+
+            GameObject cannon = Instantiate(prefab, pos.transform.position, Quaternion.Euler(0f, 0f, 180f));
+
+            if (type == "rocketLauncher")
+            {
+                var rocket = cannon.GetComponentInChildren<RocketLauncher>();
+                if (rocket != null && i == 0)
+                {
+                    rocket.rotationAngleOfReadyToShot = 240f;
+                }
+            }
+
+            Mirror.NetworkServer.Spawn(cannon);
+            RpcParentCannon(cannon, type);
+
+            switch (type)
+            {
+                case "wingLeft":
+                    cannonsObjsLeftWing.Add(cannon);
+                    break;
+                case "wingRight":
+                    cannonsObjsRightWing.Add(cannon);
+                    break;
+                case "rocketLauncher":
+                    cannonsObjsRocketLaunchers.Add(cannon);
+                    break;
+                case "sniper":
+                    cannonsObjsSniperCannon.Add(cannon);
+                    break;
+                default:
+                    Debug.LogWarning($"Unknown cannon type: {type}");
+                    break;
+            }
+            i++;
+        }
+    }
+
+    [ClientRpc]
+    void RpcParentCannon(GameObject cannon, string type)
+    {
+        if (cannon == null) return;
+
+        Transform parent = null;
+
+        if (cannonContainers == null) return;
+        if (cannonContainers.Length < 3) return;
+
+        switch (type)
+        {
+            case "wingLeft":
+                parent = cannonContainers[0].transform.parent;
+                break;
+
+            case "wingRight":
+                parent = cannonContainers[0].transform.parent;
+                break;
+
+            case "rocketLauncher":
+                parent = cannonContainers[1].transform.parent;
+                break;
+
+            case "sniper":
+                parent = cannonContainers[2].transform.parent;
+                break;
+        }
+
+        if (parent != null)
+        {
+            cannon.transform.SetParent(parent, true);
+            //cannon.transform.localScale = Vector3.one;
+            //cannon.transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Debug.LogWarning($"Parent for cannon type '{type}' not found! Cannon not parented.");
+        }
+    }
+
+    [Server]
+    private void CountHPAndCannons()
+    {
+        wingCannonCounter = cannonsObjsLeftWing.Count + cannonsObjsRightWing.Count;
+        allCannonsCounter = wingCannonCounter + cannonsObjsRocketLaunchers.Count + cannonsObjsSniperCannon.Count;
+
+        //add HP for wing and other cannon types
+        List<GameObject>[] allCannonsArrays = new List<GameObject>[]
+        {
+            cannonsObjsLeftWing,
+            cannonsObjsRightWing,
+            cannonsObjsRocketLaunchers,
+            cannonsObjsSniperCannon
+        };
+
+        foreach (var cannonArray in allCannonsArrays)
+        {
+            if (cannonArray == null) continue;
+
+            foreach (var cannonObj in cannonArray)
+            {
+                if (cannonObj == null) continue;
+
+                Enemy cannon = cannonObj.GetComponentInChildren<Enemy>();
+                if (cannon != null)
+                {
+                    maxHp += cannon.maxHp;
+                }
+                else
+                {
+                    Debug.LogWarning($"Obj {cannonObj.name} doesnt have class Enemy!");
+                }
+            }
+        }
+        currentHp = maxHp;
+    }
+
+    [Server]
     public void SpawnAttack()
     {
         StartCoroutine(SpawnAttackWithDelay());
     }
+
     //random attack style
+    [Server]
     IEnumerator SpawnAttackWithDelay()
     {
         if (!customDelay)
@@ -129,10 +262,12 @@ public class DreadWingEnemy : Enemy
         SpawnAttack(); //loop 
     }
 
+    [Server]
     public void DestroyCannon(int cannonHp)
     {
         allCannonsCounter--;
-        if (allCannonsCounter <= cannonsRocketLaunchers.Length + cannonsSniperCannon.Length && secondPhaseActivated == false)
+
+        if (allCannonsCounter <= cannonsObjsRocketLaunchers.Count + cannonsObjsSniperCannon.Count && secondPhaseActivated == false)
         {
             //isVulnerable = true;
             ActiveSecondPhase();
@@ -147,31 +282,39 @@ public class DreadWingEnemy : Enemy
         currentHp -= cannonHp;
         healthBar.SetHealth(currentHp);
     }
+
+    [Server]
     private void ActiveSecondPhase()
     {
-        foreach (GameObject obj in cannonsRocketLaunchers)
+        foreach (GameObject obj in cannonsObjsRocketLaunchers)
         {
-            if (obj.TryGetComponent<EnemyCannonShoot>(out var cannon))
-            {
-                cannon.ReadyToShoot();
-            }
-            if (obj.TryGetComponent<DreadWingEnemyCannon>(out var enemyCannon))
-            {
+            if (obj == null) continue;
+
+            var cannonShoot = obj.GetComponentInChildren<EnemyCannonShoot>();
+            if (cannonShoot != null)
+                cannonShoot.ReadyToShoot();
+
+            var enemyCannon = obj.GetComponentInChildren<DreadWingEnemyCannon>();
+            if (enemyCannon != null)
                 enemyCannon.OnArrival();
-            }
         }
-        foreach (GameObject obj in cannonsSniperCannon)
+
+        foreach (GameObject obj in cannonsObjsSniperCannon)
         {
-            if (obj.TryGetComponent<EnemyCannonShoot>(out var cannon))
-            {
-                cannon.ReadyToShoot();
-            }
-            if (obj.TryGetComponent<DreadWingEnemyCannon>(out var enemyCannon))
-            {
+            if (obj == null) continue;
+
+            var cannonShoot = obj.GetComponentInChildren<EnemyCannonShoot>();
+            if (cannonShoot != null)
+                cannonShoot.ReadyToShoot();
+
+            var enemyCannon = obj.GetComponentInChildren<DreadWingEnemyCannon>();
+            if (enemyCannon != null)
                 enemyCannon.OnArrival();
-            }
         }
     }
+
+
+    [Server]
     private void ActiveThirdPhase()
     {
         Vector2 PosOut0 = rootEnemy.transform.position;
@@ -232,14 +375,15 @@ public class DreadWingEnemy : Enemy
                             rootEnemy.transform.rotation = Quaternion.identity;
                         }
                     })
-                                    .OnComplete(() => //after fly-in animation end
-                                    {
-                                        OnThirdPhaseActions();
-                                    });
+                    .OnComplete(() => //after fly-in animation end
+                    {
+                        OnThirdPhaseActions();
+                    });
                 });
 }
 
 
+    [Server]
     public override void OnArrival()
     {
         isVulnerable = false;
@@ -276,58 +420,76 @@ public class DreadWingEnemy : Enemy
         inputSystem.maxY = clampPosition.position.y;
         SpawnAttack();
     }
-    //Dreadwing to rewrite
-/*    public override void TakeDamage(int damage, GameObject attacker)
+
+    [Server]
+    public override void TakeDamage(int damage, GameObject attacker)
     {
-        if (isVulnerable)
+        if (!isVulnerable) return;
+
+        //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
+        currentHp = Mathf.Max(currentHp - damage, 0);
+        if (currentHp <= 0)
         {
-            //Debug.Log("Enemy took: " + damage.ToString() + " dmg");
-            if (currentHp - damage > 0)
-            {
-                currentHp -= damage;
-                healthBar.SetHealth(currentHp);
-
-                HitFlashAnim(mainSprite);
-            }
-            else
-            {
-                Die(attacker);
-            }
+            Die(attacker);
         }
-    }*/
 
+    }
+
+    [Server]
+    IEnumerator DieWithDelayCoroutine()
+    {
+        yield return new WaitForSeconds(4f);
+        Mirror.NetworkServer.Destroy(rootEnemy);
+    }
+
+    [Server]
     public override void Die(GameObject attacker)
     {
         //reset screen clamp
         inputSystem.ResetScreenClamp();
 
-        //Debug.Log("KILLED ENEMY");
-        if (!enemyKilled)
-        {
-            Player player = attacker.GetComponent<Player>();
+        if (enemyKilled) return;
+        enemyKilled = true;
 
-            // color
+        Player player = attacker.GetComponent<Player>();
+
+        // death animation
+        RpcSetDeathAnimation();
+
+        // mini explosions
+        ExplosionsAndScore(player);
+
+        DOTween.Kill(mainSprite);
+        foreach (var sprite in addSprites)
+        {
+            DOTween.Kill(sprite);
+        }
+        DOTween.Kill(gameObject);
+        StartCoroutine(DieWithDelayCoroutine());
+
+    }
+
+    [ClientRpc]
+    void RpcSetDeathAnimation()
+    {
+        if (mainSprite != null)
+        {
             Color color = mainSprite.color;
             color.a = 1f;
             mainSprite.color = color;
             mainSprite.material = mainMaterial;
-
-            // mini explosions
+        }
+        if (animator != null) {
             animator.SetTrigger("OnDeath");
-            StartCoroutine(ExplosionsAndDeathCoroutine(player));
-            enemyKilled = true;
-
-            DOTween.Kill(mainSprite);
-            foreach (var sprite in addSprites)
-            {
-                DOTween.Kill(sprite);
-            }
-            DOTween.Kill(gameObject);
-            Destroy(rootEnemy, 4f);
         }
     }
 
-    IEnumerator ExplosionsAndDeathCoroutine(Player player)
+    [ClientRpc]
+    void RpcExplosions()
+    {
+        StartCoroutine(RpcExplosionsCoroutine());
+    }
+    private IEnumerator RpcExplosionsCoroutine()
     {
         // quick explosions
         foreach (GameObject obj in deathExplosionsObj)
@@ -354,44 +516,93 @@ public class DreadWingEnemy : Enemy
             scale -= 0.1f;
         }
         yield return new WaitForSeconds(0.5f);
-        ExplosionParticles(null, hugeExplosionTextPart, hugeFragPart, 0.8f, 75f,90f);
+        ExplosionParticles(null, hugeExplosionTextPart, hugeFragPart, 0.8f, 75f, 90f);
+    }
 
-        // score reward
-        if (player != null)
-        {
-            player.AddToScore(scoreReward);
-        }
+    [TargetRpc]
+    void TargetScoreAnim(NetworkConnection target, float delay)
+    {
+        StartCoroutine(DelayedScoreAnim(delay));
+    }
+    IEnumerator DelayedScoreAnim(float delay)
+    {
+        yield return new WaitForSeconds(delay);
         GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
         ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
         if (srAnim != null)
         {
             srAnim.SetScore(scoreReward);
         }
-
-        var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
-        destroyTrigger.EnemyKilled();
     }
 
+    [Server]
+    void ExplosionsAndScore(Player player)
+    {
+        RpcExplosions();
+
+        // score reward with delay
+        if (player != null)
+        {
+            float totalDelay =
+                (deathExplosionsObj.Length * (miniExplosionDelay / 2f)) +
+                (deathExplosionsObj.Length * miniExplosionDelay) +
+                0.5f +
+                0.1f;
+            StartCoroutine(DelayedAddScoreAndNextWave(player, totalDelay));
+            TargetScoreAnim(player.connectionToClient, totalDelay);
+        }
+    }
+
+    [Server]
+    IEnumerator DelayedAddScoreAndNextWave(Player player, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        player.AddToScore(scoreReward);
+
+        if (waveManager.TryGetComponent<NextWaveTrigger>(out var destroyTrigger))
+        {
+            destroyTrigger.EnemyKilled();
+        }
+    }
+
+    [Server]
     private void AttackCenter()
     {
         var method = MethodBase.GetCurrentMethod();
         int index = attackPatterns.FindIndex(a => a.Method == method);
         //Debug.Log($"index: {index}");
-        int randPlace = UnityEngine.Random.Range(0, cannonsObjsLeftWing.Length);
+        int randPlace = UnityEngine.Random.Range(0, cannonsObjsLeftWing.Count);
 
-        for (int i = 0; i < cannonsObjsLeftWing.Length; i++)
+        for (int i = 0; i < cannonsObjsLeftWing.Count; i++)
         {
             if (cannonsObjsLeftWing[i] != null)
             {
-                cannonsObjsLeftWing[i].GetComponent<DreadWingCannon>().RotateCannonToDestination(attackPatternsTransforms[index].transforms[randPlace], 0.3f, 1, 1, true);
+                var cannon = cannonsObjsLeftWing[i].GetComponentInChildren<DreadWingCannon>();
+                if (cannon != null)
+                {
+                    cannon.RotateCannonToDestination(
+                        attackPatternsTransforms[index].transforms[randPlace],
+                        0.3f, 1, 1, true
+                    );
+                }
             }
+
             if (cannonsObjsRightWing[i] != null)
             {
-                cannonsObjsRightWing[i].GetComponent<DreadWingCannon>().RotateCannonToDestination(attackPatternsTransforms[index].transforms[randPlace], 0.3f, 1, 1, true);
-
+                var cannon = cannonsObjsRightWing[i].GetComponentInChildren<DreadWingCannon>();
+                if (cannon != null)
+                {
+                    cannon.RotateCannonToDestination(
+                        attackPatternsTransforms[index].transforms[randPlace],
+                        0.3f, 1, 1, true
+                    );
+                }
             }
+
         }
     }
+
+    [Server]
     private void DoubleWaves()
     {
         SetCustomAttackDelay(5f);
@@ -399,33 +610,57 @@ public class DreadWingEnemy : Enemy
         //int index = attackPatterns.FindIndex(a => a.Method == method);
         int index = 1;
         float initialDelayL = 0.1f, initialDelayR = 0.1f;
-        for (int i = 0; i < cannonsObjsRightWing.Length; i++)
+        for (int i = 0; i < cannonsObjsRightWing.Count; i++)
         {
             if (cannonsObjsRightWing[i] != null)
             {
-                cannonsObjsRightWing[i].GetComponent<DreadWingCannon>().RotateCannonToDestination(attackPatternsTransforms[index].transforms[i], initialDelayR, 0.55f, 5, true);
-                initialDelayR += 0.3f;
+                var cannon = cannonsObjsRightWing[i].GetComponentInChildren<DreadWingCannon>();
+                if (cannon != null)
+                {
+                    cannon.RotateCannonToDestination(
+                        attackPatternsTransforms[index].transforms[i],
+                        initialDelayR,
+                        0.55f,
+                        5,
+                        true
+                    );
+                    initialDelayR += 0.3f;
+                }
             }
         }
-        //Debug.Log($"transforms: {attackPatternsTransforms[index].transforms.Count}");
+
+        // Debug.Log($"transforms: {attackPatternsTransforms[index].transforms.Count}");
         for (int j = 6; j < attackPatternsTransforms[index].transforms.Count; j++)
         {
-            int a = (j - 6) % cannonsObjsRightWing.Length;
+            int a = (j - 6) % cannonsObjsRightWing.Count;
             if (cannonsObjsLeftWing[a] != null)
             {
-                //Debug.Log($"cannon left {a}, transform {attackPatternsTransforms[index].transforms[j].name}");
-                cannonsObjsLeftWing[a].GetComponent<DreadWingCannon>().RotateCannonToDestination(attackPatternsTransforms[index].transforms[j], initialDelayL, 0.55f, 5, true);
-                initialDelayL += 0.3f;
+                var cannon = cannonsObjsLeftWing[a].GetComponentInChildren<DreadWingCannon>();
+                if (cannon != null)
+                {
+                    // Debug.Log($"cannon left {a}, transform {attackPatternsTransforms[index].transforms[j].name}");
+                    cannon.RotateCannonToDestination(
+                        attackPatternsTransforms[index].transforms[j],
+                        initialDelayL,
+                        0.55f,
+                        5,
+                        true
+                    );
+                    initialDelayL += 0.3f;
+                }
             }
         }
+
     }
 
+    [Server]
     private void SetCustomAttackDelay(float newDelay)
     {
         customDelay = true;
         delay = newDelay;
     }
 
+    [Server]
     private void OnThirdPhaseActions()
     {
         isVulnerable = true;

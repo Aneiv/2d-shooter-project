@@ -62,8 +62,8 @@ public class WaveSpawner : Mirror.NetworkBehaviour
             {
                 //UpDownSpawn,        //animationDurations[0]
                 //SpiralMovement,     //animationDurations[1] ...
-                SpawnMiniBoss,
-                //SpawnBoss
+                //SpawnMiniBoss,
+                SpawnBoss
                 //more to be made
             };
         }
@@ -419,6 +419,7 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         }
     }
 
+    [Server]
     public void SpawnBoss()
     {
         shipCount = 1;
@@ -433,18 +434,18 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         Vector3 spawnPos = new Vector3(startX, moveBegingYPosition, 0f);
 
         //create ship instance and set position
-        GameObject ship = Instantiate(bossPrefab, spawnPos, Quaternion.identity);
+        GameObject ship = Instantiate(bossPrefab, spawnPos, Quaternion.Euler(0f, 0f, 180f));
         Mirror.NetworkServer.Spawn(ship);
         ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
-        //rotate ship to correct value
-        ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
 
         //idle animation play at random delay for every ship
-        var shipAnim = ship.GetComponent<Animator>();
+        
         var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-        float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
-        shipAnimator.Play("Idle", 0, randomOffset);//layer 0
-
+        if(shipAnimator != null)
+        {
+            float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+            shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+        }
         //Appear Animation
         ship.transform.DOMoveY(endYPosition, animationDurations[3])
             .SetEase(Ease.OutQuad) //nice looking slowing down ships when near correct Y position
@@ -457,12 +458,18 @@ public class WaveSpawner : Mirror.NetworkBehaviour
                     enemyInstance.OnArrival();
                 }
 
-                if (bossHealthBar != null)
-                {
-                    bossHealthBar.Show();
-                }
+                RpcShowBossHealthBar();
             });
         WaveSpawned();
+    }
+
+    [ClientRpc]
+    private void RpcShowBossHealthBar()
+    {
+        if (bossHealthBar != null)
+        {
+            bossHealthBar.Show();
+        }
     }
 
     public void SpiralMovement()

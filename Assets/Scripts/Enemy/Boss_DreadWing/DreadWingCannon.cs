@@ -17,11 +17,46 @@ public class DreadWingCannon : EnemyCannonShoot
     [SyncVar] protected Vector2 targetPosition;
     [SyncVar] protected Vector2 direction;
 
+    [Header("Laser")]
+    public LineRenderer aimingRay;
+    [SyncVar(hook = nameof(OnLaserStartChanged))]
+    private Vector3 laserStart = Vector3.zero;
+
+    [SyncVar(hook = nameof(OnLaserEndChanged))]
+    private Vector3 laserEnd = Vector3.zero;
+
     [Server]
     public override void Start()
     {
         base.Start();
         reloadTimer = reloadDelay;
+        RpcSetStateAimingLaser(false);
+    }
+
+    private void OnLaserStartChanged(Vector3 oldValue, Vector3 newValue)
+    {
+        aimingRay.SetPosition(0, newValue);
+    }
+
+    private void OnLaserEndChanged(Vector3 oldValue, Vector3 newValue)
+    {
+        aimingRay.SetPosition(1, newValue);
+    }
+
+    [ClientRpc]
+    void RpcSetStateAimingLaser(bool state)
+    {
+        if (aimingRay != null)
+        {
+            aimingRay.enabled = state;
+
+            if (state)
+            {
+                aimingRay.positionCount = 2;
+                aimingRay.SetPosition(0, laserStart);
+                aimingRay.SetPosition(1, laserEnd);
+            }
+        }
     }
 
     [Server]
@@ -65,36 +100,42 @@ public class DreadWingCannon : EnemyCannonShoot
     }
 
 
+
     [ClientRpc]
     private void RpcDrawBulletTrajectory(Vector3 position, Vector2 direction)
     {
-        if(direction == null) return;
         if (mainEnemy == null) return;
         if (!mainEnemy.IsAlive()) return;
 
-        GameObject lineObj = new GameObject("BulletTrajectoryLine");
-        lineObj.transform.parent = this.transform;
-        LineRenderer lr = lineObj.AddComponent<LineRenderer>();
-        lr.positionCount = 2;
-        lr.startWidth = 0.01f;
-        lr.endWidth = 0.01f;        
-        lr.material = new Material(Shader.Find("Sprites/Default"));
-        lr.startColor = Color.red;
-        lr.endColor = Color.red;
+        //GameObject lineObj = new GameObject("BulletTrajectoryLine");
+        //lineObj.transform.parent = this.transform;
+        //LineRenderer lr = lineObj.AddComponent<LineRenderer>();
+        //lr.positionCount = 2;
+        //lr.startWidth = 0.01f;
+        //lr.endWidth = 0.01f;        
+        //lr.material = new Material(Shader.Find("Sprites/Default"));
+        //lr.startColor = Color.red;
+        //lr.endColor = Color.red;
+        //aimingRay.SetPosition(0, firePoint.position);
+        //aimingRay.SetPosition(1, firePoint.position + (Vector3)(direction.normalized * lineLength));
 
         float lineLength = 10f;
-        lr.SetPosition(0, firePoint.position);
-        lr.SetPosition(1, firePoint.position + (Vector3)(direction.normalized * lineLength));
+
+        laserStart = firePoint.position;
+        laserEnd = firePoint.position + (Vector3)(direction.normalized * lineLength);
+
 
         //dotween line fading animation
         Sequence seq = DOTween.Sequence();
-        seq.Append(lr.material.DOFade(1f, 0.1f)); 
-        seq.Append(lr.material.DOFade(0f, 0.1f));
-        seq.SetLoops(4, LoopType.Yoyo);
-        seq
-            .SetTarget(mainEnemy)
-            .OnComplete(() => Destroy(lineObj))
-            .OnKill(() => Destroy(lineObj));
+        seq.AppendCallback(() => RpcSetStateAimingLaser(true));
+        seq.AppendInterval(0.1f); // "on"
+        seq.AppendCallback(() => RpcSetStateAimingLaser(false));
+        seq.AppendInterval(0.1f); // "off"
+        seq.SetLoops(4);
+        seq.SetTarget(mainEnemy);
+        seq.OnComplete(() => RpcSetStateAimingLaser(false));
+        seq.OnKill(() => RpcSetStateAimingLaser(false));
+
     }
 
     [Server]

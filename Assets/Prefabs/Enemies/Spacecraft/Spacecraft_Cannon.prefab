@@ -161,7 +161,7 @@ GameObject:
   - component: {fileID: 4560532843370745043}
   - component: {fileID: 5066616198906231930}
   - component: {fileID: 756177558256618027}
-  - component: {fileID: 2934357355467403126}
+  - component: {fileID: 5910647619867940916}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: EnemyCannon
@@ -337,7 +337,7 @@ MonoBehaviour:
   numberOfBulletInBurst: 3
   bulletSpawnDelay: 0.3
   rotationSpeed: 200
---- !u!114 &2934357355467403126
+--- !u!114 &5910647619867940916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -346,13 +346,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8544748957233154593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce23f4e66c4f33043a74eb8e7ea0c5e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 561a07b9cbe3a3340b432665daad22f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHp: 15
+  maxHp: 50
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}

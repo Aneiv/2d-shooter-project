@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 2316606532568160900}
   - component: {fileID: 194089439172064851}
   - component: {fileID: 8464067648683695142}
-  - component: {fileID: 6660471712328115112}
+  - component: {fileID: 945228350460411508}
   m_Layer: 0
   m_Name: EnemyVisual
   m_TagString: EnemyCannon
@@ -220,7 +220,7 @@ MonoBehaviour:
   rotationDuration: 0.5
   rotationAngleOfReloading: 180
   rotationAngleOfReadyToShot: 120
---- !u!114 &6660471712328115112
+--- !u!114 &945228350460411508
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -229,13 +229,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1340433737645142334}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce23f4e66c4f33043a74eb8e7ea0c5e7, type: 3}
+  m_Script: {fileID: 11500000, guid: 561a07b9cbe3a3340b432665daad22f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHp: 15
+  maxHp: 50
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}

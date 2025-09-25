@@ -4,21 +4,19 @@ using Mirror;
 using System.Collections;
 public class EnemyCannon : Enemy
 {
-    private SpacecraftCarrierEnemy spacecraftCarrierEnemy;
     public ParticleSystem firePart;
     public ParticleSystem smokePart;
-    public GameObject fireParticleContainer;
+    [HideInInspector] public GameObject fireParticleContainer;
     public float fireSmokePartScale;
 
     protected override void Start()
     {
         base.Start();
-        spacecraftCarrierEnemy = FindFirstObjectByType<SpacecraftCarrierEnemy>();
         fireParticleContainer = GameObject.Find("FireParticles");
     }
 
     [ClientRpc]
-    void RpcDie()
+    protected void RpcDie()
     {
         if (fireParticleContainer == null) return;
 
@@ -43,7 +41,7 @@ public class EnemyCannon : Enemy
     }
 
     [TargetRpc]
-    void TargetScoreAnim(NetworkConnection target)
+    protected void TargetScoreAnim(NetworkConnection target)
     {
         GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
         ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
@@ -54,7 +52,7 @@ public class EnemyCannon : Enemy
     }
 
     [Server]
-    IEnumerator DieWithDelayCoroutine()
+    protected IEnumerator DieWithDelayCoroutine()
     {
         yield return null;
         DOTween.Kill(mainSprite);
@@ -70,9 +68,8 @@ public class EnemyCannon : Enemy
         {
             enemyKilled = true;
 
-            if (spacecraftCarrierEnemy != null) {
-                spacecraftCarrierEnemy.DestroyCannon();
-            }
+            NotifyParentAboutDeath();
+
             // score reward
             if(attacker != null)
             {
@@ -90,4 +87,5 @@ public class EnemyCannon : Enemy
         }
     }
     protected override void OnCollisionWithPlayer(GameObject playerObj) {}
+    protected virtual void NotifyParentAboutDeath() { }
 }

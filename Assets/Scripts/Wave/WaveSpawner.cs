@@ -60,9 +60,9 @@ public class WaveSpawner : Mirror.NetworkBehaviour
             //list of functions for spawn enemies
             spawnPatterns = new List<Action>
             {
-                UpDownSpawn,        //animationDurations[0]
+                //UpDownSpawn,        //animationDurations[0]
                 //SpiralMovement,     //animationDurations[1] ...
-                //SpawnMiniBoss,
+                SpawnMiniBoss,
                 //SpawnBoss
                 //more to be made
             };

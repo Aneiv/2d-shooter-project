@@ -112,6 +112,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1577979535213831826}
   m_SourcePrefab: {fileID: 100100000, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+--- !u!114 &831803333086496301 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3095573913884451546, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
+  m_PrefabInstance: {fileID: 2413534313587352823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733877e285f4ea145afb8f55ade884ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1579194641973370226 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3788923130665433477, guid: 9cb7ce131c3a0ec4486e3168e07bf620, type: 3}
@@ -167,7 +178,7 @@ MonoBehaviour:
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 831803333086496301}
   flashMaterial: {fileID: 2100000, guid: 7a95be5b9fddd334e9dd2fd410d00e41, type: 2}
   addSprites: []
   fireAndSmokeParticles: {fileID: 0}

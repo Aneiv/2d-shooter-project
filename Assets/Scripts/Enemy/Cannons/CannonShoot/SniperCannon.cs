@@ -25,15 +25,16 @@ public class SniperCannon : EnemyCannonShoot
     [SyncVar] private float aimingTimer = 0f;
     [SyncVar] private Vector2 targetPosition;
 
+    [SyncVar(hook = nameof(OnLaserStartChanged))]
     private Vector3 laserStart = Vector3.zero;
+
+    [SyncVar(hook = nameof(OnLaserEndChanged))]
     private Vector3 laserEnd = Vector3.zero;
 
     [Server]
     public override void Start()
     {
         base.Start();
-        //aimingRay.enabled = true;
-        //hurtfulRay.enabled = false;
         RpcSetStateAimingLaser(false);
         RpcSetStateShootLaser(false);
     }
@@ -49,8 +50,6 @@ public class SniperCannon : EnemyCannonShoot
             {
                 reloadTimer = reloadDelay;
 
-                //aimingRay.enabled = true;
-                //hurtfulRay.enabled = false;
                 RpcSetStateAimingLaser(true);
                 RpcSetStateShootLaser(false);
 
@@ -59,31 +58,16 @@ public class SniperCannon : EnemyCannonShoot
                 aimAndShootCoroutine = StartCoroutine(AimAndShootAtPlayerCoroutine());
             }
         }
-
-        UpdateLaser(firePoint.position, firePoint.position + firePoint.up * 100f);
     }
 
-    private float laserSyncCooldown = 0.025f;
-    private float laserSyncTimer = 0f;
-
-    [Server]
-    private void UpdateLaser(Vector3 start, Vector3 end)
+    private void OnLaserStartChanged(Vector3 oldValue, Vector3 newValue)
     {
-        laserSyncTimer -= Time.deltaTime;
-        if (laserSyncTimer <= 0f)
-        {
-            laserStart = start;
-            laserEnd = end;
-            RpcUpdateAimingLaser(start, end);
-            laserSyncTimer = laserSyncCooldown;
-        }
+        aimingRay.SetPosition(0, newValue);
     }
 
-    [ClientRpc]
-    void RpcUpdateAimingLaser(Vector3 start, Vector3 end)
+    private void OnLaserEndChanged(Vector3 oldValue, Vector3 newValue)
     {
-        aimingRay.SetPosition(0, start);
-        aimingRay.SetPosition(1, end);
+        aimingRay.SetPosition(1, newValue);
     }
 
     [ClientRpc]
@@ -164,8 +148,6 @@ public class SniperCannon : EnemyCannonShoot
 
             bool playerSeen = false;
 
-            //aimingRay.SetPosition(0, firePoint.position);
-            //aimingRay.SetPosition(1, hitPoint);
             laserStart = firePoint.position;
             laserEnd = hitPoint;
 
@@ -192,8 +174,7 @@ public class SniperCannon : EnemyCannonShoot
         }
 
         // laser blink
-        //aimingRay.SetPosition(1, firePoint.position + firePoint.up * 100);
-
+        laserEnd = firePoint.position + firePoint.up * 100;
         for (int i = 0; i < numberOfBlinks * 2; i++)
         {
             RpcSetStateAimingLaser(!aimingRay.enabled);
@@ -206,22 +187,15 @@ public class SniperCannon : EnemyCannonShoot
 
         // particles
 
-        //Quaternion particleDirection = Quaternion.LookRotation(firePoint.up);
-        //currentHurtfulRayParticle = Instantiate(hurtfulRayParticle, firePoint.position, particleDirection);
-        //currentHurtfulRayParticle.Play();
-
         RaycastHit2D[] hitsInfoShoot = Physics2D.RaycastAll(firePoint.position, firePoint.up, 100f);
         Vector2 shootHitPoint = firePoint.position + firePoint.up * 100f;
 
-        //hurtfulRay.SetPosition(0, firePoint.position);
-        //hurtfulRay.SetPosition(1, shootHitPoint);
 
         foreach (RaycastHit2D hit in hitsInfoShoot)
         {
             if (hit.transform.CompareTag("Player"))
             {
                 shootHitPoint = hit.point;
-                //hurtfulRay.SetPosition(1, shootHitPoint);
                 
 
                 Player player = hit.transform.GetComponent<Player>();
@@ -237,8 +211,6 @@ public class SniperCannon : EnemyCannonShoot
         yield return new WaitForSeconds(hurtfulLaserBeamDuration);
 
 
-        //hurtfulRay.enabled = false;
-        //Destroy(currentHurtfulRayParticle.gameObject);
         RpcTurnOffShootLaser();
 
         reloadTimer = reloadDelay;

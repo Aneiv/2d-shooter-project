@@ -62,13 +62,6 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         mainMaterial = mainSprite.material;
     }
 
-
-
-    void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
-    {
-        transform.rotation = newRotation;
-    }
-
     [Server]
     virtual public void TakeDamage(int damage, GameObject attacker)
     {
@@ -167,6 +160,8 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
 
     protected void HitFlashAnim(SpriteRenderer sprite)
     {
+        if(sprite == null) return;
+
         sprite.DOFade(0.1f, flashDuration)
             .SetEase(Ease.InOutSine)
             .SetLink(gameObject)
@@ -210,6 +205,8 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
 
     protected void InVulnerableHitAnim(SpriteRenderer sprite)
     {
+        if(sprite == null) return;
+
         Material mat = sprite.material;
         mat.DOColor(new Color(0f, 1.5f, 3f, 0.3f), flashDuration) // go to blue color
             .SetEase(Ease.InOutSine)

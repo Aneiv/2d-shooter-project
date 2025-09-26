@@ -112,10 +112,6 @@ public partial class DreadWingEnemy
                             rootEnemy.transform.rotation = Quaternion.identity;
                         }
                     });
-                    //.OnComplete(() => //after fly-in animation end
-                    //{
-                    //    OnThirdPhaseActions();
-                    //})
                 });
     }
 

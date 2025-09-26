@@ -1,9 +1,10 @@
 ﻿using DG.Tweening;
-using System.Collections.Generic;
-using System;
-using UnityEngine;
-using System.Collections;
 using Mirror;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class WaveSpawner : Mirror.NetworkBehaviour
 {
@@ -72,7 +73,7 @@ public class WaveSpawner : Mirror.NetworkBehaviour
             standardSpawnPatterns = new List<Action>
             {
                 UpDownSpawn,
-                //SpiralMovement
+                SpiralMovement
             };
             PrepareWaves();
         }
@@ -492,7 +493,6 @@ public class WaveSpawner : Mirror.NetworkBehaviour
                 //end position of movement
                 Vector2 end = new Vector2(startX + j * spacing, 4f - i * rowHeight);
 
-                float targetAngleDeg = 180f; //final destined rotation angle
                 if (fromLeft)
                 {
                     start = new Vector2(-3.5f, 1f); //enter from left
@@ -509,56 +509,56 @@ public class WaveSpawner : Mirror.NetworkBehaviour
                 //create ship instance and set position
                 GameObject enemyPrefab = enemyPrefabs[enemyPrefabIndex];
                 enemyPrefabIndex++;
-                GameObject ship = Instantiate(enemyPrefab, start, Quaternion.identity);
+                GameObject ship = Instantiate(enemyPrefab, start, Quaternion.Euler(0f, 0f, 180f));
                 Mirror.NetworkServer.Spawn(ship);
                 ship.transform.parent = enemiesContainer.transform; //make enemy child of 'EnemiesContainer'
-                //rotate ship to correct value
-                ship.transform.rotation = Quaternion.Euler(0f, 0f, 180f);
 
                 //idle animation play at random delay for every ship
-                var shipAnim = ship.GetComponent<Animator>();
                 var shipAnimator = ship.transform.Find("EnemyVisual").GetComponent<Animator>();
-                float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
-                shipAnimator.Play("Idle", 0, randomOffset);//layer 0
-
-                //movement animation start
-                DOVirtual.Float(0f, 1f, animationDurations[1], (t) =>
+                if(shipAnimator != null)
                 {
-                    //position on Bezier curve
-                    Vector2 pos = BezierCurve.Quadratic(start, control, end, t);
-                    ship.transform.position = pos; //ship position change
+                    float randomOffset = UnityEngine.Random.Range(0f, 1f);//0 - animation start   1 - animation end
+                    shipAnimator.Play("Idle", 0, randomOffset);//layer 0
+                }
 
-                    if (t >= 0.998f)
-                    {
-                        ship.transform.position = end;
-                        ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
-                        return;
-                    }
-                    //future position calculation (for place and rotation prediction)
-                    //Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
-                    Vector2 futurePos = BezierCurve.Quadratic(start, control, end, Mathf.Min(t + 0.01f, 1f));
-
-                    Vector2 dir = (futurePos - pos).normalized;
-                    float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; //angle calculation
-
-                    //rotation adjusted to curve with sprite offset
-                    ship.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // -90f offset
-                })
-                .SetEase(Ease.InOutSine) //make smooth begin and end of animation
-                .OnComplete(() => //after animation end
-                {
-                    Enemy enemyInstance = ship.GetComponentInChildren<Enemy>();
-                    if (enemyInstance != null)
-                    {
-                        enemyInstance.OnArrival();
-                    }
-
-                    //correct ship rotation
-                    //ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
-                });
+                RpcSpiralMovement(ship, start, control, end);
+                StartCoroutine(TriggerArrivalWithDelay(ship, animationDurations[1] + 0.3f));
             }
         }
         WaveSpawned();
+    }
+
+    [ClientRpc]
+    private void RpcSpiralMovement(GameObject ship, Vector2 start, Vector2 control, Vector2 end)
+    {
+        if (ship == null) return;
+
+        float targetAngleDeg = 180f; //final destined rotation angle
+
+        //movement animation start
+        DOVirtual.Float(0f, 1f, animationDurations[1], (t) =>
+        {
+            //position on Bezier curve
+            Vector2 pos = BezierCurve.Quadratic(start, control, end, t);
+            ship.transform.position = pos; //ship position change
+
+            if (t >= 0.998f)
+            {
+                ship.transform.position = end;
+                ship.transform.rotation = Quaternion.Euler(0, 0, targetAngleDeg);
+                return;
+            }
+            //future position calculation (for place and rotation prediction)
+            //Vector2 futurePos = QuadraticBezier(start, control, end, t + 0.01f);
+            Vector2 futurePos = BezierCurve.Quadratic(start, control, end, Mathf.Min(t + 0.01f, 1f));
+
+            Vector2 dir = (futurePos - pos).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg; //angle calculation
+
+            //rotation adjusted to curve with sprite offset
+            ship.transform.rotation = Quaternion.Euler(0, 0, angle - 90f); // -90f offset
+        })
+        .SetEase(Ease.InOutSine); //make smooth begin and end of animation
     }
 
     [System.Serializable]

@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 7989595646757892481}
   - component: {fileID: 6585066155814231863}
   - component: {fileID: 8855460719760164625}
-  - component: {fileID: 4890822000517307151}
+  - component: {fileID: 7567508390671253725}
   m_Layer: 0
   m_Name: DreadWing_Boss_SniperCannon
   m_TagString: EnemyCannon
@@ -421,7 +421,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.11, y: 0.23}
   m_EdgeRadius: 0
---- !u!114 &4890822000517307151
+--- !u!114 &7567508390671253725
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -430,13 +430,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1632980287836491215}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
+  m_Script: {fileID: 11500000, guid: e33d1934022a3a9489e3a80351cb206a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHp: 150
+  maxHp: 15
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}

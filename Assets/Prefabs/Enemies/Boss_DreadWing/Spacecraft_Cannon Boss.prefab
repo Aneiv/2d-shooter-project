@@ -308,7 +308,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6335319256062930646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9773308d3b858d84fb2a35541c35ecf7, type: 3}
+  m_Script: {fileID: 11500000, guid: 407dd2a06a42c4b42a676d3c21298d1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
@@ -330,13 +330,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6335319256062930646}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7169c79bdf6d6e641875998f8915288b, type: 3}
+  m_Script: {fileID: 11500000, guid: e33d1934022a3a9489e3a80351cb206a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  maxHp: 30
+  maxHp: 3
   collisionDamage: 20
   scoreReward: 10
   scoreRewardPrefab: {fileID: 1731502770757522002, guid: 1c2735c99c92c61418d043ec54399ab4, type: 3}
@@ -347,7 +347,7 @@ MonoBehaviour:
   engineParticles: []
   flashDuration: 0.1
   rootEnemy: {fileID: 1579194641973370226}
-  explosionParticles: {fileID: 1456487377627464390, guid: cd28bab1cd71bf44bb9270a9670d6a39, type: 3}
+  explosionParticles: {fileID: 588333845331395284, guid: c7f7e0d8e8801824c88623db6582df5d, type: 3}
   fragParticles: {fileID: 3047316482893054669, guid: aeb0b8d16a5279d459bef8447257feb8, type: 3}
   particleScale: 0.5
   waveManager: {fileID: 0}

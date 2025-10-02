@@ -17,7 +17,7 @@ public class MainMenu : MonoBehaviour
         manager.StartHost();
         manager.maxConnections = 0;
 
-        var settings = GameDefaultSettings.Instance;
+        var settings = GameSettings.Instance;
         settings.isSinglePlayerMode = true;
         if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
         {
@@ -27,7 +27,7 @@ public class MainMenu : MonoBehaviour
     }
     public void PlayMultiplayer()
     {
-        var settings = GameDefaultSettings.Instance;
+        var settings = GameSettings.Instance;
         settings.isSinglePlayerMode = false;
         if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
         {

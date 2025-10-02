@@ -34,6 +34,7 @@ public class BulletCollisionDetection : MonoBehaviour
         downYClamp = bottomLeft.y - clampSize;
         upYClamp = topRight.y + clampSize;
     }
+    [Server]
     void FixedUpdate()
     {
         pos = transform.position;

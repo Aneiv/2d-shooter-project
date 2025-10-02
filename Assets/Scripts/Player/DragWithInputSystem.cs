@@ -14,10 +14,10 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
     [SyncVar] public float minX, minY, maxX, maxY; //screen boundaries
     [SyncVar] private Vector3 bottomLeft;
     [SyncVar] private Vector3 topRight;
-    private GameDefaultSettings settings;
+    private GameSettings settings;
     private void Start()
     {
-        settings = FindAnyObjectByType<GameDefaultSettings>();
+        settings = FindAnyObjectByType<GameSettings>();
         SetScreenClamp();
     }
     [Server]
@@ -61,11 +61,10 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
     void Update()
     {
         // Singleplayer - movement enable
-/*        if (settings.isSinglePlayerMode != true)
-        {
-            HandleControls();
-        }*/
-
+        /*        if (settings.isSinglePlayerMode != true)
+                {
+                    HandleControls();
+                }*/
         // Multiplayer - only owner of player instance can move their ship
         if (isLocalPlayer)
         {

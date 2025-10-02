@@ -73,3 +73,5 @@ crashlytics-build.properties
 /.utmp
 /Assets/Mirror
 /Assets/ScriptTemplates
+/Assets/ParrelSync
+/Assets/Plugins/ParrelSync

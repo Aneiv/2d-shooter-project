@@ -41,7 +41,7 @@ public class HealthBar : MonoBehaviour
         if (healthBar.value < comboBar.value && comboTimer <= 0) {
             comboBar.value -= comboDropSpeed * Time.deltaTime;
         }
-        
+
         comboTimer -= Time.deltaTime;
     }
     public virtual void Show() { throw new NotImplementedException(); }

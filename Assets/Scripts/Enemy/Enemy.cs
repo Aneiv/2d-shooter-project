@@ -5,7 +5,7 @@ using UnityEngine;
 public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
 {
     [Header("Health stuff")]
-    public int maxHp = 50;
+    [SyncVar(hook = nameof(OnMaxHpChanged))] public int maxHp = 50;
     public int collisionDamage = 20;
     [SyncVar(hook = nameof(OnHealthChanged))] protected int currentHp;
     protected bool isVulnerable = false;
@@ -83,7 +83,7 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         else
         {
             if (healthBar != null) {
-                healthBar.SetHealth(currentHp);
+                healthBar.SetHealth(newHealth);
             }
 
             HitFlashAnim(mainSprite);
@@ -92,6 +92,11 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
                 HitFlashAnim(sprite);
             }
         }
+    }
+    private void OnMaxHpChanged(int oldHp, int newHp)
+    {
+        if (healthBar != null)
+            healthBar.SetMaxHealth(newHp);
     }
     [ClientRpc]
     protected void InvulnerableHitRpc()

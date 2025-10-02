@@ -90,7 +90,6 @@ public partial class DreadWingEnemy
             if (pos == null) continue;
 
             GameObject cannon = Instantiate(prefab, pos.transform.position, Quaternion.Euler(0f, 0f, 180f));
-
             if (type == "rocketLauncher")
             {
                 var rocket = cannon.GetComponentInChildren<RocketLauncher>();
@@ -219,17 +218,6 @@ public partial class DreadWingEnemy
         }
 
         currentHp -= cannonHp;
-        RpcUpdateHealthBar();
     }
-
-    [ClientRpc]
-    private void RpcUpdateHealthBar()
-    {
-        if (healthBar != null)
-        {
-            healthBar.SetHealth(currentHp);
-        }
-    }
-
     protected override void OnCollisionWithPlayer(GameObject playerObj) { }
 }

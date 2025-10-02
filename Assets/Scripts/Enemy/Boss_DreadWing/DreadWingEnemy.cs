@@ -84,6 +84,7 @@ public partial class DreadWingEnemy : Enemy
 
         RpcSetUpBossHPBar();
     }
+
 }
 [System.Serializable]
 public class AttackPattern

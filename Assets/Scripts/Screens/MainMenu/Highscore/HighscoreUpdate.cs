@@ -7,7 +7,7 @@ public class HighscoreUpdate : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        var settings = GameDefaultSettings.Instance;
+        var settings = GameSettings.Instance;
         highscoreText.text = settings.highscore.ToString();
     }
 }

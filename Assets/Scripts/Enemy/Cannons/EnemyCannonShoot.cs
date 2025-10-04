@@ -28,6 +28,14 @@ public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
         if (isServer)
         {
             syncRotation = transform.rotation;
+
+            if (targetPlayer != null)
+            {
+                if (!targetPlayer.GetComponent<Player>().isAlive)
+                {
+                    GetRandomPlayerTarget();
+                }
+            }
         }
     }
     void OnRotationChanged(Quaternion oldRotation, Quaternion newRotation)
@@ -74,6 +82,9 @@ public class EnemyCannonShoot : Mirror.NetworkBehaviour, IShootReady
     [Server]
     public void GetRandomPlayerTarget()
     {
+        // filters dead players
+        targetPlayers.RemoveAll(p => p == null || !p.GetComponent<Player>().isAlive);
+
         if (targetPlayers.Count > 0)
         {
             int index = Random.Range(0, targetPlayers.Count);

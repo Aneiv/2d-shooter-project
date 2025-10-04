@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Mirror;
+using Mirror.Examples.Common.Controllers.Player;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -8,14 +9,18 @@ using UnityEngine.SocialPlatforms.Impl;
 public class Player : Mirror.NetworkBehaviour, IHealth
 {
     public int maxHp = 80;
+    [SyncVar] public bool isAlive;
     [SyncVar] public string playerName;
     [SyncVar(hook = nameof(OnScoreChanged))] public int currentScore = 0;
     [SyncVar] public int currentHp;
     [SyncVar(hook = nameof(OnCoinsChanged))] public int currentNumberOfCoins = 0;
     private Animator playerAnimator;
+
     private GameOverMenu gameOverMenu;
     public GameObject mainCanva;
     public GameObject GameOverUI;
+    private GameObject DeathUI;
+
     public GameObject gameUI;
     public HealthBar healthBar;
     public TMP_Text totalScoreText;
@@ -23,12 +28,16 @@ public class Player : Mirror.NetworkBehaviour, IHealth
     public TMP_Text totalCoinsTextPause;
     public GameObject coinUI;
 
+    private GameController gameController;
     void Start()
     {
+        isAlive = true;
         //object assign
         mainCanva = GameObject.Find("Canvas");
         GameOverUI = mainCanva.transform.Find("GameOverMenu").gameObject;
         gameUI = mainCanva.transform.Find("UI").gameObject;
+        DeathUI = mainCanva.transform.Find("DeathMenu").gameObject;
+
         healthBar = mainCanva.transform.Find("UI/TopRightElements/Player_Health_Bar").GetComponent<HealthBar>();
         totalScoreText = mainCanva.transform.Find("UI/TopRightElements/Score/ScoreText").GetComponent<TMP_Text>();
         totalCoinsTextUI = mainCanva.transform.Find("UI/TopRightElements/Coins/CoinsText").GetComponent<TMP_Text>();
@@ -40,6 +49,15 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         playerAnimator = GetComponent<Animator>();
         totalScoreText.text = currentScore.ToString();
         gameOverMenu = mainCanva.GetComponent<GameOverMenu>();
+
+        // add player
+        GameObject gc = GameObject.FindGameObjectWithTag("GameController");
+        if (gc != null) {
+            gameController = gc.GetComponent<GameController>();
+            if (gameController != null) {
+                gameController.AddPlayer();
+            }
+        }
     }
 
     public override void OnStartLocalPlayer()
@@ -72,16 +90,73 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         TakeDamageRpc();
     }
 
+    [Server]
     public void Die()
     {
-        OnGameOver();
-        DieRpc();
+        if (!isAlive) return;
+        isAlive = false;
+
+        if (isServer && connectionToClient == NetworkServer.localConnection) // host death
+        {
+            OnGameOver();
+        }
+        else // client death
+        {
+            TargetOnGameOver(connectionToClient);
+        }
+        RpcOnPlayerDeath();
+
+        //NetworkServer.Destroy(gameObject);
+        gameController.OnPlayerDeath();
     }
+
     [ClientRpc]
-    private void DieRpc()
+    private void RpcOnPlayerDeath()
     {
-        Destroy(gameObject);
+        DisablePlayer();
     }
+
+    private void DisablePlayer()
+    {
+        var sprite = GetComponent<SpriteRenderer>();
+        if (sprite != null)
+            sprite.enabled = false;
+
+        var col = GetComponent<PolygonCollider2D>();
+        if(col != null) 
+            col.enabled = false;
+
+        var dragInputSystem = GetComponent<DragWithInputSystem>();
+        if (dragInputSystem != null)
+            dragInputSystem.enabled = false;
+
+        var shootSystem = GetComponent<PlayerShoot>();
+        if (shootSystem != null)
+            shootSystem.enabled = false;
+
+        foreach (var ps in GetComponentsInChildren<ParticleSystem>(true))
+        {
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            if (renderer != null)
+                renderer.enabled = false;
+        }
+    }
+
+    [TargetRpc]
+    private void TargetOnGameOver(NetworkConnectionToClient conn)
+    {
+        OnGameOver();
+    }
+
+    private void OnGameOver()
+    {
+        GameOverUI.SetActive(false);
+        gameUI.SetActive(false);
+        DeathUI.SetActive(true);
+    }
+
 
     [ClientRpc]
     private void TakeDamageRpc()
@@ -119,15 +194,7 @@ public class Player : Mirror.NetworkBehaviour, IHealth
             totalCoinsTextPause.text = newCoins.ToString();//update score value
         }
     }
-    //to rewrite
-    public void OnGameOver()
-    {
-        gameUI.SetActive(false);
-        GameOverUI.SetActive(true);
-        Time.timeScale = 0f;
-        PauseMenu.GameIsPaused = true;
-        gameOverMenu.OnMenuShow();
-    }
+
     [Server]
     public void AddToScore(int score)
     {

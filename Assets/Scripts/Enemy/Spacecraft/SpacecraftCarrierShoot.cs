@@ -51,6 +51,8 @@ public class SpacecraftCarrierShoot : EnemyShoot
         {
             if (targetPlayer == null) continue;
 
+            if (!targetPlayer.GetComponent<Player>().isAlive) continue;
+
             if (targetPlayer.position.y >= screenCenterYPos)
             {
                 anyPlayerDetected = true;

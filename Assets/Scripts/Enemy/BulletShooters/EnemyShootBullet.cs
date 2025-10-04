@@ -37,7 +37,7 @@ public class EnemyShootBullet : EnemyShoot
     }
 
     [Server]
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (!waiting)
         {

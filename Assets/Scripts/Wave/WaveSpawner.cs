@@ -50,8 +50,17 @@ public class WaveSpawner : Mirror.NetworkBehaviour
     private GameObject[] currentChosenPrefabs;
     private List<Action> standardSpawnPatterns;
     private int waveCounter = 0;
+
+    private GameController gameController;
     void Start()
     {
+        // gameController
+        GameObject gc = GameObject.FindGameObjectWithTag("GameController");
+        if (gc != null)
+        {
+            gameController = gc.GetComponent<GameController>();
+        }
+
         //Calculation of screen size
         bottomLeft = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, 0));
         topRight = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, 0));
@@ -163,15 +172,16 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         // game over - no more waves
         if(waveCounter >= waves.Count)
         {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null)
-            {
-                Player player = playerObj.GetComponent<Player>();
-                if (player != null)
-                {
-                    player.OnGameOver();
-                }
-            }
+            //GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            //if (playerObj != null)
+            //{
+            //    Player player = playerObj.GetComponent<Player>();
+            //    if (player != null)
+            //    {
+            //        player.OnGameOver();
+            //    }
+            //}
+
         }
         else // next wave
         {

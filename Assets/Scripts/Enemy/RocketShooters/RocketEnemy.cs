@@ -24,9 +24,25 @@ public class RocketEnemy : EnemyShootBullet
         GetRandomPlayerTarget();
     }
 
+    [ServerCallback]
+    protected override void FixedUpdate() // dont aim at dead player
+    {
+        base.FixedUpdate();
+        if(targetPlayer != null)
+        {
+            if (!targetPlayer.GetComponent<Player>().isAlive)
+            {
+                GetRandomPlayerTarget();
+            }
+        }
+    }
+
     [Server]
     public void GetRandomPlayerTarget()
     {
+        // filters dead players
+        targetPlayers.RemoveAll(p => p == null || !p.GetComponent<Player>().isAlive);
+
         if (targetPlayers.Count > 0)
         {
             int index = Random.Range(0, targetPlayers.Count);
@@ -42,6 +58,8 @@ public class RocketEnemy : EnemyShootBullet
     protected override void SpawnBullet()
     {
         GetRandomPlayerTarget();
+
+        if (targetPlayer == null) return;
 
         float angleInDegrees = transform.eulerAngles.z + 90f;
         float angleInRadians = angleInDegrees * Mathf.Deg2Rad;

@@ -467,6 +467,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   maxHp: 200
+  isAlive: 0
   playerName: 
   currentScore: 0
   currentHp: 0
@@ -479,6 +480,7 @@ MonoBehaviour:
   totalCoinsTextUI: {fileID: 0}
   totalCoinsTextPause: {fileID: 0}
   coinUI: {fileID: 0}
+  particleEngine: {fileID: 6813305328952765254}
 --- !u!114 &6208314694660859647
 MonoBehaviour:
   m_ObjectHideFlags: 0

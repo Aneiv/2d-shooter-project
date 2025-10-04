@@ -55,6 +55,9 @@ public class KamikazeEnemy : EnemyShoot
     [Server]
     public void GetRandomPlayerTarget()
     {
+        // filters dead players
+        targetPlayers.RemoveAll(p => p == null || !p.GetComponent<Player>().isAlive);
+
         if (targetPlayers.Count > 0)
         {
             int index = Random.Range(0, targetPlayers.Count);
@@ -69,6 +72,14 @@ public class KamikazeEnemy : EnemyShoot
     [Server]
     private void FixedUpdate()
     {
+        if (targetPlayer != null)
+        {
+            if (!targetPlayer.GetComponent<Player>().isAlive)
+            {
+                GetRandomPlayerTarget();
+            }
+        }
+
         if (!waiting && targetPlayer != null)
         {
             Vector2 pos = rb.position;

@@ -155,6 +155,12 @@ public class SniperCannon : EnemyCannonShoot
             {
                 if (hit.transform.CompareTag("Player"))
                 {
+                    Player player = hit.transform.GetComponent<Player>();
+                    if (player != null)
+                    {
+                        if (!player.isAlive) continue;
+                    }
+
                     playerSeen = true;
                     hitPoint = hit.point;
                     aimingTimer -= Time.deltaTime;
@@ -195,14 +201,14 @@ public class SniperCannon : EnemyCannonShoot
         {
             if (hit.transform.CompareTag("Player"))
             {
-                shootHitPoint = hit.point;
-                
-
                 Player player = hit.transform.GetComponent<Player>();
                 if (player != null)
                 {
+                    if (!player.isAlive) continue;
                     player.TakeDamage(damage);
                 }
+
+                shootHitPoint = hit.point;
                 break;
             }
         }

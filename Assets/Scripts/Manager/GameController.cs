@@ -35,16 +35,7 @@ public class GameController : Mirror.NetworkBehaviour
 
         if(playerCounter <= 0)
         {
-            RpcEndGame();// clients
-
-            if (isServer && connectionToClient != null) // host 
-            {
-                EndGame();
-            }
-            else // client 
-            {
-                RpcEndGame();
-            }
+            OnEndGame();
         }
     }
 
@@ -62,5 +53,20 @@ public class GameController : Mirror.NetworkBehaviour
 
         PauseMenu.GameIsPaused = true;
         Time.timeScale = 0f;
+    }
+
+    [Server]
+    public void OnEndGame()
+    {
+        RpcEndGame();// clients
+
+        if (isServer && connectionToClient != null) // host 
+        {
+            EndGame();
+        }
+        else // client 
+        {
+            RpcEndGame();
+        }
     }
 }

@@ -172,16 +172,8 @@ public class WaveSpawner : Mirror.NetworkBehaviour
         // game over - no more waves
         if(waveCounter >= waves.Count)
         {
-            //GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            //if (playerObj != null)
-            //{
-            //    Player player = playerObj.GetComponent<Player>();
-            //    if (player != null)
-            //    {
-            //        player.OnGameOver();
-            //    }
-            //}
-
+            if(gameController != null)
+                gameController.OnEndGame();
         }
         else // next wave
         {

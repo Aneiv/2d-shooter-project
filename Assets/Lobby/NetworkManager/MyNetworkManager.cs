@@ -1,10 +1,18 @@
 using Mirror;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MyNetworkManager : Mirror.NetworkManager
 {
     private int nextPlayerIndex = 0;
+    private LostConnectionHandler lostConnectionHandler;
+
+    public override void Start()
+    {
+        base.Start();
+        lostConnectionHandler = GetComponent<LostConnectionHandler>();
+    }
     public override void OnServerSceneChanged(string sceneName)
     {
         base.OnServerSceneChanged(sceneName);
@@ -36,6 +44,23 @@ public class MyNetworkManager : Mirror.NetworkManager
 
                 Mirror.NetworkServer.AddPlayerForConnection(conn, player);
                 nextPlayerIndex++;
+            }
+        }
+    }
+
+    // lost connection handler
+    public override void OnClientDisconnect()
+    {
+        base.OnClientDisconnect();
+
+        Debug.Log("Lost connection with host");
+        if (!NetworkServer.active) // client
+        {
+            SceneManager.LoadScene("MainMenuScene");
+
+            if (lostConnectionHandler != null)
+            {
+                lostConnectionHandler.SetView();
             }
         }
     }

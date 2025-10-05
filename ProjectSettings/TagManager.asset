@@ -15,6 +15,7 @@ TagManager:
   - ClientMenu
   - LobbyMenu
   - Debug
+  - LostConnection
   layers:
   - Default
   - TransparentFX

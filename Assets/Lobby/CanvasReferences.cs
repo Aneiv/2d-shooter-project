@@ -14,9 +14,15 @@ public class CanvasReferences : MonoBehaviour
     public Button hostButton;
     public Button joinButton;
 
+    public GameObject mainMenuView;
+    public GameObject clientMenuView;
+    public GameObject lostConnectionView;
+
     private void Start()
     {
         LanLobbyManager.Instance.SetUIReferences(this);
+        LostConnectionHandler.Instance.SetUIReferences(this);
+
         RefreshBtnReferences();
     }
 

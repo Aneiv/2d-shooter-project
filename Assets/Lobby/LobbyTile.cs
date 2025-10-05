@@ -1,10 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LobbyTile : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _usernameText;
     [SerializeField] private TextMeshProUGUI _ipText;
+    [SerializeField] private TextMeshProUGUI _playerCountText;
+    [SerializeField] private Image _connectionDotImg;
+    [SerializeField] private Button joinBtn;
     private GameObject _lobbyMenu;
     private GameObject _clientMenu;
 
@@ -13,10 +17,14 @@ public class LobbyTile : MonoBehaviour
         _clientMenu = clientMenu;
         _lobbyMenu = lobbyMenu;
     }
-    public void SetText(string username, string ipAdress)
+    public void SetText(string username, string ipAdress, int currentPlayers, int maxPlayers, bool isOpen)
     {
         _usernameText.text = username;
         _ipText.text = ipAdress;
+        _playerCountText.text = currentPlayers.ToString() + " / " + maxPlayers.ToString();
+
+        _connectionDotImg.color = isOpen ? Color.green : Color.red;
+        joinBtn.gameObject.SetActive(isOpen);
     }
 
     public void JoinLobby()

@@ -36,13 +36,23 @@ public class LobbyList : MonoBehaviour
         networkDiscovery.StartDiscovery();
     }
 
-    private void OnServerFound(DiscoveryResponse info)
+    private void OnServerFound(DiscoveryResponse serverInfo)
     {
-        string ipAddress = info.ip;
-        string serverName = info.serverName;
+        string ipAddress = serverInfo.ip;
+        string serverName = serverInfo.serverName;
+        int currentPlayersNum = serverInfo.currentPlayers;
+        int maxPlayersNum = serverInfo.maxPlayers;
+        bool isOpen = serverInfo.isOpen;
 
-        if (activeLobbies.ContainsKey(ipAddress))
+        if (activeLobbies.ContainsKey(ipAddress)) // update tile
+        {
+            var tileToUpdateObj = activeLobbies[ipAddress];
+            if(tileToUpdateObj.TryGetComponent<LobbyTile>(out var tileToUpdate))
+            {
+                tileToUpdate.SetText(serverName, ipAddress, currentPlayersNum, maxPlayersNum, isOpen);
+            }
             return;
+        }
 
         Debug.Log("new server found: " + ipAddress);
         // new tile
@@ -51,7 +61,7 @@ public class LobbyList : MonoBehaviour
         // set tile
         LobbyTile tile = tileObj.GetComponent<LobbyTile>();
         tile.Initialize(clientMenu, lobbyMenu);
-        tile.SetText(serverName, ipAddress);
+        tile.SetText(serverName, ipAddress, currentPlayersNum, maxPlayersNum, isOpen);
 
         activeLobbies[ipAddress] = tileObj;
     }

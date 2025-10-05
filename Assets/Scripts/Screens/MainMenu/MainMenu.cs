@@ -1,4 +1,5 @@
 using Mirror;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,7 @@ public class MainMenu : MonoBehaviour
         settings.isSinglePlayerMode = false;
         if (Mirror.NetworkServer.active && Mirror.NetworkClient.isConnected)
         {
+            LanLobbyManager.Instance.gameIsStarted = true;
             manager.ServerChangeScene("MainGameScene");
         }
 

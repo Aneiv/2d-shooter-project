@@ -12,6 +12,20 @@ public class MyNetworkManager : Mirror.NetworkManager
     {
         base.Start();
         lostConnectionHandler = GetComponent<LostConnectionHandler>();
+        maxConnections = 2;
+    }
+
+    public override void OnServerConnect(NetworkConnectionToClient conn)
+    {
+        // Abort connection if game is running
+        if (LanLobbyManager.Instance != null && LanLobbyManager.Instance.gameIsStarted)
+        {
+            Debug.Log("Aborted connection - game is running.");
+            conn.Disconnect();
+            return;
+        }
+
+        base.OnServerConnect(conn);
     }
     public override void OnServerSceneChanged(string sceneName)
     {
@@ -53,15 +67,19 @@ public class MyNetworkManager : Mirror.NetworkManager
     {
         base.OnClientDisconnect();
 
-        Debug.Log("Lost connection with host");
-        if (!NetworkServer.active) // client
-        {
-            SceneManager.LoadScene("MainMenuScene");
+        if (NetworkServer.active) return; // only client can lose connection
 
-            if (lostConnectionHandler != null)
-            {
-                lostConnectionHandler.SetView();
-            }
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name != "MainGameScene") return;
+
+        Debug.Log("Lost connection with host");
+
+        SceneManager.LoadScene("MainMenuScene");
+
+        if (lostConnectionHandler != null)
+        {
+            lostConnectionHandler.SetView();
         }
+
     }
 }

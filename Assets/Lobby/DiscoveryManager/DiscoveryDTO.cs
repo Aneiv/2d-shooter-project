@@ -15,7 +15,9 @@ public class DiscoveryResponse : NetworkMessage
     public Uri uri;
 
     public string serverName;
+    public string ip;
+
     public int currentPlayers;
     public int maxPlayers;
-    public string ip;
+    public bool isOpen;
 }

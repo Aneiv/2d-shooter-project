@@ -12,13 +12,22 @@ public class CustomNetworkDiscovery : NetworkDiscoveryBase<DiscoveryRequest, Dis
 
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint)
     {
+        int numberOfMaxPlayers = MyNetworkManager.singleton.maxConnections;
+        int numberOfCurrentPlayers = NetworkServer.connections.Count;
+
+        bool isLimitOfPlayerIsReached = numberOfCurrentPlayers >= numberOfMaxPlayers;
+        bool isGameStarted = LanLobbyManager.Instance.gameIsStarted;
+
+        bool isOpen = !isLimitOfPlayerIsReached && !isGameStarted;
+
         return new DiscoveryResponse
         {
             serverId = ServerId,
             ip = LanLobbyManager.Instance.GetLocalIPAddress(),
             serverName = LanLobbyManager.Instance.GetPlayerName(),
             maxPlayers = 2,
-            currentPlayers = NetworkServer.connections.Count
+            currentPlayers = numberOfCurrentPlayers,
+            isOpen = isOpen
         };
     }
 

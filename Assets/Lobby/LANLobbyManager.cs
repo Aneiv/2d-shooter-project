@@ -19,9 +19,14 @@ public class LanLobbyManager : MonoBehaviour
     public TextMeshProUGUI backlogTextHost;
     public TextMeshProUGUI backlogTextClient;
     private bool tryingToConnect = true;
+    public bool gameIsStarted = false;
     //HOST
     public void StartHost()
     {
+        gameIsStarted = false;
+        string playerName = GetPlayerNameFromInput(hostNameInput);
+        hostNameInput.text = playerName; // set specific player name after hosting
+
         manager.StartHost();
         string localIP = GetLocalIPAddress();
         hostIpText.text = localIP;
@@ -29,7 +34,6 @@ public class LanLobbyManager : MonoBehaviour
         // share serwer info 
         var discovery = FindFirstObjectByType<CustomNetworkDiscovery>();
         discovery.AdvertiseServer();
-
     }
 
     //CLIENT
@@ -80,19 +84,31 @@ public class LanLobbyManager : MonoBehaviour
             manager.networkAddress = "localhost";
             manager.GetComponent<TelepathyTransport>().port = 7777; //TelepathyTransport
         }
+        tryingToConnect = true;
+        gameIsStarted = false;
 
         // Reset lokalnych zmiennych UI
         ipInput.text = "";
         hostIpText.text = "";
         SetBacklogText("all", "");
-        tryingToConnect = true;
+
+        clientNameInput.text = "";
+        clientNameInput.readOnly = false;
+
+        hostNameInput.text = "";
+        hostNameInput.readOnly = false;
     }
 
     public void SetUIReferences(CanvasReferences ui)
     {
         ipInput = ui.ipInput;
+
         clientNameInput = ui.clientNameInput;
+        clientNameInput.readOnly = false;
+
         hostNameInput = ui.hostNameInput;
+        hostNameInput.readOnly = false;
+
         hostIpText = ui.hostIpText;
         backlogTextHost = ui.backlogTextHost;
         backlogTextClient = ui.backlogTextClient;
@@ -188,9 +204,16 @@ public class LanLobbyManager : MonoBehaviour
 
     private string GetPlayerNameFromInput(TMP_InputField inputField)
     {
+        inputField.readOnly = true; // lock input
+
         //default name
         if (string.IsNullOrWhiteSpace(inputField.text))
-            return "Player" + Random.Range(1000, 9999);
+        {
+            string defaultPlayerName = "Player" + Random.Range(1000, 9999);
+            inputField.text = defaultPlayerName;
+
+            return defaultPlayerName;
+        }
 
         return inputField.text;
     }

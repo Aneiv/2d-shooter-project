@@ -136,4 +136,9 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
         minY = bottomLeft.y;
         maxY = topRight.y;
     }
+
+    public void DisableDragging()
+    {
+        isDragging = false;
+    }
 }

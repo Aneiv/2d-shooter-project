@@ -1,6 +1,7 @@
 using DG.Tweening;
 using Mirror;
 using Mirror.Examples.Common.Controllers.Player;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using TMPro;
 using UnityEngine;
@@ -90,6 +91,9 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         TakeDamageRpc();
     }
 
+    // ---------------------
+    // PLAYER DEATH
+    // ---------------------
     [Server]
     public void Die()
     {
@@ -106,7 +110,7 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         }
         RpcOnPlayerDeath();
 
-        //NetworkServer.Destroy(gameObject);
+        // let now game controller about death
         gameController.OnPlayerDeath();
     }
 
@@ -118,22 +122,9 @@ public class Player : Mirror.NetworkBehaviour, IHealth
 
     private void DisablePlayer()
     {
-        var sprite = GetComponent<SpriteRenderer>();
-        if (sprite != null)
-            sprite.enabled = false;
+        TogglePlayer(false);
 
-        var col = GetComponent<PolygonCollider2D>();
-        if(col != null) 
-            col.enabled = false;
-
-        var dragInputSystem = GetComponent<DragWithInputSystem>();
-        if (dragInputSystem != null)
-            dragInputSystem.enabled = false;
-
-        var shootSystem = GetComponent<PlayerShoot>();
-        if (shootSystem != null)
-            shootSystem.enabled = false;
-
+        // particles disable
         foreach (var ps in GetComponentsInChildren<ParticleSystem>(true))
         {
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -157,6 +148,115 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         DeathUI.SetActive(true);
     }
 
+    // ---------------------
+    // PLAYER RESPAWN
+    // ---------------------
+
+    [Server]
+    public void RespawnPlayer()
+    {
+        if (isAlive) return;
+        isAlive = true;
+
+        // hp
+        currentHp = maxHp;
+        RpcSetHealthBar();
+
+        // position
+        RpcSetSpawnPoint();
+
+        // enable player
+        RpcOnPlayerRespawn();
+
+        // toggle on locally game ui
+        if (isServer && connectionToClient == NetworkServer.localConnection) // host death
+        {
+            ToggleOnGameUI();
+        }
+        else // client death
+        {
+            TargetOnPlayerRespawn(connectionToClient);
+        }
+
+        gameController.AddPlayer();
+    }
+
+    [ClientRpc]
+    private void RpcSetSpawnPoint()
+    {
+        if (isLocalPlayer)
+        {
+            if (TryGetComponent<DragWithInputSystem>(out var inputSystem))
+            {
+                inputSystem.DisableDragging();
+            }
+            transform.position = new Vector3(0f, -3f, 0f);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcSetHealthBar()
+    {
+        if (isLocalPlayer)
+        {
+            healthBar.SetHealth(maxHp);
+            healthBar.SetMaxHealth(maxHp);
+        }
+    }
+
+    [ClientRpc]
+    private void RpcOnPlayerRespawn()
+    {
+        EnablePlayer();
+    }
+
+    private void EnablePlayer()
+    {
+        TogglePlayer(true);
+
+        // particles enable
+        foreach (var ps in GetComponentsInChildren<ParticleSystem>(true))
+        {
+            var renderer = ps.GetComponent<ParticleSystemRenderer>();
+            if (renderer != null)
+                renderer.enabled = true;
+            ps.Play();
+        }
+    }
+
+    [TargetRpc]
+    private void TargetOnPlayerRespawn(NetworkConnectionToClient conn)
+    {
+        ToggleOnGameUI();
+    }
+
+    private void ToggleOnGameUI()
+    {
+        GameOverUI.SetActive(false);
+        gameUI.SetActive(true);
+        DeathUI.SetActive(false);
+    }
+
+    private void TogglePlayer(bool toggle)
+    {
+        var sprite = GetComponent<SpriteRenderer>();
+        if (sprite != null)
+            sprite.enabled = toggle;
+
+        var col = GetComponent<PolygonCollider2D>();
+        if (col != null)
+            col.enabled = toggle;
+
+        var dragInputSystem = GetComponent<DragWithInputSystem>();
+        if (dragInputSystem != null)
+            dragInputSystem.enabled = toggle;
+
+        var shootSystem = GetComponent<PlayerShoot>();
+        if (shootSystem != null)
+            shootSystem.enabled = toggle;
+    }
+
+    // damage
 
     [ClientRpc]
     private void TakeDamageRpc()
@@ -171,6 +271,7 @@ public class Player : Mirror.NetworkBehaviour, IHealth
         }
     }
 
+    // score
     private void OnScoreChanged(int oldScore, int newScore)
     {
         if (isLocalPlayer)

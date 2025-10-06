@@ -1,5 +1,6 @@
 using DG.Tweening;
 using Mirror;
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
@@ -109,16 +110,17 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
     [ClientRpc]
     void RpcDie()
     {
-        Mirror.NetworkServer.Destroy(rootEnemy);
         ExplosionParticles();
-        if (isLocalPlayer)
+    }
+
+    [TargetRpc]
+    void TargerScoreAnim(NetworkConnection target)
+    {
+        GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
+        ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
+        if (srAnim != null)
         {
-            GameObject srObj = Instantiate(scoreRewardPrefab, transform.position, Quaternion.identity);
-            ScoreRewardAnim srAnim = srObj.GetComponent<ScoreRewardAnim>();
-            if (srAnim != null)
-            {
-                srAnim.SetScore(scoreReward);
-            }
+            srAnim.SetScore(scoreReward);
         }
     }
 
@@ -133,9 +135,13 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
             if (player != null)
             {
                 player.AddToScore(scoreReward);
+                TargerScoreAnim(player.connectionToClient);
             }
         }
+        // client explosions
+        RpcDie();
 
+        // wave trigger
         var destroyTrigger = waveManager.GetComponent<NextWaveTrigger>();
         destroyTrigger.EnemyKilled();
         enemyKilled = true;
@@ -143,7 +149,15 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         DOTween.Kill(mainSprite);
         foreach (var sprite in addSprites) DOTween.Kill(sprite);
         DOTween.Kill(gameObject);
-        RpcDie();
+
+        StartCoroutine(DieWithDelayCoroutine());
+    }
+
+    [Server]
+    IEnumerator DieWithDelayCoroutine()
+    {
+        yield return null;
+        Mirror.NetworkServer.Destroy(rootEnemy);
     }
 
     [Server]

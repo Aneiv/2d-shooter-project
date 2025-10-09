@@ -35,10 +35,10 @@ public class EnemyShootBullet : EnemyShoot
         bulletSpawnDelay = Random.Range(minSpawnDelay, maxSpawnDelay);
         numberOfBulletInBurst = Random.Range(minNumberOfBulletInBurst, maxNumberOfBulletInBurst);
     }
-
-    [Server]
+    //For Server use
     protected virtual void FixedUpdate()
     {
+        if (!NetworkServer.active) return;
         if (!waiting)
         {
             timer -= Time.deltaTime;

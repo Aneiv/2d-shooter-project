@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine.Windows;
 
-public class EndlessTerrain : MonoBehaviour
+
+public class EndlessTerrain:MonoBehaviour
 {
     const float viewerMoveThresholdForChunkUpdate = 1f; //how often chunks update
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
@@ -147,12 +149,16 @@ public class EndlessTerrain : MonoBehaviour
         List<ObjectSpawner> objectSpawner;
         Vector2 position;
         Rect bounds;
+        private NetworkWorldManager net;
 
         //dictionary for local(per chunk) pool with gameObjects to spawn on that chunk
         private Dictionary<GameObject, Queue<GameObject>> localObjectPools = new Dictionary<GameObject, Queue<GameObject>>();
+        //dictionary for coins objects
+        public List<GameObject> serverManagedObjects = new();
         public TerrainChunk(Vector2 coord, int size, Transform parent, Material material, List<ObjectSpawner> objectSpawner)
         {
             this.objectSpawner = objectSpawner;
+            net = NetworkWorldManager.Instance;
             Vector2 offset = new Vector2(size / 2, 0f);
             Vector2 centerPosition = coord * size + offset;
             position = centerPosition - Vector2.one * size / 2f;
@@ -183,7 +189,7 @@ public class EndlessTerrain : MonoBehaviour
             chunkObject.GetComponent<MeshRenderer>().material.mainTexture = texture;
 
             ClearSpawnedObjects();
-
+            if (NetworkServer.active)net.ClearChunkServerObjects(this.serverManagedObjects);
             int resolution = mapGenerator.mapChunkResolution;
             int step = 8; //map sampling
             for (int y = 0; y < resolution; y += step)
@@ -212,8 +218,15 @@ public class EndlessTerrain : MonoBehaviour
                                 ((float)newy / resolution - 0.5f) * chunkScale,
                                 0f
                             );
-
                             Vector3 spawnPos = chunkObject.transform.position + localOffset;
+
+                            if (objectSpawner[i].serverSpawn)
+                            {
+                                if (!NetworkServer.active) continue;
+                                net.SpawnServerObject(objectSpawner[i].objectPrefab,spawnPos,chunkObject.name, this);
+                                break;
+                            }    
+                          
                             //get object from pool to spawn
                             GameObject spawnObject = GetPooledObject(objectSpawner[i].objectPrefab);
 
@@ -233,7 +246,7 @@ public class EndlessTerrain : MonoBehaviour
             }
             UpdateTerrainChunk();
         }
-
+        
         //get chunk from local pool or create new if pool is empty
         private GameObject GetPooledObject(GameObject prefab)
         {
@@ -259,6 +272,7 @@ public class EndlessTerrain : MonoBehaviour
             foreach (Transform child in chunkObject.transform)
             {
                 GameObject childObj = child.gameObject;
+                if (childObj.GetComponent<ServerManagedObject>()!=null) continue;
                 childObj.SetActive(false);
 
                 //return to pool
@@ -391,5 +405,14 @@ public struct ObjectSpawner
 {
     public GameObject objectPrefab;
     public float objectSpawnChance;
+    public bool serverSpawn;
     public Color[] colours;
+
+    public ObjectSpawner(GameObject prefab = null, float chance = 1f, Color[] colours = null, bool serverSpawn = false)
+    {
+        this.objectPrefab = prefab;
+        this.objectSpawnChance = chance;
+        this.colours = colours ?? new Color[0];
+        this.serverSpawn = serverSpawn;
+    }
 }

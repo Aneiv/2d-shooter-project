@@ -34,9 +34,10 @@ public class BulletCollisionDetection : MonoBehaviour
         downYClamp = bottomLeft.y - clampSize;
         upYClamp = topRight.y + clampSize;
     }
-    [Server]
+    //For Server uses 
     void FixedUpdate()
     {
+        if(!NetworkServer.active) return;
         pos = transform.position;
         if (pos.x < leftXClamp || pos.x > rightXClamp || pos.y < downYClamp || pos.y > upYClamp)
         {
@@ -45,9 +46,9 @@ public class BulletCollisionDetection : MonoBehaviour
             Mirror.NetworkServer.Destroy(gameObject);
         }
     }
-    [Server]
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(!NetworkServer.active) return;
         //enemy bullet collided with player
         if (collision.CompareTag("Player") && shooterTag != "Player") // prevents self-shot
         {

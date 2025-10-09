@@ -9878,6 +9878,7 @@ MonoBehaviour:
   hostIpText: {fileID: 605816381}
   backlogTextHost: {fileID: 942029928}
   backlogTextClient: {fileID: 1095583079}
+  gameIsStarted: 0
 --- !u!114 &1579170999
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9919,15 +9920,18 @@ MonoBehaviour:
   headlessStartMode: 0
   editorAutoStart: 0
   sendRate: 60
-  offlineScene: 
-  onlineScene: 
-  offlineSceneLoadDelay: 0
+  unreliableBaselineRate: 1
+  unreliableRedundancy: 0
   transport: {fileID: 1579170999}
   networkAddress: localhost
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
+  exceptionsDisconnect: 1
   authenticator: {fileID: 0}
+  offlineScene: 
+  onlineScene: 
+  offlineSceneLoadDelay: 0
   playerPrefab: {fileID: 6942302534895174928, guid: d806daffca3cfff4e8d09f6daeb8d970, type: 3}
   autoCreatePlayer: 0
   playerSpawnMethod: 0
@@ -9955,7 +9959,7 @@ MonoBehaviour:
   - {fileID: 354427790806366166, guid: 97d5858ddb7463c45987fc6779e81f08, type: 3}
   - {fileID: 6484016873133361731, guid: 0cecf8671ade66147a97820fda25ff04, type: 3}
   - {fileID: 1579194641973370226, guid: 25bb714b64f703240b33440218c7ad95, type: 3}
-  exceptionsDisconnect: 1
+  - {fileID: 6498806104019520751, guid: e642f08507178c54cb2032c6fd0adb9b, type: 3}
   snapshotSettings:
     bufferTimeMultiplier: 2
     bufferLimit: 32

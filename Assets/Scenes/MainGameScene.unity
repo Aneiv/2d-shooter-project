@@ -1475,6 +1475,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1340312856425116976, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
+      propertyPath: sceneId
+      value: 2143211750
+      objectReference: {fileID: 0}
     - target: {fileID: 1340912066594511123, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
@@ -1482,10 +1486,6 @@ PrefabInstance:
     - target: {fileID: 2254108343549268942, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
       propertyPath: m_Name
       value: MapGeneratorManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 4069425400597447883, guid: 601d22ddcd8ae0f488ac80e6911c486f, type: 3}
-      propertyPath: sceneId
-      value: 995701871
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2095,6 +2095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14367fc2a6258f469a376f87911a9eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -2113,6 +2114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff0a9d8b5914e09458649a6588475f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -2596,6 +2598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c35daffa85264b74eb313581454d3108, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -2666,6 +2669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2919de1aa667a6649b8d873d4ea028ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -2698,6 +2702,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2724081418b953041a5012a699a4c535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -5930,6 +5935,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c24adce202e587b4394990a3043df735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0

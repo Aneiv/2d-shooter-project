@@ -18,7 +18,10 @@ public class DragWithInputSystem : Mirror.NetworkBehaviour
     private void Start()
     {
         settings = FindAnyObjectByType<GameSettings>();
-        SetScreenClamp();
+        if (NetworkServer.active)
+        {
+            SetScreenClamp();    
+        }
     }
     [Server]
     void SetScreenClamp()

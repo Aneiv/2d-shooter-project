@@ -159,10 +159,10 @@ public class Enemy : Mirror.NetworkBehaviour, IHealthEnemy, IEnemy
         yield return null;
         Mirror.NetworkServer.Destroy(rootEnemy);
     }
-
-    [Server]
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!NetworkServer.active) return;
         if (collision.CompareTag("Player") && isVulnerable)
         {
             GameObject playerObj = collision.gameObject;
